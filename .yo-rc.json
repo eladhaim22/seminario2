@@ -1,0 +1,47 @@
+{
+  "generator-jhipster": {
+    "promptValues": {
+      "packageName": "com.uade.seminario2"
+    },
+    "jhipsterVersion": "4.7.0",
+    "baseName": "seminario2",
+    "packageName": "com.uade.seminario2",
+    "packageFolder": "com/uade/seminario2",
+    "serverPort": "8080",
+    "authenticationType": "jwt",
+    "hibernateCache": "no",
+    "clusteredHttpSession": false,
+    "websocket": false,
+    "databaseType": "mongodb",
+    "devDatabaseType": "mongodb",
+    "prodDatabaseType": "mongodb",
+    "searchEngine": false,
+    "messageBroker": false,
+    "serviceDiscoveryType": "eureka",
+    "buildTool": "gradle",
+    "enableSocialSignIn": false,
+    "enableSwaggerCodegen": false,
+    "jwtSecretKey": "6f1acef0690416ec3b00a856090ab2f3d6988925",
+    "enableTranslation": true,
+    "languages": [
+      "es"
+    ]
+  },
+  "generator-jhipster-react": {
+    "promptValues": {
+      "nativeLanguage": "es"
+    },
+    "clientFramework": "react",
+    "useSass": true,
+    "clientPackageManager": "yarn",
+    "jhipsterVersion": "0.0.0",
+    "applicationType": "monolith",
+    "baseName": "seminario2",
+    "testFrameworks": [],
+    "enableTranslation": true,
+    "nativeLanguage": "es",
+    "languages": [
+      "es"
+    ]
+  }
+}
