@@ -1,4 +1,4 @@
-package com.uade.seminario2.service.mapper;
+package com.uade.seminario2.service.mapper.Impl;
 
 import com.uade.seminario2.domain.Authority;
 import com.uade.seminario2.domain.User;

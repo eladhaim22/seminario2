@@ -2,6 +2,7 @@ package com.uade.seminario2.service;
 
 import com.uade.seminario2.Seminario2App;
 import com.uade.seminario2.domain.User;
+import com.uade.seminario2.service.Impl.MailService;
 import io.github.jhipster.config.JHipsterProperties;
 import org.junit.Before;
 import org.junit.Test;

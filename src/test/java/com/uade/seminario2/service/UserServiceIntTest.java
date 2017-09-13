@@ -4,6 +4,7 @@ import com.uade.seminario2.Seminario2App;
 import com.uade.seminario2.domain.User;
 import com.uade.seminario2.config.Constants;
 import com.uade.seminario2.repository.UserRepository;
+import com.uade.seminario2.service.Impl.UserService;
 import com.uade.seminario2.service.dto.UserDTO;
 import com.uade.seminario2.service.util.RandomUtil;
 import org.junit.Test;

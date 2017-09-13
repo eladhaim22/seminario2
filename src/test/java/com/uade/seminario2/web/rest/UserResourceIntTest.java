@@ -5,10 +5,10 @@ import com.uade.seminario2.domain.Authority;
 import com.uade.seminario2.domain.User;
 import com.uade.seminario2.repository.UserRepository;
 import com.uade.seminario2.security.AuthoritiesConstants;
-import com.uade.seminario2.service.MailService;
-import com.uade.seminario2.service.UserService;
+import com.uade.seminario2.service.Impl.MailService;
+import com.uade.seminario2.service.Impl.UserService;
 import com.uade.seminario2.service.dto.UserDTO;
-import com.uade.seminario2.service.mapper.UserMapper;
+import com.uade.seminario2.service.mapper.Impl.UserMapper;
 import com.uade.seminario2.web.rest.errors.ExceptionTranslator;
 import com.uade.seminario2.web.rest.vm.ManagedUserVM;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -26,13 +26,11 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.time.Instant;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;

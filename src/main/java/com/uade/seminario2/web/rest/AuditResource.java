@@ -1,6 +1,6 @@
 package com.uade.seminario2.web.rest;
 
-import com.uade.seminario2.service.AuditEventService;
+import com.uade.seminario2.service.Impl.AuditEventService;
 import com.uade.seminario2.web.rest.util.PaginationUtil;
 
 import io.github.jhipster.web.util.ResponseUtil;

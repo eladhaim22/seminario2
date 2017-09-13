@@ -1,6 +1,7 @@
 package com.uade.seminario2.config.dbmigrations;
 
 import com.uade.seminario2.domain.Authority;
+import com.uade.seminario2.domain.Grade;
 import com.uade.seminario2.domain.User;
 import com.uade.seminario2.security.AuthoritiesConstants;
 
@@ -92,5 +93,6 @@ public class InitialSetupMigration {
         userUser.getAuthorities().add(userAuthority);
         mongoTemplate.save(userUser);
     }
+
 
 }

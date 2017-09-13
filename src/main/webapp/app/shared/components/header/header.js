@@ -28,7 +28,7 @@ export default class Header extends Component {
     currentLocale: PropTypes.string.isRequired,
     handleLogout: PropTypes.func.isRequired,
     onLocaleChange: PropTypes.func.isRequired,
-    account: PropTypes.func.isRequired
+    account: PropTypes.object.isRequired
   };
 
   constructor(props) {
@@ -37,8 +37,13 @@ export default class Header extends Component {
       sidebarOpen: false
     };
   }
+
   handleChange = (event, index, language) => {
     this.props.onLocaleChange(language);
+  };
+
+  handleSession = (event, index, language) => {
+    this.props.getSession(language);
   };
 
   toggleSideBar = () => {
@@ -48,7 +53,7 @@ export default class Header extends Component {
   }
 
   render() {
-    const { currentLocale, isAuthenticated, handleLogout } = this.props;
+    const { currentLocale, isAuthenticated, handleLogout, account } = this.props;
     const menuListStyle = { marginLeft: 18 };
 
     let menuItemAccountLogin = (
@@ -76,47 +81,47 @@ export default class Header extends Component {
     let menuItemAccountPassword = null;
     let menuItemAccountSignOut = null;
     let menuItemAdministration = null;
-
-    if (isAuthenticated) {
-      menuItemEntities = (
-        <ListItem
-          primaryText={<Translate content="global.menu.entities.main" />}
-          leftIcon={<ActionList />}
-          initiallyOpen={false}
-          primaryTogglesNestedList
-          nestedItems={[
-          ]}
-        />
-      );
-
-      menuItemAccountLogin = null;
-      menuItemAccountRegister = null;
-      menuItemAccountSettings = (
-        <Link to="/account/settings">
+    if(isAuthenticated){
+        menuItemEntities = (
           <ListItem
-            key={2.3} innerDivStyle={menuListStyle}
-            primaryText={<Translate content="global.menu.account.settings" />}
-            leftIcon={<ActionSettings />}
+            primaryText={<Translate content="global.menu.entities.main" />}
+            leftIcon={<ActionList />}
+            initiallyOpen={false}
+            primaryTogglesNestedList
+            nestedItems={[
+            ]}
           />
-        </Link>
-      );
-      menuItemAccountPassword = (
-        <Link to="/account/password">
-          <ListItem
-            key={2.4} innerDivStyle={menuListStyle}
-            primaryText={<Translate content="global.menu.account.password" />}
-            leftIcon={<CommunicationVpnKey />}
-          />
-        </Link>
-      );
-      menuItemAccountSignOut = (
-        <ListItem
-          key={2.5} onClick={() => handleLogout()} innerDivStyle={menuListStyle}
-          primaryText={<Translate content="global.menu.account.logout" />}
-          leftIcon={<ActionExitToApp />}
-        />
-      );
+        );
 
+        menuItemAccountLogin = null;
+        menuItemAccountRegister = null;
+        menuItemAccountSettings = (
+          <Link to="/account/settings">
+            <ListItem
+              key={2.3} innerDivStyle={menuListStyle}
+              primaryText={<Translate content="global.menu.account.settings" />}
+              leftIcon={<ActionSettings />}
+            />
+          </Link>
+        );
+        menuItemAccountPassword = (
+          <Link to="/account/password">
+            <ListItem
+              key={2.4} innerDivStyle={menuListStyle}
+              primaryText={<Translate content="global.menu.account.password" />}
+              leftIcon={<CommunicationVpnKey />}
+            />
+          </Link>
+        );
+        menuItemAccountSignOut = (
+          <ListItem
+            key={2.5} onClick={() => handleLogout()} innerDivStyle={menuListStyle}
+            primaryText={<Translate content="global.menu.account.logout" />}
+            leftIcon={<ActionExitToApp />}
+          />
+        );
+      }
+      if (Object.keys(account).length !== 0 && account.authorities.includes("ROLE_ADMIN")) {
       menuItemAdministration = (
         <ListItem
           key={4}

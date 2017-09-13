@@ -2,6 +2,7 @@ package com.uade.seminario2.config;
 
 import com.github.mongobee.Mongobee;
 import com.mongodb.MongoClient;
+import com.uade.seminario2.repository.CascadeSupport.CascadeSaveMongoEventListener;
 import io.github.jhipster.config.JHipsterConstants;
 import io.github.jhipster.domain.util.JSR310DateConverters.DateToZonedDateTimeConverter;
 import io.github.jhipster.domain.util.JSR310DateConverters.ZonedDateTimeToDateConverter;
@@ -61,5 +62,10 @@ public class DatabaseConfiguration {
         mongobee.setChangeLogsScanPackage("com.uade.seminario2.config.dbmigrations");
         mongobee.setEnabled(true);
         return mongobee;
+    }
+
+    @Bean
+    public CascadeSaveMongoEventListener cascadingMongoEventListener() {
+        return new CascadeSaveMongoEventListener();
     }
 }

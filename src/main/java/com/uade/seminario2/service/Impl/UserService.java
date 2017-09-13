@@ -1,4 +1,4 @@
-package com.uade.seminario2.service;
+package com.uade.seminario2.service.Impl;
 
 import com.uade.seminario2.domain.Authority;
 import com.uade.seminario2.domain.User;

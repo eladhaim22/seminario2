@@ -4,7 +4,7 @@ import com.uade.seminario2.Seminario2App;
 import com.uade.seminario2.config.audit.AuditEventConverter;
 import com.uade.seminario2.domain.PersistentAuditEvent;
 import com.uade.seminario2.repository.PersistenceAuditEventRepository;
-import com.uade.seminario2.service.AuditEventService;
+import com.uade.seminario2.service.Impl.AuditEventService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,7 +20,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.time.Instant;
-import java.time.format.DateTimeFormatter;
 
 import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;

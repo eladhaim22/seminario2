@@ -6,8 +6,8 @@ import com.uade.seminario2.domain.User;
 import com.uade.seminario2.repository.AuthorityRepository;
 import com.uade.seminario2.repository.UserRepository;
 import com.uade.seminario2.security.AuthoritiesConstants;
-import com.uade.seminario2.service.MailService;
-import com.uade.seminario2.service.UserService;
+import com.uade.seminario2.service.Impl.MailService;
+import com.uade.seminario2.service.Impl.UserService;
 import com.uade.seminario2.service.dto.UserDTO;
 import com.uade.seminario2.web.rest.vm.KeyAndPasswordVM;
 import com.uade.seminario2.web.rest.vm.ManagedUserVM;
@@ -28,7 +28,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.time.Instant;
-import java.time.LocalDate;
 import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
