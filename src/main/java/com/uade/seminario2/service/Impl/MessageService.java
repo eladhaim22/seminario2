@@ -1,17 +1,16 @@
 package com.uade.seminario2.service.Impl;
 
-import com.uade.seminario2.domain.Grade;
+
 import com.uade.seminario2.domain.Message;
-import com.uade.seminario2.repository.EntityRepositoryLocator;
+import com.uade.seminario2.repository.Impl.MessageRepositoryImpl;
 import com.uade.seminario2.service.IGenericService;
-import com.uade.seminario2.service.Impl.GenericService;
-import com.uade.seminario2.service.dto.GradeDTO;
 import com.uade.seminario2.service.dto.MessageDTO;
+import com.uade.seminario2.service.mapper.Impl.MessageMapper;
 import org.springframework.stereotype.Component;
 
-/*@Component
+@Component
 public class MessageService  extends GenericService<Message,MessageDTO> implements IGenericService<Message,MessageDTO> {
-    public MessageService(EntityMapperLocator entityMapperLocator, EntityRepositoryLocator entityRepositoryLocator) {
-        super(entityMapperLocator, entityRepositoryLocator);
+    public MessageService(MessageMapper messageMapper, MessageRepositoryImpl messageRepository) {
+        super(messageMapper, messageRepository);
     }
-}*/
+}

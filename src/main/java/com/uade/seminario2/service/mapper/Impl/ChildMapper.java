@@ -4,10 +4,8 @@ import com.uade.seminario2.domain.Child;
 import com.uade.seminario2.repository.Impl.ChildRepositoryImpl;
 import com.uade.seminario2.repository.Impl.GradeRepositoryImpl;
 import com.uade.seminario2.repository.UserRepository;
-import com.uade.seminario2.service.IEntityMapper;
+import com.uade.seminario2.service.mapper.IEntityMapper;
 import com.uade.seminario2.service.dto.ChildDTO;
-import org.apache.commons.lang3.StringUtils;
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -36,9 +34,8 @@ public class ChildMapper implements IEntityMapper<Child,ChildDTO> {
 
     public Child ToModel(ChildDTO childDTO) {
         Child child = null;
-        if (StringUtils.isEmpty(childDTO.getId())) {
+        if (childDTO.getId() == null) {
             child = new Child();
-            child.setId(new ObjectId().toString());
         }
         else {
             child = childRepository.findOne(childDTO.getId());

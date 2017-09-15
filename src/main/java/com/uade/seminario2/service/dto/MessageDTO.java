@@ -1,36 +1,30 @@
 package com.uade.seminario2.service.dto;
 
-import com.uade.seminario2.domain.User;
-import org.springframework.data.annotation.Id;
-
-import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class MessageDTO extends EntityDTO {
 
-    private UserDTO Owner;
+    private TeacherDTO Owner;
 
-    private List<Long> targetUsersIds = new ArrayList<>();
+    private List<Long> targetChildsIds = new ArrayList<>();
 
     private String message;
 
-    public UserDTO getOwner() {
+    public TeacherDTO getOwner() {
         return Owner;
     }
 
-    public void setOwner(UserDTO owner) {
+    public void setOwner(TeacherDTO owner) {
         Owner = owner;
     }
 
-    public List<Long> getTargetUsersIds() {
-        return targetUsersIds;
+    public List<Long> getTargetChildsIds() {
+        return targetChildsIds;
     }
 
-    public void setTargetUsersIds(List<Long> targetUsersIds) {
-        this.targetUsersIds = targetUsersIds;
+    public void setTargetChildsIds(List<Long> targetChildsIds) {
+        this.targetChildsIds = targetChildsIds;
     }
 
     public String getMessage() {

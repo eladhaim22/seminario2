@@ -8,17 +8,19 @@ import java.util.*;
 
 public class TeacherDTO extends EntityDTO {
 
-    private List<String> gradeIds = new ArrayList<>();
+    private List<Long> gradeIds = new ArrayList<>();
 
     private String name;
 
     private String lastName;
 
-    public List<String> getGradeIds() {
+    private Long userId;
+
+    public List<Long> getGradeIds() {
         return gradeIds;
     }
 
-    public void setGradeIds(List<String> gradeIds) {
+    public void setGradeIds(List<Long> gradeIds) {
         this.gradeIds = gradeIds;
     }
 
@@ -36,5 +38,13 @@ public class TeacherDTO extends EntityDTO {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 }

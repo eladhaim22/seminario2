@@ -1,8 +1,9 @@
 package com.uade.seminario2.service.Impl;
 
-import com.uade.seminario2.domain.Entity;
+
+import com.uade.seminario2.domain.EntityImpl;
 import com.uade.seminario2.repository.IEntityRepository;
-import com.uade.seminario2.service.IEntityMapper;
+import com.uade.seminario2.service.mapper.IEntityMapper;
 import com.uade.seminario2.service.IGenericQueryService;
 import com.uade.seminario2.service.IGenericService;
 import com.uade.seminario2.service.dto.EntityDTO;
@@ -12,7 +13,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 
-public class GenericService<TEntity extends Entity,TDTO extends EntityDTO> implements
+public class GenericService<TEntity extends EntityImpl,TDTO extends EntityDTO> implements
     IGenericQueryService<TEntity,TDTO>,IGenericService<TEntity,TDTO> {
 
     private IEntityRepository repository;
@@ -26,7 +27,7 @@ public class GenericService<TEntity extends Entity,TDTO extends EntityDTO> imple
     }
 
 
-    public TDTO GetById(Long id){
+    public TDTO GetById(String id){
         return (TDTO)entityMapper.ToDTO((TEntity)repository.findOne(id));
     }
 

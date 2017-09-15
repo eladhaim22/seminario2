@@ -25,4 +25,10 @@ public class GenericQueryController<TDTO extends EntityDTO> {
     protected ResponseEntity<List<TDTO>> GetAll(){
         return new ResponseEntity<>(entityService.GetAll(),null, HttpStatus.OK);
     }
+
+    @GetMapping("/{id}")
+    @Timed
+    protected ResponseEntity<TDTO> GetById(@PathVariable String  id){
+        return new ResponseEntity(entityService.GetById(id),null, HttpStatus.OK);
+    }
 }

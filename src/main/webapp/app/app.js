@@ -50,7 +50,6 @@ export class App extends Component {
             isAuthenticated={this.props.isAuthenticated}
             handleLogout={this.handleLogout}
             toggleSideBar={this.toggleSideBar}
-            account={this.props.account}
           />
           <div className="container">
             {this.props.children}
@@ -63,6 +62,6 @@ export class App extends Component {
 }
 
 export default connect(
-  store => ({ isAuthenticated: store.authentication.isAuthenticated, currentLocale: store.locale.currentLocale, account: store.authentication.account }),
+  store => ({ isAuthenticated: store.authentication.isAuthenticated, currentLocale: store.locale.currentLocale }),
   { getSession, setLocale, logout }
 )(App);

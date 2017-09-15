@@ -1,13 +1,11 @@
 package com.uade.seminario2.service.mapper.Impl;
 
-import com.uade.seminario2.domain.Child;
+
 import com.uade.seminario2.domain.Grade;
 import com.uade.seminario2.repository.Impl.ChildRepositoryImpl;
 import com.uade.seminario2.repository.Impl.GradeRepositoryImpl;
-import com.uade.seminario2.service.IEntityMapper;
+import com.uade.seminario2.service.mapper.IEntityMapper;
 import com.uade.seminario2.service.dto.GradeDTO;
-import org.apache.commons.lang3.StringUtils;
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -40,9 +38,8 @@ public class GradeMapper implements IEntityMapper<Grade,GradeDTO> {
 
     public Grade ToModel(GradeDTO gradeDTO) {
         Grade grade = null;
-        if (StringUtils.isEmpty(gradeDTO.getId())) {
+        if (gradeDTO.getId() == null) {
             grade = new Grade();
-            grade.setId(new ObjectId().toString());
         }
         else {
             grade = gradeRepository.findOne(gradeDTO.getId());

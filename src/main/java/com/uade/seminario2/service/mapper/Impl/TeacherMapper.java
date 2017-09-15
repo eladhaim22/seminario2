@@ -4,10 +4,10 @@ import com.uade.seminario2.domain.Grade;
 import com.uade.seminario2.domain.Teacher;
 import com.uade.seminario2.repository.Impl.GradeRepositoryImpl;
 import com.uade.seminario2.repository.Impl.TeacherRepositoryImpl;
-import com.uade.seminario2.service.IEntityMapper;
+import com.uade.seminario2.repository.UserRepository;
+import com.uade.seminario2.service.mapper.IEntityMapper;
 import com.uade.seminario2.service.dto.TeacherDTO;
 import org.apache.commons.lang3.StringUtils;
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -22,20 +22,23 @@ public class TeacherMapper implements IEntityMapper<Teacher,TeacherDTO> {
     @Autowired
     private TeacherRepositoryImpl teacherRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
     public TeacherDTO ToDTO(Teacher teacher){
         return new TeacherDTO() {{
             setId(teacher.getId());
             setName(teacher.getName());
             setLastName(teacher.getLastName());
+            setUserId(teacher.getUser().getId());
             setGradeIds(teacher.getGrades().stream().map(grade -> grade.getId()).collect(Collectors.toList()));
         }};
     }
 
     public Teacher ToModel(TeacherDTO teacherDTO) {
         Teacher teacher = null;
-        if (StringUtils.isEmpty(teacherDTO.getId())) {
+        if (teacherDTO.getId() == null) {
             teacher = new Teacher();
-            teacher.setId(new ObjectId().toString());
         }
         else {
             teacher = teacherRepository.findOne(teacherDTO.getId());
@@ -44,7 +47,8 @@ public class TeacherMapper implements IEntityMapper<Teacher,TeacherDTO> {
         teacher.setLastName(teacherDTO.getLastName());
         teacher.getGrades().clear();
         teacher.getGrades().addAll(teacherDTO.getGradeIds()
-            .stream().map(gradeId -> (Grade)gradeRepository.findOne(gradeId)).collect(Collectors.toSet()));
+            .stream().map(gradeId -> gradeRepository.findOne(gradeId)).collect(Collectors.toSet()));
+        teacher.setUser(userRepository.findOne(teacherDTO.getUserId()));
         return teacher;
     }
 }

@@ -1,50 +1,43 @@
 package com.uade.seminario2.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.uade.seminario2.config.Constants;
-import com.uade.seminario2.repository.CascadeSupport.CascadeSave;
-import jdk.nashorn.internal.objects.annotations.Property;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.Indexed;
-import org.springframework.data.mongodb.core.mapping.DBRef;
-import org.springframework.data.mongodb.core.mapping.Document;
 
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
-@Document(collection = "message")
-public class Message extends Entity {
-
-    @NotNull
-    private User Owner;
-
-    @DBRef
-    private List<User> targetUsers;
+@Entity
+@Table(name = "messages")
+public class Message extends EntityImpl {
 
     @NotNull
-    @Property(name ="message")
+    @OneToOne
+    @JoinColumn(name = "teacher_id", referencedColumnName = "id")
+    private Teacher Owner;
+
+    @ManyToMany
+    @JoinTable(name = "messages_childs",
+        joinColumns = {@JoinColumn(name = "message_id", referencedColumnName = "id")},
+        inverseJoinColumns = {@JoinColumn(name = "child_id", referencedColumnName = "id")})
+    private List<Child> targetChilds;
+
+    @NotNull
+    @Column(name = "message")
     private String message;
 
-    public User getOwner() {
+    public Teacher getOwner() {
         return Owner;
     }
 
-    public void setOwner(User owner) {
+    public void setOwner(Teacher owner) {
         Owner = owner;
     }
 
-    public List<User> getTargetUsers() {
-        return targetUsers;
+    public List<Child> getTargetUsers() {
+        return targetChilds;
     }
 
-    public void setTargetUsers(List<User> targetUsers) {
-        this.targetUsers = targetUsers;
+    public void setTargetUsers(List<Child> targetUsers) {
+        this.targetChilds = targetUsers;
     }
 
     public String getMessage() {

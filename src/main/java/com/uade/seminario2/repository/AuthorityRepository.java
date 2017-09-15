@@ -2,10 +2,10 @@ package com.uade.seminario2.repository;
 
 import com.uade.seminario2.domain.Authority;
 
-import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
- * Spring Data MongoDB repository for the Authority entity.
+ * Spring Data JPA repository for the Authority entity.
  */
-public interface AuthorityRepository extends MongoRepository<Authority, String> {
+public interface AuthorityRepository extends JpaRepository<Authority, String> {
 }

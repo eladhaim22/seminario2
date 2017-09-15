@@ -1,26 +1,27 @@
 package com.uade.seminario2.domain;
 
-import com.uade.seminario2.repository.CascadeSupport.CascadeSave;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.DBRef;
-import org.springframework.data.mongodb.core.mapping.Document;
-
-import javax.validation.constraints.NotNull;
-import java.io.Serializable;
+import javax.persistence.*;
 import java.util.Date;
 
-@Document(collection = "child")
-public class Child extends Entity{
+@Entity
+@Table(name = "childs")
+public class Child extends EntityImpl{
 
+    @OneToOne
+    @JoinColumn(name="grade_id")
     private Grade grade;
 
+    @Column(name = "name")
     private String name;
 
+    @Column(name = "lastName")
     private String lastName;
 
+    @Column(name = "birthDate")
     private Date birthDate;
 
-    @DBRef
+    @OneToOne
+    @JoinColumn(name="user_id",referencedColumnName = "id")
     private User user;
 
     public Grade getGrade() {

@@ -1,26 +1,24 @@
 package com.uade.seminario2.domain;
-
-import com.uade.seminario2.repository.CascadeSupport.CascadeSave;
-import org.springframework.data.mongodb.core.mapping.DBRef;
-import org.springframework.data.mongodb.core.mapping.Document;
-
-import javax.validation.constraints.NotNull;
+import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
-@Document(collection = "grade")
-public class Grade extends Entity {
+@Entity
+@Table(name = "grades")
+public class Grade extends EntityImpl {
 
-    @DBRef
-    @CascadeSave
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "grade_id",referencedColumnName = "id" )
     private List<Child> childs = new ArrayList<>();
 
-    @DBRef
-    @CascadeSave
+    @ManyToMany
+    @JoinTable(name = "grades_teachers",
+        joinColumns = {@JoinColumn(name = "grade_id", referencedColumnName = "id")},
+        inverseJoinColumns = {@JoinColumn(name = "teacher_id", referencedColumnName = "id")})
     private List<Teacher> teachers = new ArrayList<>();
 
+    @Column(name = "name")
+    private String name;
 
     public List<Child> getChilds() {
         return childs;

@@ -12,7 +12,7 @@ import java.util.List;
 
 public class ChildDTO extends EntityDTO{
 
-    private String gradeId;
+    private Long gradeId;
 
     private String name;
 
@@ -20,13 +20,13 @@ public class ChildDTO extends EntityDTO{
 
     private Date birthDate;
 
-    private String userId;
+    private Long userId;
 
-    public String getGradeId() {
+    public Long getGradeId() {
         return gradeId;
     }
 
-    public void setGradeId(String gradeId) {
+    public void setGradeId(Long gradeId) {
         this.gradeId = gradeId;
     }
 
@@ -54,11 +54,11 @@ public class ChildDTO extends EntityDTO{
         this.birthDate = birthDate;
     }
 
-    public String getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 }

@@ -1,27 +1,31 @@
 package com.uade.seminario2.domain;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.DBRef;
-import org.springframework.data.mongodb.core.mapping.Document;
-
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
-@Document(collection = "teacher")
-public class Teacher extends Entity{
 
-    @NotNull
-    @DBRef
+@Entity
+@Table(name = "teachers")
+public class Teacher extends EntityImpl{
+
+    @ManyToMany
+    @JoinTable(name = "grades_teachers",
+        joinColumns = {@JoinColumn(name = "teacher_id", referencedColumnName = "id")},
+        inverseJoinColumns = {@JoinColumn(name = "grade_id", referencedColumnName = "id")})
     private List<Grade> grades = new ArrayList<>();
 
+    @OneToOne
+    @JoinColumn(name="user_id",referencedColumnName = "id")
+    private User user;
+
     @NotNull
+    @Column(name = "name")
     private String name;
 
     @NotNull
+    @Column(name = "lastName")
     private String lastName;
 
     public List<Grade> getGrades() {
@@ -46,5 +50,13 @@ public class Teacher extends Entity{
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }
