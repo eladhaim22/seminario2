@@ -1,16 +1,8 @@
 package com.uade.seminario2.service.dto;
 
-import com.uade.seminario2.domain.Child;
-import com.uade.seminario2.domain.Grade;
-import com.uade.seminario2.domain.User;
-import org.springframework.data.annotation.Id;
-
-import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
-public class ChildDTO extends EntityDTO{
+public class StudentDTO extends EntityDTO{
 
     private Long gradeId;
 

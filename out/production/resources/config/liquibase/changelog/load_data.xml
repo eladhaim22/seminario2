@@ -14,7 +14,7 @@
         JHipster core tables.
         The initial schema has the '00000000000001' id, so that it is over-written if we re-generate it.
     -->
-    <changeSet id="00000000000001" author="jhipster">
+    <!--changeSet id="00000000000001" author="jhipster">
         <createTable tableName="jhi_user">
             <column name="id" type="bigint" autoIncrement="${autoIncrement}">
                 <constraints primaryKey="true" nullable="false"/>
@@ -171,7 +171,7 @@
             </column>
         </createTable>
 
-        <createTable tableName="childs">
+        <createTable tableName="students">
             <column name="id" type="bigint" autoIncrement="${autoIncrement}">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -196,7 +196,7 @@
                                  baseTableName="messages_childs"
                                  constraintName="fk_messages_childs_childs"
                                  referencedColumnNames="id"
-                                 referencedTableName="childs"/>
+                                 referencedTableName="students"/>
 
         <addForeignKeyConstraint baseColumnNames="message_id"
                                  baseTableName="messages_childs"
@@ -206,7 +206,7 @@
 
 
         <addForeignKeyConstraint baseColumnNames="user_id"
-                                 baseTableName="childs"
+                                 baseTableName="students"
                                  constraintName="fk_childs_users"
                                  referencedColumnNames="id"
                                  referencedTableName="jhi_user"/>
@@ -274,11 +274,44 @@
                                  referencedTableName="grades"/>
 
         <addForeignKeyConstraint baseColumnNames="grade_id"
-                                 baseTableName="childs"
+                                 baseTableName="students"
                                  constraintName="fk_childs_grades"
                                  referencedColumnNames="id"
                                  referencedTableName="grades"/>
 
+    </changeSet-->
+    <changeSet id="00000000000002" author="elad">
+        <loadData catalogName="seminario2"
+                  encoding="UTF-8"
+                  file="config/liquibase/users.csv"
+                  tableName="jhi_user"
+                  separator=";">
+            <column name="id" type="NUMERIC" />
+            <column name="login" type="STRING" />
+            <column name="password_hash" type="STRING" />
+            <column name="first_name" type="STRING" />
+            <column name="last_name" type="STRING" />
+            <column name="email" type="STRING" />
+            <column name="image_url" type="STRING" />
+            <column name="activated" type="BOOLEAN" />
+            <column name="lang_key" type="STRING" />
+            <column name="created_by" type="STRING" />
+            <column name="last_modified_by" type="STRING" />
+            <column name="created_date" type="DATETIME" defaultValue="CURRENT_TIMESTAMP"/>
+        </loadData>
+        <loadData catalogName="seminario2"
+                  encoding="UTF-8"
+                  file="config/liquibase/authorities.csv"
+                  tableName="jhi_authority" separator=";">
+            <column name="name" type="STRING" />
+        </loadData>
+        <loadData catalogName="seminario2"
+                  encoding="UTF-8"
+                  file="config/liquibase/users_authorities.csv"
+                  tableName="jhi_user_authority" separator=";">
+            <column name="user_id" type="NUMERIC" />
+            <column name="authority_name" type="STRING" />
+        </loadData>
     </changeSet>
 
 </databaseChangeLog>

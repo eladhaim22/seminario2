@@ -1,21 +1,17 @@
 package com.uade.seminario2.domain;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
-@Table(name = "childs")
-public class Child extends EntityImpl{
+@Table(name = "students")
+public class Student extends EntityImpl{
 
     @OneToOne
     @JoinColumn(name="grade_id")
     private Grade grade;
-
-    @Column(name = "name")
-    private String name;
-
-    @Column(name = "lastName")
-    private String lastName;
 
     @Column(name = "birthDate")
     private Date birthDate;
@@ -24,28 +20,16 @@ public class Child extends EntityImpl{
     @JoinColumn(name="user_id",referencedColumnName = "id")
     private User user;
 
+    @OneToMany
+    @JoinColumn(name ="student_id")
+    private List<CourseDetail> coursesDetail = new ArrayList<>();
+
     public Grade getGrade() {
         return grade;
     }
 
     public void setGrade(Grade grade) {
         this.grade = grade;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
     }
 
     public Date getBirthDate() {
@@ -62,5 +46,9 @@ public class Child extends EntityImpl{
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public List<CourseDetail> getCoursesDetail() {
+        return coursesDetail;
     }
 }

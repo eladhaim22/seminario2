@@ -9,7 +9,7 @@ public class Grade extends EntityImpl {
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "grade_id",referencedColumnName = "id" )
-    private List<Child> childs = new ArrayList<>();
+    private List<Student> students = new ArrayList<>();
 
     @ManyToMany
     @JoinTable(name = "grades_teachers",
@@ -20,12 +20,12 @@ public class Grade extends EntityImpl {
     @Column(name = "name")
     private String name;
 
-    public List<Child> getChilds() {
-        return childs;
+    public List<Student> getStudents() {
+        return students;
     }
 
-    public void setChilds(List<Child> childs) {
-        this.childs = childs;
+    public void setStudents(List<Student> students) {
+        this.students = students;
     }
 
     public List<Teacher> getTeachers() {

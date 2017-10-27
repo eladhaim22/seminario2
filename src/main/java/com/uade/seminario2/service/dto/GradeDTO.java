@@ -1,24 +1,19 @@
 package com.uade.seminario2.service.dto;
 
-import com.uade.seminario2.domain.Child;
-
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 public class GradeDTO extends EntityDTO {
 
-    private List<ChildDTO> childs = new ArrayList<>();
+    private List<StudentDTO> childs = new ArrayList<>();
 
     private List<TeacherDTO> teachers = new ArrayList<>();
 
-    public List<ChildDTO> getChilds() {
+    public List<StudentDTO> getChilds() {
         return childs;
     }
 
-    public void setChilds(List<ChildDTO> childs) {
+    public void setChilds(List<StudentDTO> childs) {
         this.childs = childs;
     }
 

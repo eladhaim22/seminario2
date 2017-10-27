@@ -15,10 +15,10 @@ public class Message extends EntityImpl {
     private Teacher Owner;
 
     @ManyToMany
-    @JoinTable(name = "messages_childs",
+    @JoinTable(name = "messages_students",
         joinColumns = {@JoinColumn(name = "message_id", referencedColumnName = "id")},
-        inverseJoinColumns = {@JoinColumn(name = "child_id", referencedColumnName = "id")})
-    private List<Child> targetChilds;
+        inverseJoinColumns = {@JoinColumn(name = "student_id", referencedColumnName = "id")})
+    private List<Student> targetStudents;
 
     @NotNull
     @Column(name = "message")
@@ -32,12 +32,12 @@ public class Message extends EntityImpl {
         Owner = owner;
     }
 
-    public List<Child> getTargetUsers() {
-        return targetChilds;
+    public List<Student> getTargetUsers() {
+        return targetStudents;
     }
 
-    public void setTargetUsers(List<Child> targetUsers) {
-        this.targetChilds = targetUsers;
+    public void setTargetUsers(List<Student> targetUsers) {
+        this.targetStudents = targetUsers;
     }
 
     public String getMessage() {
