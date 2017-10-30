@@ -27,7 +27,7 @@ public class GenericService<TEntity extends EntityImpl,TDTO extends EntityDTO> i
     }
 
 
-    public TDTO GetById(String id){
+    public TDTO GetById(Long id){
         return (TDTO)entityMapper.ToDTO((TEntity)repository.findOne(id));
     }
 

@@ -9,10 +9,6 @@ import java.util.List;
 @Table(name = "students")
 public class Student extends EntityImpl{
 
-    @OneToOne
-    @JoinColumn(name="grade_id")
-    private Grade grade;
-
     @Column(name = "birthDate")
     private Date birthDate;
 
@@ -20,17 +16,15 @@ public class Student extends EntityImpl{
     @JoinColumn(name="user_id",referencedColumnName = "id")
     private User user;
 
+    @ManyToMany
+    @JoinTable(name = "user_courses",
+        joinColumns = {@JoinColumn(name = "student_id", referencedColumnName = "id")},
+        inverseJoinColumns = {@JoinColumn(name = "course_id", referencedColumnName = "id")})
+    private List<Course> courses =new ArrayList<>();
+
     @OneToMany
     @JoinColumn(name ="student_id")
     private List<CourseDetail> coursesDetail = new ArrayList<>();
-
-    public Grade getGrade() {
-        return grade;
-    }
-
-    public void setGrade(Grade grade) {
-        this.grade = grade;
-    }
 
     public Date getBirthDate() {
         return birthDate;

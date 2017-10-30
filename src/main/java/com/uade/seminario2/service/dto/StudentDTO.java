@@ -1,10 +1,12 @@
 package com.uade.seminario2.service.dto;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class StudentDTO extends EntityDTO{
 
-    private Long gradeId;
+    private List<CourseDTO> courses = new ArrayList<>();
 
     private String name;
 
@@ -14,12 +16,12 @@ public class StudentDTO extends EntityDTO{
 
     private Long userId;
 
-    public Long getGradeId() {
-        return gradeId;
+    public List<CourseDTO> getCourses() {
+        return courses;
     }
 
-    public void setGradeId(Long gradeId) {
-        this.gradeId = gradeId;
+    public void setCourses(List<CourseDTO> courses) {
+        this.courses = courses;
     }
 
     public String getName() {

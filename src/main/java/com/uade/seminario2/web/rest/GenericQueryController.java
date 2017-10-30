@@ -28,7 +28,7 @@ public class GenericQueryController<TDTO extends EntityDTO> {
 
     @GetMapping("/{id}")
     @Timed
-    protected ResponseEntity<TDTO> GetById(@PathVariable String  id){
+    protected ResponseEntity<TDTO> GetById(@PathVariable Long  id){
         return new ResponseEntity(entityService.GetById(id),null, HttpStatus.OK);
     }
 }

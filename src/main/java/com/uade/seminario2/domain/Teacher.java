@@ -10,12 +10,6 @@ import java.util.List;
 @Table(name = "teachers")
 public class Teacher extends EntityImpl{
 
-    @ManyToMany
-    @JoinTable(name = "grades_teachers",
-        joinColumns = {@JoinColumn(name = "teacher_id", referencedColumnName = "id")},
-        inverseJoinColumns = {@JoinColumn(name = "grade_id", referencedColumnName = "id")})
-    private List<Grade> grades = new ArrayList<>();
-
     @OneToOne
     @JoinColumn(name="user_id",referencedColumnName = "id")
     private User user;
@@ -28,13 +22,12 @@ public class Teacher extends EntityImpl{
     @Column(name = "lastName")
     private String lastName;
 
-    public List<Grade> getGrades() {
-        return grades;
-    }
 
-    public void setGrades(List<Grade> grades) {
-        this.grades = grades;
-    }
+    @ManyToMany
+    @JoinTable(name = "user_courses",
+        joinColumns = {@JoinColumn(name = "teacher_id", referencedColumnName = "id")},
+        inverseJoinColumns = {@JoinColumn(name = "course_id", referencedColumnName = "id")})
+    private List<Course> courses =new ArrayList<>();
 
     public String getName() {
         return name;
@@ -58,5 +51,9 @@ public class Teacher extends EntityImpl{
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public List<Course> getCourses() {
+        return courses;
     }
 }

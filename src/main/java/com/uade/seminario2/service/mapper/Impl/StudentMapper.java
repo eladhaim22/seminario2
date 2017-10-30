@@ -1,8 +1,7 @@
 package com.uade.seminario2.service.mapper.Impl;
 
 import com.uade.seminario2.domain.Student;
-import com.uade.seminario2.repository.Impl.ChildRepositoryImpl;
-import com.uade.seminario2.repository.Impl.GradeRepositoryImpl;
+import com.uade.seminario2.repository.Impl.StudentRepositoryImpl;
 import com.uade.seminario2.repository.UserRepository;
 import com.uade.seminario2.service.mapper.IEntityMapper;
 import com.uade.seminario2.service.dto.StudentDTO;
@@ -10,13 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ChildMapper implements IEntityMapper<Student,StudentDTO> {
+public class StudentMapper implements IEntityMapper<Student,StudentDTO> {
 
     @Autowired
-    private GradeRepositoryImpl gradeRepository;
-
-    @Autowired
-    private ChildRepositoryImpl childRepository;
+    private StudentRepositoryImpl studentRepository;
 
     @Autowired
     private UserRepository userRepository;
@@ -26,7 +22,6 @@ public class ChildMapper implements IEntityMapper<Student,StudentDTO> {
             setId(student.getId());
             setBirthDate(student.getBirthDate());
             setUserId(student.getUser().getId());
-            setGradeId(student.getGrade().getId());
         }};
     }
 
@@ -36,8 +31,7 @@ public class ChildMapper implements IEntityMapper<Student,StudentDTO> {
             student = new Student();
         }
         else {
-            student = childRepository.findOne(studentDTO.getId());
-            student.setGrade(gradeRepository.findOne(studentDTO.getGradeId()));
+            student = studentRepository.findOne(studentDTO.getId());
         }
         student.setBirthDate(studentDTO.getBirthDate());
         student.setUser(userRepository.findOne(studentDTO.getUserId()));

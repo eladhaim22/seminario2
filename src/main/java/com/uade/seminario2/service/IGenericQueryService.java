@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public interface  IGenericQueryService<TEntity extends EntityImpl,TDTO extends EntityDTO> {
-    TDTO GetById(String id);
+    TDTO GetById(Long id);
 
     List<TDTO> GetAll();
 }

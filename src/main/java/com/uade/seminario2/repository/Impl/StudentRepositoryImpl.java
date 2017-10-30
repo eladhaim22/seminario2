@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
  * Spring Data MongoDB repository for the User entity.
  */
 @Repository
-public interface ChildRepositoryImpl extends IEntityRepository<Student> {
+public interface StudentRepositoryImpl extends IEntityRepository<Student> {
 
 }

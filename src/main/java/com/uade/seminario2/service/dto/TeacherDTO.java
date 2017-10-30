@@ -1,14 +1,10 @@
 package com.uade.seminario2.service.dto;
 
-import com.uade.seminario2.domain.Grade;
-import org.springframework.data.annotation.Id;
-
-import javax.validation.constraints.NotNull;
 import java.util.*;
 
 public class TeacherDTO extends EntityDTO {
 
-    private List<Long> gradeIds = new ArrayList<>();
+    private List<CourseDTO> courses = new ArrayList<>();
 
     private String name;
 
@@ -16,12 +12,12 @@ public class TeacherDTO extends EntityDTO {
 
     private Long userId;
 
-    public List<Long> getGradeIds() {
-        return gradeIds;
+    public List<CourseDTO> getCourses() {
+        return courses;
     }
 
-    public void setGradeIds(List<Long> gradeIds) {
-        this.gradeIds = gradeIds;
+    public void setCourses(List<CourseDTO> courses) {
+        this.courses = courses;
     }
 
     public String getName() {

@@ -1,7 +1,7 @@
 package com.uade.seminario2.service.mapper.Impl;
 
 import com.uade.seminario2.domain.Message;
-import com.uade.seminario2.repository.Impl.ChildRepositoryImpl;
+import com.uade.seminario2.repository.Impl.StudentRepositoryImpl;
 import com.uade.seminario2.repository.Impl.MessageRepositoryImpl;
 import com.uade.seminario2.service.mapper.IEntityMapper;
 import com.uade.seminario2.service.dto.MessageDTO;
@@ -17,10 +17,10 @@ public class MessageMapper implements IEntityMapper<Message,MessageDTO> {
     private TeacherMapper teacherMapper;
 
     @Autowired
-    private ChildMapper childMapper;
+    private StudentMapper studentMapper;
 
     @Autowired
-    private ChildRepositoryImpl childRepository;
+    private StudentRepositoryImpl studentRepository;
 
     @Autowired
     private MessageRepositoryImpl messageRepository;
@@ -43,7 +43,7 @@ public class MessageMapper implements IEntityMapper<Message,MessageDTO> {
 
         message.setOwner(teacherMapper.ToModel(messageDTO.getOwner()));
         message.setTargetUsers(messageDTO.getTargetChildsIds().stream().map(childId ->
-            childRepository.findOne(childId)).collect(Collectors.toList()));
+            studentRepository.findOne(childId)).collect(Collectors.toList()));
         message.setMessage(messageDTO.getMessage());
         return message;
     }
