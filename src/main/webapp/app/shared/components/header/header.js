@@ -70,7 +70,7 @@ export default class Header extends Component {
     );
 
     let menuItemEntities = null;
-
+    let menuCourses = null;
     let menuItemAccountSettings = null;
     let menuItemAccountPassword = null;
     let menuItemAccountSignOut = null;
@@ -86,6 +86,16 @@ export default class Header extends Component {
           nestedItems={[
           ]}
         />
+      );
+
+      menuCourses = (
+        <Link to="/dashboard">
+          <ListItem
+            key={1.9} innerDivStyle={menuListStyle}
+            primaryText="Coursos"
+            leftIcon={<ActionExitToApp />}
+          />
+        </Link>
       );
 
       menuItemAccountLogin = null;
@@ -172,7 +182,7 @@ export default class Header extends Component {
                 leftIcon={<AvLibraryBooks />}
                 primaryText={<Translate content="global.menu.admin.apidocs" />}
               />
-            </Link>          ]}
+            </Link>]}
         />
       );
     }
@@ -201,6 +211,7 @@ export default class Header extends Component {
             <Subheader>Application Menu</Subheader>
             <Link to="/"><ListItem primaryText={<Translate content="global.menu.home" />} leftIcon={<ActionHome />} /></Link>
             {menuItemEntities}
+            {menuCourses}
             {menuItemAdministration}
             <ListItem
               primaryText={<Translate content="global.menu.account.main" />}

@@ -7,8 +7,9 @@ import com.uade.seminario2.service.IGenericService;
 import com.uade.seminario2.service.dto.MessageDTO;
 import com.uade.seminario2.service.mapper.Impl.MessageMapper;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-@Component
+@Service
 public class MessageService  extends GenericService<Message,MessageDTO> implements IGenericService<Message,MessageDTO> {
     public MessageService(MessageMapper messageMapper, MessageRepositoryImpl messageRepository) {
         super(messageMapper, messageRepository);

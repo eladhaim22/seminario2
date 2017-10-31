@@ -19,14 +19,14 @@ public class Teacher extends EntityImpl{
     private String name;
 
     @NotNull
-    @Column(name = "lastName")
+    @Column(name = "lastname")
     private String lastName;
 
 
     @ManyToMany
-    @JoinTable(name = "user_courses",
+    @JoinTable(name = "users_courses",
         joinColumns = {@JoinColumn(name = "teacher_id", referencedColumnName = "id")},
-        inverseJoinColumns = {@JoinColumn(name = "course_id", referencedColumnName = "id")})
+        inverseJoinColumns = {@JoinColumn(name = "course_id", referencedColumnName = "id")} )
     private List<Course> courses =new ArrayList<>();
 
     public String getName() {

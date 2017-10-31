@@ -3,10 +3,10 @@ import { Link } from 'react-router';
 import Translate from 'react-translate-component';
 import { connect } from 'react-redux';
 
-import { log } from '../../shared/util/log-util';
 import { getSession } from '../../reducers/authentication';
+import { getCourses } from '../../reducers/dashboard';
 
-import './home.scss';
+
 
 export class Dashboard extends Component {
   static propTypes = {
@@ -23,6 +23,7 @@ export class Dashboard extends Component {
 
   componentWillMount() {
     this.props.getSession();
+    this.props.getCourses();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -41,12 +42,12 @@ export class Dashboard extends Component {
             Cursos
           </div>
         </div>
-          coursos.map(course => {
-           <Link to={"/course/" + course.id}>
-                {course.name}
-            </Link>
-          })
-        <div>        
+        {this.props.courses.map((course) => {
+          console.log(course);
+          return(<div>
+            {course.name}
+          </div>)
+        })}
       </div>
     );
   }
@@ -56,7 +57,7 @@ export default connect(
   store => ({
     account: store.authentication.account,
     isAuthenticated: store.authentication.isAuthenticated,
-    coursos: store.courses 
+    courses: store.dashboard.courses
   }),
-  { getSession }
-)(Home);
+  { getSession, getCourses }
+)(Dashboard);

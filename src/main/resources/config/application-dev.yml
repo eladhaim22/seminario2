@@ -34,7 +34,7 @@ spring:
         serialization.indent_output: true
     datasource:
         type: com.zaxxer.hikari.HikariDataSource
-        url: jdbc:mysql://localhost:3306/seminario2
+        url: jdbc:mysql://localhost:3306/seminario2?useUnicode=true&characterEncoding=utf8&useSSL=false
         username: root
         password: eladito1
         hikari:

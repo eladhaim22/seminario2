@@ -37,7 +37,8 @@ export class AuditsPage extends Component {
               <Table>
                 <TableHeader
                   displaySelectAll={showCheckboxes}
-                  adjustForCheckbox={showCheckboxes}>
+                  adjustForCheckbox={showCheckboxes}
+                >
                   <TableRow>
                     <TableHeaderColumn>Timestamp</TableHeaderColumn>
                     <TableHeaderColumn>Principal</TableHeaderColumn>

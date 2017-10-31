@@ -16,9 +16,9 @@ import java.util.stream.Collectors;
 public class GenericService<TEntity extends EntityImpl,TDTO extends EntityDTO> implements
     IGenericQueryService<TEntity,TDTO>,IGenericService<TEntity,TDTO> {
 
-    private IEntityRepository repository;
+    protected IEntityRepository repository;
 
-    private IEntityMapper entityMapper;
+    protected IEntityMapper entityMapper;
 
 
     public GenericService(IEntityMapper entityMapper,IEntityRepository entityRepository){

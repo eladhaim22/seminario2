@@ -155,13 +155,14 @@ export default (onLogout) => {
           });
         }}
       />
-      <Route 
+      <Route
         path="/dashboard"
         getComponent={(nextState, cb) => {
           require.ensure([], (require) => {
             cb(null, PrivateRoute(require('./modules/dashboard/index').default));
           });
         }}
+      />
     </Route>
   );
 };

@@ -63,11 +63,9 @@ export class HealthPage extends Component {
         const value = healthObject[key];
         if (key === 'status' || key === 'error') {
           healthData[key] = value;
-        } else {
-          if (!this.isHealthObject(value)) {
-            details[key] = value;
-            hasDetails = true;
-          }
+        } else if (!this.isHealthObject(value)) {
+          details[key] = value;
+          hasDetails = true;
         }
       }
     });

@@ -1,16 +1,17 @@
 package com.uade.seminario2.service.mapper.Impl;
 
 import com.uade.seminario2.domain.Course;
-import com.uade.seminario2.domain.Student;
-import com.uade.seminario2.repository.Impl.CoursesRepositoryImpl;
+import com.uade.seminario2.repository.Impl.CourseRepositoryImpl;
 import com.uade.seminario2.service.dto.CourseDTO;
 import com.uade.seminario2.service.mapper.IEntityMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+@Component
 public class CourseMapper implements IEntityMapper<Course,CourseDTO>{
 
     @Autowired
-    private CoursesRepositoryImpl coursesRepository;
+    private CourseRepositoryImpl coursesRepository;
 
     public CourseDTO ToDTO(Course entity) {
         return new CourseDTO(){{

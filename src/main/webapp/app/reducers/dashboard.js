@@ -4,7 +4,7 @@ const FETCH_FAIL = 'courses/FETCH_FAIL';
 
 const initialState = {
   loading: false,
-  courses:[]
+  courses: []
 };
 
 // Reducer
@@ -23,18 +23,20 @@ export default function reducer(state = initialState, action) {
         loading: false
       };
     case FETCH_FAIL:
-    return {
-      ...state,
-      loading: false
-    };
+      return {
+        ...state,
+        loading: false
+      };
+    default:
+      return state;
   }
 }
 
 // Actions
 
-export function getCourses(){
+export function getCourses() {
   return {
-    types: [FETCH, FETCH_GATEWAY_ROUTE, FETCH_FAIL],
-    promise: courses => courses.get('/api/courses')
+    types: [FETCH, FETCH_SUCCESS, FETCH_FAIL],
+    promise: courses => courses.get('/api/course/getAllByUser')
   };
 }
