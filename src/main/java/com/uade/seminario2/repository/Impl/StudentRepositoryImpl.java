@@ -10,5 +10,5 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface StudentRepositoryImpl extends IEntityRepository<Student> {
-    public Student findFirstByUserId(Long id);
+    public Student findOneByUser_Login(String login);
 }

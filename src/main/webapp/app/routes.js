@@ -40,7 +40,7 @@ export default (onLogout) => {
           });
         }}
       />
-      <Route
+      <routes
         path="/login"
         getComponent={(nextState, cb) => {
           require.ensure([], (require) => {
@@ -160,6 +160,30 @@ export default (onLogout) => {
         getComponent={(nextState, cb) => {
           require.ensure([], (require) => {
             cb(null, PrivateRoute(require('./modules/dashboard/index').default));
+          });
+        }}
+      />
+      <Route
+        path="/course-detail/(:id)"
+        getComponent={(nextState, cb) => {
+          require.ensure([], (require) => {
+            cb(null, PrivateRoute(require('./modules/course-detail/index').default));
+          });
+        }}
+      />
+      <Route
+        path="/course/(:id)"
+        getComponent={(nextState, cb) => {
+          require.ensure([], (require) => {
+            cb(null, PrivateRoute(require('./modules/course/index').default));
+          });
+        }}
+      />
+      <Route
+        path="/course/(:id)/notes"
+        getComponent={(nextState, cb) => {
+          require.ensure([], (require) => {
+            cb(null, PrivateRoute(require('./modules/notes/load').default));
           });
         }}
       />

@@ -6,7 +6,7 @@ export default class Footer extends Component {
     return (
       <div className="footer container">
         <div className="row">
-          <p className="col-md-12"><Translate content="footer">My footer</Translate></p>
+          
         </div>
       </div>
     );

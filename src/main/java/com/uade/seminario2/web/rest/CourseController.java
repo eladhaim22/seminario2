@@ -5,6 +5,7 @@ import com.uade.seminario2.domain.User;
 import com.uade.seminario2.security.AuthoritiesConstants;
 import com.uade.seminario2.security.SecurityUtils;
 import com.uade.seminario2.service.Impl.CourseService;
+import com.uade.seminario2.service.Impl.StudentService;
 import com.uade.seminario2.service.Impl.TeacherService;
 import com.uade.seminario2.service.Impl.UserService;
 import com.uade.seminario2.service.dto.CourseDTO;
@@ -31,15 +32,26 @@ public class CourseController extends GenericController<CourseDTO> {
     private TeacherService teacherService;
 
     @Autowired
-    private UserService userService;
+    private StudentService studentService;
 
     @GetMapping("/getAllByUser")
     public ResponseEntity<List<CourseDTO>> GetAllByUser(){
-        if(SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.PROFESSOR)){
-            return new ResponseEntity<List<CourseDTO>>(teacherService.getCoursesByUserId(SecurityUtils.getCurrentUserLogin()), HttpStatus.OK);
+        if(SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN)) {
+            return new ResponseEntity<List<CourseDTO>>(((CourseService)entityService).GetAll(), HttpStatus.OK);
         }
         else{
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            if(SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.PROFESSOR)) {
+                return new ResponseEntity<List<CourseDTO>>(teacherService.getCoursesByUserId(SecurityUtils.getCurrentUserLogin()), HttpStatus.OK);
+            }
+            else {
+                if (SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.USER)) {
+                    return new ResponseEntity<List<CourseDTO>>(studentService.getCoursesByUserId(SecurityUtils.getCurrentUserLogin()), HttpStatus.OK);
+                }
+                else return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+            }
+
         }
     }
+
+
 }

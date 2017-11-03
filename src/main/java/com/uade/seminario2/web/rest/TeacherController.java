@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 
-@RequestMapping("API/Teacher")
+@RequestMapping("api/teacher")
 @Controller
 public class TeacherController extends GenericController<TeacherDTO> {
 

@@ -69,7 +69,6 @@ export default class Header extends Component {
       </Link>
     );
 
-    let menuItemEntities = null;
     let menuCourses = null;
     let menuItemAccountSettings = null;
     let menuItemAccountPassword = null;
@@ -77,23 +76,11 @@ export default class Header extends Component {
     let menuItemAdministration = null;
 
     if (isAuthenticated) {
-      menuItemEntities = (
-        <ListItem
-          primaryText={<Translate content="global.menu.entities.main" />}
-          leftIcon={<ActionList />}
-          initiallyOpen={false}
-          primaryTogglesNestedList
-          nestedItems={[
-          ]}
-        />
-      );
-
       menuCourses = (
         <Link to="/dashboard">
-          <ListItem
-            key={1.9} innerDivStyle={menuListStyle}
+          <ListItem key={1.1}
             primaryText="Coursos"
-            leftIcon={<ActionExitToApp />}
+            leftIcon={<ActionList />}
           />
         </Link>
       );
@@ -210,7 +197,6 @@ export default class Header extends Component {
           <List>
             <Subheader>Application Menu</Subheader>
             <Link to="/"><ListItem primaryText={<Translate content="global.menu.home" />} leftIcon={<ActionHome />} /></Link>
-            {menuItemEntities}
             {menuCourses}
             {menuItemAdministration}
             <ListItem

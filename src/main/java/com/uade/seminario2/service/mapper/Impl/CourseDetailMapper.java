@@ -12,25 +12,25 @@ import org.springframework.stereotype.Component;
 import java.util.stream.Collectors;
 
 @Component
-public class CourseDetailDetailMapper implements IEntityMapper<CourseDetail,CourseDetailDTO>{
+public class CourseDetailMapper implements IEntityMapper<CourseDetail,CourseDetailDTO>{
 
     @Autowired
     private CourseDetailRepositoryImpl CourseDetailsRepository;
 
     @Autowired
-    private CourseRepositoryImpl courseRepository;
-
-    @Autowired
-    private StudentRepositoryImpl studentRepository;
+    private StudentMapper studentMapper;
 
     @Autowired
     private MessageMapper messageMapper;
 
+    @Autowired
+    private CourseMapper courseMapper;
+
     public CourseDetailDTO ToDTO(CourseDetail entity) {
         return new CourseDetailDTO(){{
             setId(entity.getId());
-            setCourseId(entity.getId());
-            setStudentId(entity.getStudent().getId());
+            setCourse(courseMapper.ToDTO(entity.getCourse()));
+            setStudent(studentMapper.ToDTO(entity.getStudent()));
             setNote(entity.getNote());
             setMessages(entity.getMessages().stream().map(message -> messageMapper.ToDTO(message)).collect(Collectors.toList()));
         }};
@@ -45,8 +45,9 @@ public class CourseDetailDetailMapper implements IEntityMapper<CourseDetail,Cour
             courseDetail = CourseDetailsRepository.findOne(model.getId());
         }
         courseDetail.setId(model.getId());
-        courseDetail.setCourse(courseRepository.findOne(model.getCourseId()));
-        courseDetail.setStudent(studentRepository.findOne(model.getStudentId()));
+        courseDetail.setNote(model.getNote());
+        courseDetail.setCourse(courseMapper.ToModel(model.getCourse()));
+        courseDetail.setStudent(studentMapper.ToModel(model.getStudent()));
         courseDetail.getMessages().clear();
         courseDetail.getMessages().addAll(model.getMessages().stream().map(messageDTO -> messageMapper.ToModel(messageDTO)).collect(Collectors.toList()));
         return courseDetail;

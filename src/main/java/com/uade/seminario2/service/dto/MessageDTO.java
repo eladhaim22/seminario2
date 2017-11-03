@@ -7,8 +7,6 @@ public class MessageDTO extends EntityDTO {
 
     private TeacherDTO Owner;
 
-    private List<Long> targetChildsIds = new ArrayList<>();
-
     private String message;
 
     public TeacherDTO getOwner() {
@@ -17,14 +15,6 @@ public class MessageDTO extends EntityDTO {
 
     public void setOwner(TeacherDTO owner) {
         Owner = owner;
-    }
-
-    public List<Long> getTargetChildsIds() {
-        return targetChildsIds;
-    }
-
-    public void setTargetChildsIds(List<Long> targetChildsIds) {
-        this.targetChildsIds = targetChildsIds;
     }
 
     public String getMessage() {

@@ -31,7 +31,6 @@ public class MessageMapper implements IEntityMapper<Message,MessageDTO> {
             setId(message.getId());
             setMessage(message.getMessage());
             setOwner(teacherMapper.ToDTO(message.getOwner()));
-            setTargetChildsIds(message.getTargetUsers().stream().map(child -> child.getId()).collect(Collectors.toList()));
         }};
     }
 
@@ -42,8 +41,6 @@ public class MessageMapper implements IEntityMapper<Message,MessageDTO> {
         }
 
         message.setOwner(teacherMapper.ToModel(messageDTO.getOwner()));
-        message.setTargetUsers(messageDTO.getTargetChildsIds().stream().map(childId ->
-            studentRepository.findOne(childId)).collect(Collectors.toList()));
         message.setMessage(messageDTO.getMessage());
         return message;
     }

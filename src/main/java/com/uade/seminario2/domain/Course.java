@@ -1,15 +1,19 @@
 package com.uade.seminario2.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "courses")
 public class Course extends EntityImpl{
 
-    @JoinColumn(name="name")
+    @Column(name="name")
     private String name;
+
+    /*@OneToMany
+    @JoinColumn(name="course_id")
+    private List<Message> message = new ArrayList<>();*/
 
     public String getName() {
         return name;
@@ -18,4 +22,8 @@ public class Course extends EntityImpl{
     public void setName(String name) {
         this.name = name;
     }
+
+    /*public List<Message> getMessages() {
+        return message;
+    }*/
 }

@@ -9,7 +9,7 @@ import java.util.List;
 @Table(name = "students")
 public class Student extends EntityImpl{
 
-    @Column(name = "birthDate")
+    @Column(name = "birthdate")
     private Date birthDate;
 
     @OneToOne
@@ -17,14 +17,10 @@ public class Student extends EntityImpl{
     private User user;
 
     @ManyToMany
-    @JoinTable(name = "user_courses",
+    @JoinTable(name = "users_courses",
         joinColumns = {@JoinColumn(name = "student_id", referencedColumnName = "id")},
         inverseJoinColumns = {@JoinColumn(name = "course_id", referencedColumnName = "id")})
     private List<Course> courses =new ArrayList<>();
-
-    @OneToMany
-    @JoinColumn(name ="student_id")
-    private List<CourseDetail> coursesDetail = new ArrayList<>();
 
     public Date getBirthDate() {
         return birthDate;
@@ -42,7 +38,7 @@ public class Student extends EntityImpl{
         this.user = user;
     }
 
-    public List<CourseDetail> getCoursesDetail() {
-        return coursesDetail;
+    public List<Course> getCourses() {
+        return courses;
     }
 }

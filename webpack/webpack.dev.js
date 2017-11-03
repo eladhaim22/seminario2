@@ -45,5 +45,6 @@ module.exports = webpackMerge(commonConfig(), {
         ws: true
       }
     ]
-  }
+  },
+  watch: true
 });

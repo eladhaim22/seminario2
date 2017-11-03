@@ -9,6 +9,7 @@ import { setLocale } from './reducers/locale';
 import { getSession, logout } from './reducers/authentication';
 import Header from './shared/components/header/header';
 import Footer from './shared/components/footer/footer';
+import PrivateRoute from './shared/components/private-route/private-route';
 
 import './app.scss';
 
@@ -52,7 +53,9 @@ export class App extends Component {
             toggleSideBar={this.toggleSideBar}
           />
           <div className="container">
+            <div className="col-md-10 col-md-offset-1">
             {this.props.children}
+            </div>
           </div>
           <Footer />
         </div>

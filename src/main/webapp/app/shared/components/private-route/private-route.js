@@ -40,7 +40,7 @@ const privateRoute = Wrapped => connect(mapStoreToProps, mapDispatchToProps)(cla
 
   render() {
     const { loading, isAuthenticated } = this.props;
-    if (loading && !isAuthenticated) {
+    if (loading && !isAuthenticated && false == true) {
       return (
         <div className="center loader">
           <div>Loading...</div>

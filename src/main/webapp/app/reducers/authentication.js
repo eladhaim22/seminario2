@@ -109,7 +109,7 @@ export function login(username, password, rememberMe = false) {
         }
       }
       const routingState = getState().routing.locationBeforeTransitions.state || {};
-      hashHistory.push(routingState.nextPathname || '/');
+      hashHistory.push(routingState.nextPathname || '/dashboard');
       dispatch(getSession());
     }
   };

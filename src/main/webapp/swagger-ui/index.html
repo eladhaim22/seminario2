@@ -83,9 +83,12 @@
                 });
 
                 function addApiKeyAuthorization() {
-                    var authToken = JSON.parse(localStorage.getItem("jhi-authenticationtoken") || sessionStorage.getItem("jhi-authenticationtoken"));
-                    var apiKeyAuth = new SwaggerClient.ApiKeyAuthorization("Authorization", "Bearer " + authToken, "header");
-                    window.swaggerUi.api.clientAuthorizations.add("bearer", apiKeyAuth);
+                    var key = JSON.parse(localStorage.getItem("ls.authentication-token"));
+                    if (key && key.trim() != "") {
+                        var apiKeyAuth = new SwaggerClient.ApiKeyAuthorization("Authorization", "Bearer " + key, "header");
+                        window.swaggerUi.api.clientAuthorizations.add("bearer", apiKeyAuth);
+                        log("Set bearer token: " + key);
+                    }
                 }
 
                 function getCSRF() {

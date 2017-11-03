@@ -38,7 +38,7 @@ export class Home extends Component {
       <div className="row">
         <div className="col-md-9">
           <h2><Translate content="home.title">Welcome, Java Hipster!</Translate></h2>
-          <p className="lead"><Translate content="home.subtitle">This is your homepage</Translate></p>
+          {/*<p className="lead"><Translate content="home.subtitle">This is your homepage</Translate></p>
           {
             (currentUser && currentUser.login) ? (
               <div>
@@ -98,7 +98,7 @@ export class Home extends Component {
           <p>
             <span>If you like JHipster React, do not forget to give us a star on </span>
             <a href="https://github.com/jhipster/generator-jhipster-react" target="_blank" rel="noopener noreferrer">Github</a>!
-          </p>
+          </p>*/}
         </div>
         <div className="col-md-3 pad">
           <span className="hipster img-fluid img-rounded" />

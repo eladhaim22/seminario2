@@ -5,11 +5,15 @@ import locale from './locale';
 import authentication from './authentication';
 import administration from './administration';
 import dashboard from './dashboard';
+import courseDetail from './courseDetail';
+import course from './course';
 
 export default combineReducers({
   authentication,
   locale,
   routing,
   administration,
-  dashboard
+  dashboard,
+  courseDetail,
+  course
 });
