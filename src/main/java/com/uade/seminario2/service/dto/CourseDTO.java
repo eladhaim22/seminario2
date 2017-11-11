@@ -6,7 +6,7 @@ import java.util.List;
 public class CourseDTO extends EntityDTO{
     private String name;
 
-    private List<MessageDTO> messages = new ArrayList<>();;
+    private List<UserDTO> users;
 
     public String getName() {
         return name;
@@ -16,11 +16,11 @@ public class CourseDTO extends EntityDTO{
         this.name = name;
     }
 
-    public List<MessageDTO> getMessages() {
-        return messages;
+    public List<UserDTO> getUsers() {
+        return users;
     }
 
-    public void setMessages(List<MessageDTO> messages) {
-        this.messages = messages;
+    public void setUsers(List<UserDTO> courses) {
+        this.users = courses;
     }
 }

@@ -53,28 +53,33 @@ export class Dashboard extends Component {
     return (
       this.props.courses.length > 0 ?
       <div style={{marginTop:'10px'}}>
-        <Paper style={{width:'100%',padding:'10px'}} zDepth={5}>
-          <div style={styles.root}>
-              <GridList
-                cellHeight={180}
-                style={styles.gridList}
-              >
-                <Subheader style={{fontSize:'20px'}}>Cursos</Subheader>
-                {this.props.courses.map((course,index) => {
-                  let link;
-                  if(this.state.currentUser.authorities){
-                    link = _.includes(this.state.currentUser.authorities,'ROLE_USER') ? `/course-detail/${course.id}` : `/course/${course.id}`
-                  }
-                  return (<GridTile
-                    key={course.id}
-                    title={course.name.toUpperCase()}
-                  >
-                   <Link to={link}><div style={{height:'100%',backgroundColor:'#117bf3'}}/></Link>
-                  </GridTile>
-                )})}
-              </GridList>  
-          </div>
-        </Paper>
+        <div className="row">
+        {this.props.courses.map((course,index) => {
+          let link;
+          if(this.state.currentUser.authorities){
+            link = _.includes(this.state.currentUser.authorities,'ROLE_USER') ? `/course-detail/${course.id}` : `/course/${course.id}`
+          }
+          return(
+            <div className="col-md-3 col-sm-6">
+              <Link to={link} key={course.id}>
+                <div className="widget stats-widget">
+                  <div className="widget-body clearfix">
+                    <div className="pull-left">
+                      <h3 className="widget-title text-primary"><span className="counter" data-plugin="counterUp">{course.name}</span></h3>
+                      <small className="text-color">{course.name}</small>
+                    </div>
+                    <span className="pull-right big-icon watermark"><i className="fa fa-file-text-o"></i></span>
+                  </div>
+                  <footer className="widget-footer bg-primary">
+                    <small>% charge</small>
+                    <span className="small-chart pull-right" data-plugin="sparkline" data-options="[4,3,5,2,1], { type: 'bar', barColor: '#ffffff', barWidth: 5, barSpacing: 2 }"><canvas width="33" height="16" style={{display: 'inline-block', width: '33px', height: '16px', verticalAlign: 'top'}}></canvas></span>
+                  </footer>
+                </div>
+              </Link>
+            </div>
+          )
+        })}
+        </div>
       </div> 
     : null
     );

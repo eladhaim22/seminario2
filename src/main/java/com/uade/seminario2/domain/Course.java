@@ -11,9 +11,11 @@ public class Course extends EntityImpl{
     @Column(name="name")
     private String name;
 
-    /*@OneToMany
-    @JoinColumn(name="course_id")
-    private List<Message> message = new ArrayList<>();*/
+    @ManyToMany
+    @JoinTable(name = "users_courses",
+        joinColumns = {@JoinColumn(name = "course_id", referencedColumnName = "id")},
+        inverseJoinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")})
+    private List<User> users;
 
     public String getName() {
         return name;
@@ -23,7 +25,11 @@ public class Course extends EntityImpl{
         this.name = name;
     }
 
-    /*public List<Message> getMessages() {
-        return message;
-    }*/
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<User> users) {
+        this.users = users;
+    }
 }

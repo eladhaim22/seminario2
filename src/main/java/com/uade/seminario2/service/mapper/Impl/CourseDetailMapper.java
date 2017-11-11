@@ -2,14 +2,10 @@ package com.uade.seminario2.service.mapper.Impl;
 
 import com.uade.seminario2.domain.CourseDetail;
 import com.uade.seminario2.repository.Impl.CourseDetailRepositoryImpl;
-import com.uade.seminario2.repository.Impl.CourseRepositoryImpl;
-import com.uade.seminario2.repository.Impl.StudentRepositoryImpl;
 import com.uade.seminario2.service.dto.CourseDetailDTO;
 import com.uade.seminario2.service.mapper.IEntityMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.util.stream.Collectors;
 
 @Component
 public class CourseDetailMapper implements IEntityMapper<CourseDetail,CourseDetailDTO>{
@@ -18,10 +14,7 @@ public class CourseDetailMapper implements IEntityMapper<CourseDetail,CourseDeta
     private CourseDetailRepositoryImpl CourseDetailsRepository;
 
     @Autowired
-    private StudentMapper studentMapper;
-
-    @Autowired
-    private MessageMapper messageMapper;
+    private UserMapper userMapper;
 
     @Autowired
     private CourseMapper courseMapper;
@@ -30,9 +23,8 @@ public class CourseDetailMapper implements IEntityMapper<CourseDetail,CourseDeta
         return new CourseDetailDTO(){{
             setId(entity.getId());
             setCourse(courseMapper.ToDTO(entity.getCourse()));
-            setStudent(studentMapper.ToDTO(entity.getStudent()));
+            setStudent(userMapper.userToUserDTO(entity.getStudent()));
             setNote(entity.getNote());
-            setMessages(entity.getMessages().stream().map(message -> messageMapper.ToDTO(message)).collect(Collectors.toList()));
         }};
     }
 
@@ -47,9 +39,7 @@ public class CourseDetailMapper implements IEntityMapper<CourseDetail,CourseDeta
         courseDetail.setId(model.getId());
         courseDetail.setNote(model.getNote());
         courseDetail.setCourse(courseMapper.ToModel(model.getCourse()));
-        courseDetail.setStudent(studentMapper.ToModel(model.getStudent()));
-        courseDetail.getMessages().clear();
-        courseDetail.getMessages().addAll(model.getMessages().stream().map(messageDTO -> messageMapper.ToModel(messageDTO)).collect(Collectors.toList()));
+        courseDetail.setStudent(userMapper.userDTOToUser(model.getStudent()));
         return courseDetail;
     }
 }

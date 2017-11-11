@@ -8,6 +8,7 @@ import com.uade.seminario2.security.SecurityUtils;
 import com.uade.seminario2.service.Impl.MailService;
 import com.uade.seminario2.service.Impl.UserService;
 import com.uade.seminario2.service.dto.UserDTO;
+import com.uade.seminario2.service.mapper.Impl.UserMapper;
 import com.uade.seminario2.web.rest.vm.KeyAndPasswordVM;
 import com.uade.seminario2.web.rest.vm.ManagedUserVM;
 import com.uade.seminario2.web.rest.util.HeaderUtil;
@@ -15,6 +16,7 @@ import com.uade.seminario2.web.rest.util.HeaderUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -39,6 +41,9 @@ public class AccountResource {
     private final UserService userService;
 
     private final MailService mailService;
+
+    @Autowired
+    private UserMapper userMapper;
 
     private static final String CHECK_ERROR_MESSAGE = "Incorrect password";
 
@@ -119,7 +124,7 @@ public class AccountResource {
     @Timed
     public ResponseEntity<UserDTO> getAccount() {
         return Optional.ofNullable(userService.getUserWithAuthorities())
-            .map(user -> new ResponseEntity<>(new UserDTO(user), HttpStatus.OK))
+            .map(user -> new ResponseEntity<>(userMapper.userToUserDTO(user), HttpStatus.OK))
             .orElse(new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR));
     }
 

@@ -10,10 +10,8 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-import java.util.HashSet;
-import java.util.Locale;
+import java.util.*;
 
-import java.util.Set;
 import java.time.Instant;
 
 /**
@@ -81,6 +79,12 @@ public class User extends AbstractAuditingEntity {
         inverseJoinColumns = {@JoinColumn(name = "authority_name", referencedColumnName = "name")})
     @BatchSize(size = 20)
     private Set<Authority> authorities = new HashSet<>();
+
+    @ManyToMany
+    @JoinTable(name = "users_courses",
+        joinColumns = {@JoinColumn(name = "student_id", referencedColumnName = "id")},
+        inverseJoinColumns = {@JoinColumn(name = "course_id", referencedColumnName = "id")})
+    private List<Course> courses =new ArrayList<>();
 
     public String getLogin() {
         return login;
@@ -176,6 +180,14 @@ public class User extends AbstractAuditingEntity {
 
     public void setAuthorities(Set<Authority> authorities) {
         this.authorities = authorities;
+    }
+
+    public List<Course> getCourses() {
+        return courses;
+    }
+
+    public void setCourses(List<Course> courses) {
+        this.courses = courses;
     }
 
     @Override

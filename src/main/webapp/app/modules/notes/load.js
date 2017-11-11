@@ -9,14 +9,6 @@ import { getCourseDetails , saveAllCourseDetail} from '../../reducers/courseDeta
 import { _ } from 'lodash';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
-import {
-  Table,
-  TableBody,
-  TableHeader,
-  TableHeaderColumn,
-  TableRow,
-  TableRowColumn,
-} from 'material-ui/Table';
 import FlatButton from 'material-ui/FlatButton';
 import Subheader from 'material-ui/Subheader';
 
@@ -66,36 +58,45 @@ export class LoadNotes extends Component {
            <Subheader style={{fontSize:'20px'}}> {this.props.course.course.name}</Subheader>
         </div>
         {this.state.coursesDetails.length > 0 ?  
-        <div className="row">
-          <Table>
-            <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
-              <TableRow>
-                <TableHeaderColumn>Nombre</TableHeaderColumn>
-                <TableHeaderColumn>Apellido</TableHeaderColumn>
-                <TableHeaderColumn>Nota</TableHeaderColumn>
-                <TableHeaderColumn>Modificar</TableHeaderColumn>
-              </TableRow>
-            </TableHeader>
-            <TableBody displayRowCheckbox={false}>
-              {this.props.studentsCourseDetail.map((courseDetail,index) => 
-                <TableRow key={index}>
-                  <TableRowColumn>{courseDetail.student.user.firstName}</TableRowColumn>
-                   <TableRowColumn>{courseDetail.student.user.lastName}</TableRowColumn>
-                  <TableRowColumn>{courseDetail.note}</TableRowColumn>
-                  <TableRowColumn>
-                    <SelectField className="col-md-4" value={index + ';' + this.state.coursesDetails[index].note} onChange={this.handleChange}>
-                      {Array.from(Array(10), (_,x) => x + 1).map(x => <MenuItem key={x} value={index + ';' + x} primaryText={x} /> )}
-                    </SelectField>
-                  </TableRowColumn>
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
-          <div style={{width:'100%'}}><FlatButton label="Guardar" style={{float:'right'}} primary={true} onClick={this.onSubmit}/></div>
+        <div className="col-md-8 col-offset-md-2" >
+          <div className="widget">
+            <header className="widget-header">
+              <h4 className="widget-title">Alumnos</h4>
+            </header>
+            <hr className="widget-separator"/>
+            <div className="widget-body">
+              <table className="table table-striped">
+                <tbody>
+                  <tr>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>Nota</th>
+                    <th>Modificar</th>
+                  </tr>
+                  {this.props.studentsCourseDetail.map((courseDetail,index) => 
+                    <tr key={index}>
+                      <td>{courseDetail.student.user.firstName}</td>
+                      <td>{courseDetail.student.user.lastName}</td>
+                      <td>{courseDetail.note}</td>
+                      <td>
+                      <select id="select2-demo-1" className="form-control form-control-sm" data-plugin="select2" tabindex="-1" aria-hidden="true"
+                       value={index + ';' + this.state.coursesDetails[index].note} onChange={this.handleChange}>
+                       {Array.from(Array(10), (_,x) => x + 1).map(x => <option key={x} value={index + ';' + x}>{x}</option> )}
+                      </select>
+
+                      
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
+          </div>
+           <div style={{width:'100%'}}><FlatButton label="Guardar" style={{float:'right'}} primary={true} onClick={this.onSubmit}/></div>
         </div>
+       
         : null}
-      </div>
-    
+        </div>
     );
   }
 }

@@ -142,16 +142,25 @@
             <column name="id" type="bigint" autoIncrement="${autoIncrement}">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="teacher_id" type="bigint">
-                <constraints nullable="false"/>
-            </column>
             <column name="message" type="varchar(50)">
                 <constraints nullable="false"/>
             </column>
-            <column name="course_detail_id" type="bigint">
+        </createTable>
+
+        <createTable tableName="message_details">
+            <column name="id" type="bigint" autoIncrement="${autoIncrement}">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="owner_id" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="target_id" type="bigint">
                 <constraints nullable="true"/>
             </column>
             <column name="course_id" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+            <column name="message_id" type="bigint">
                 <constraints nullable="true"/>
             </column>
         </createTable>
@@ -183,17 +192,7 @@
             </column>
         </createTable>
 
-        <addForeignKeyConstraint baseColumnNames="course_detail_id"
-                                 baseTableName="messages"
-                                 constraintName="fk_messages_course_detail"
-                                 referencedColumnNames="id"
-                                 referencedTableName="course_detail"/>
 
-        <addForeignKeyConstraint baseColumnNames="course_id"
-                                 baseTableName="messages"
-                                 constraintName="fk_messages_courses"
-                                 referencedColumnNames="id"
-                                 referencedTableName="courses"/>
 
         <addForeignKeyConstraint baseColumnNames="student_id"
                                  baseTableName="course_detail"
@@ -249,12 +248,6 @@
                                  constraintName="fk_teachers_users"
                                  referencedColumnNames="id"
                                  referencedTableName="jhi_user"/>
-
-        <addForeignKeyConstraint baseColumnNames="teacher_id"
-                                 baseTableName="messages"
-                                 constraintName="fk_messages_techers"
-                                 referencedColumnNames="id"
-                                 referencedTableName="teachers"/>
 
 
         <addForeignKeyConstraint baseColumnNames="teacher_id"

@@ -5,6 +5,9 @@ import { bindActionCreators } from 'redux';
 import { hashHistory, Router } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
 import injectTapEventPlugin from 'react-tap-event-plugin';
+import './assests/sass/core.scss';
+import './assests/sass/app.scss';
+import './assests/sass/bootstrap.scss';
 
 import getRoutes from './routes';
 import DevTools from './config/devtools';

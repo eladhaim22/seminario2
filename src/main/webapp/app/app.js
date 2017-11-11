@@ -11,7 +11,10 @@ import Header from './shared/components/header/header';
 import Footer from './shared/components/footer/footer';
 import PrivateRoute from './shared/components/private-route/private-route';
 
-import './app.scss';
+
+import './assests/sass/core.scss';
+import './assests/sass/app.scss';
+import './assests/sass/bootstrap.scss';
 
 export class App extends Component {
   static propTypes = {
@@ -52,11 +55,13 @@ export class App extends Component {
             handleLogout={this.handleLogout}
             toggleSideBar={this.toggleSideBar}
           />
-          <div className="container">
-            <div className="col-md-10 col-md-offset-1">
-            {this.props.children}
+          <main className="app-main in">
+            <div className="wrap">
+              <section className="app-content">
+                {this.props.children}
+              </section>
             </div>
-          </div>
+          </main>
           <Footer />
         </div>
       </MuiThemeProvider>

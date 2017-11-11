@@ -1,27 +1,19 @@
 package com.uade.seminario2.service.dto;
 
-import com.uade.seminario2.domain.Course;
-import com.uade.seminario2.domain.Message;
-import com.uade.seminario2.domain.Student;
-
-import javax.persistence.Column;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.List;
 
 public class CourseDetailDTO extends EntityDTO{
-    private StudentDTO student;
+    private UserDTO student;
     private CourseDTO course;
     private Integer note;
     private List<MessageDTO> messages = new ArrayList<>();
 
-    public StudentDTO getStudent() {
+    public UserDTO getStudent() {
         return student;
     }
 
-    public void setStudent(StudentDTO student) {
+    public void setStudent(UserDTO student) {
         this.student = student;
     }
 

@@ -7,11 +7,13 @@ import com.uade.seminario2.config.Constants;
 import com.uade.seminario2.repository.UserRepository;
 import com.uade.seminario2.security.AuthoritiesConstants;
 import com.uade.seminario2.security.SecurityUtils;
+import com.uade.seminario2.service.mapper.Impl.UserMapper;
 import com.uade.seminario2.service.util.RandomUtil;
 import com.uade.seminario2.service.dto.UserDTO;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -38,6 +40,9 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
 
     private final AuthorityRepository authorityRepository;
+
+    @Autowired
+    private UserMapper userMapper;
 
     public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, AuthorityRepository authorityRepository) {
         this.userRepository = userRepository;
@@ -180,7 +185,7 @@ public class UserService {
                 log.debug("Changed Information for User: {}", user);
                 return user;
             })
-            .map(UserDTO::new);
+            .map(user -> userMapper.userToUserDTO(user));
     }
 
     public void deleteUser(String login) {
@@ -199,8 +204,9 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
-    public Page<UserDTO> getAllManagedUsers(Pageable pageable) {
-        return userRepository.findAllByLoginNot(pageable, Constants.ANONYMOUS_USER).map(UserDTO::new);
+    public List<UserDTO> getAllManagedUsers() {
+        return userRepository.findAllByLoginNot(Constants.ANONYMOUS_USER).stream()
+            .map(user -> userMapper.userToUserDTO(user)).collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)

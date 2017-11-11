@@ -29,15 +29,21 @@ export class CourseDetail extends Component {
             {this.props.courseDetail.course.name}
           </h2>
         </div>
-        <div className="row">
-          <div className="col-md-2">
-            <Paper style={{paddingBottom: '100%',position:'relative'}} zDepth={5} >
-              <div style={titleStyle}>Nota</div>
-              <div style={noteStyle}>{this.props.courseDetail.note}</div>
-            </Paper>
-          </div>
+        <div className="col-md-3 col-sm-6">
+            <div className="widget stats-widget">
+              <div className="widget-body clearfix">
+                <div className="pull-left">
+                  <h3 className="widget-title text-primary"><span className="counter" data-plugin="counterUp">Nota</span></h3>
+                  <medium className="text-color">{this.props.courseDetail.note}</medium>
+                </div>
+                <span className="pull-right big-icon watermark"><i className="fa fa-file-text-o"></i></span>
+              </div>
+              <footer className="widget-footer bg-primary">
+                <small>% charge</small>
+                <span className="small-chart pull-right" data-plugin="sparkline" data-options="[4,3,5,2,1], { type: 'bar', barColor: '#ffffff', barWidth: 5, barSpacing: 2 }"><canvas width="33" height="16" style={{display: 'inline-block', width: '33px', height: '16px', verticalAlign: 'top'}}></canvas></span>
+              </footer>
+            </div>
         </div>
-        
       </div>
       : null
     );

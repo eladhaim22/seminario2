@@ -81,7 +81,7 @@ export default (onLogout) => {
             cb(null, PrivateRoute(require('./modules/administration/gateway/gateway').default));
           });
         }}
-      />
+      />*/}
       <Route
         path="/admin/user-management"
         getComponent={(nextState, cb) => {
@@ -90,7 +90,7 @@ export default (onLogout) => {
           });
         }}
       />
-      */}
+      
       <Route
         path="/admin/metrics"
         getComponent={(nextState, cb) => {
@@ -156,10 +156,10 @@ export default (onLogout) => {
         }}
       />
       <Route
-        path="/dashboard"
+        path="/admin/dashboard"
         getComponent={(nextState, cb) => {
           require.ensure([], (require) => {
-            cb(null, PrivateRoute(require('./modules/dashboard/index').default));
+            cb(null, PrivateRoute(require('./modules/administration/dashboard/index').default));
           });
         }}
       />

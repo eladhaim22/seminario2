@@ -5,17 +5,9 @@ import java.util.List;
 
 public class MessageDTO extends EntityDTO {
 
-    private TeacherDTO Owner;
-
     private String message;
 
-    public TeacherDTO getOwner() {
-        return Owner;
-    }
-
-    public void setOwner(TeacherDTO owner) {
-        Owner = owner;
-    }
+    private String type;
 
     public String getMessage() {
         return message;
@@ -23,5 +15,13 @@ public class MessageDTO extends EntityDTO {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

@@ -4,6 +4,7 @@ import com.uade.seminario2.domain.Authority;
 import com.uade.seminario2.domain.User;
 import com.uade.seminario2.service.dto.UserDTO;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -18,8 +19,29 @@ import java.util.stream.Collectors;
 @Service
 public class UserMapper {
 
+    @Autowired
+    private CourseMapper courseMapper;
+
     public UserDTO userToUserDTO(User user) {
-        return new UserDTO(user);
+        UserDTO userDTO = new UserDTO(){{
+            setId(user.getId());
+            setLogin(user.getLogin());
+            setFirstName(user.getFirstName());
+            setLastName(user.getLastName());
+            setEmail(user.getEmail());
+            setActivated(user.getActivated());
+            setImageUrl(user.getImageUrl());
+            setLangKey(user.getLangKey());
+            setCreatedBy(user.getCreatedBy());
+            setCreatedDate(user.getCreatedDate());
+            setLastModifiedBy(user.getLastModifiedBy());
+            setLastModifiedDate(user.getLastModifiedDate());
+
+        }};
+        userDTO.setCourses(user.getCourses().stream().map(course -> courseMapper.ToDTO(course)).collect(Collectors.toList()));
+        userDTO.setAuthorities(user.getAuthorities().stream().map(Authority::getName)
+            .collect(Collectors.toSet()));
+        return userDTO;
     }
 
     public List<UserDTO> usersToUserDTOs(List<User> users) {
@@ -42,6 +64,9 @@ public class UserMapper {
             user.setImageUrl(userDTO.getImageUrl());
             user.setActivated(userDTO.isActivated());
             user.setLangKey(userDTO.getLangKey());
+            user.getCourses().clear();
+            user.getCourses().addAll(userDTO.getCourses().stream().map(course -> courseMapper.ToModel(course))
+                .collect(Collectors.toList()));
             Set<Authority> authorities = this.authoritiesFromStrings(userDTO.getAuthorities());
             if(authorities != null) {
                 user.setAuthorities(authorities);

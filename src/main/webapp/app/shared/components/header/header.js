@@ -15,14 +15,14 @@ import {
   ActionAssignment, AvLibraryBooks
 } from 'material-ui/svg-icons';
 import { Link } from 'react-router';
-
+import { connect } from 'react-redux';
 import { locales } from '../../../config/translation';
 import appConfig from '../../../config/constants';
 import { HEADER_COLOR } from '../../util/global-style';
 
 import './header.scss';
 
-export default class Header extends Component {
+export class Header extends Component {
   static propTypes = {
     isAuthenticated: PropTypes.bool.isRequired,
     currentLocale: PropTypes.string.isRequired,
@@ -69,21 +69,37 @@ export default class Header extends Component {
       </Link>
     );
 
-    let menuCourses = null;
+    let menuDashboard = null;
     let menuItemAccountSettings = null;
     let menuItemAccountPassword = null;
     let menuItemAccountSignOut = null;
     let menuItemAdministration = null;
 
     if (isAuthenticated) {
-      menuCourses = (
-        <Link to="/dashboard">
-          <ListItem key={1.1}
-            primaryText="Coursos"
-            leftIcon={<ActionList />}
-          />
-        </Link>
-      );
+        if(this.props.authentication.account.authorities.includes('ROLE_ADMIN')){
+          menuDashboard = (<Link to="admin/dashboard">
+            <ListItem key={1.1}
+              primaryText="Dashboard"
+              leftIcon={<ActionList />}
+            />
+          </Link>)
+        }
+        else if (this.props.authentication.account.authorities.includes('ROLE_PROFESSOR')){
+          menuDashboard = (<Link to="professor/dashboard">
+            <ListItem key={1.1}
+              primaryText="Dashboard"
+              leftIcon={<ActionList />}
+            />
+          </Link>)
+        }
+        else {
+          menuDashboard = (<Link to="user/dashboard">
+            <ListItem key={1.1}
+              primaryText="Dashboard"
+              leftIcon={<ActionList />}
+            />
+          </Link>) 
+        }
 
       menuItemAccountLogin = null;
       menuItemAccountRegister = null;
@@ -197,7 +213,7 @@ export default class Header extends Component {
           <List>
             <Subheader>Application Menu</Subheader>
             <Link to="/"><ListItem primaryText={<Translate content="global.menu.home" />} leftIcon={<ActionHome />} /></Link>
-            {menuCourses}
+            {menuDashboard}
             {menuItemAdministration}
             <ListItem
               primaryText={<Translate content="global.menu.account.main" />}
@@ -218,3 +234,10 @@ export default class Header extends Component {
     );
   }
 }
+
+export default connect(
+  store => ({
+    authentication: store.authentication
+  }),null
+)(Header);
+

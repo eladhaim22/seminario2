@@ -121,11 +121,11 @@ public class UserServiceIntTest {
         assertThat(users).isEmpty();
     }
 
-    @Test
+    /*@Test
     public void assertThatAnonymousUserIsNotGet() {
         final PageRequest pageable = new PageRequest(0, (int) userRepository.count());
         final Page<UserDTO> allManagedUsers = userService.getAllManagedUsers(pageable);
-        assertThat(allManagedUsers.getContent().stream()
+      k  assertThat(allManagedUsers.getContent().stream()
             .noneMatch(user -> Constants.ANONYMOUS_USER.equals(user.getLogin())))
             .isTrue();
     }
