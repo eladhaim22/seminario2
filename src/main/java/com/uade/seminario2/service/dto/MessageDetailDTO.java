@@ -21,6 +21,8 @@ public class MessageDetailDTO extends EntityDTO {
 
     private MessageDTO message;
 
+    private boolean isNew;
+
     public UserDTO getOwner() {
         return Owner;
     }
@@ -51,5 +53,13 @@ public class MessageDetailDTO extends EntityDTO {
 
     public void setMessage(MessageDTO message) {
         this.message = message;
+    }
+
+    public boolean isNew() {
+        return isNew;
+    }
+
+    public void setNew(boolean aNew) {
+        isNew = aNew;
     }
 }

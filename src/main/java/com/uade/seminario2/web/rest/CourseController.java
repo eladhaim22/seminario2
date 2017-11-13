@@ -23,7 +23,7 @@ public class CourseController extends GenericController<CourseDTO> {
 
     @GetMapping("/getAllByUser")
     public ResponseEntity<List<CourseDTO>> GetAllByUser(){
-        if(SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN)) {
+            if(SecurityUtils.isCurrentUserInRole(AuthoritiesConstants.ADMIN)) {
             return new ResponseEntity<List<CourseDTO>>(((CourseService)entityService).GetAll(), HttpStatus.OK);
         }
         else{

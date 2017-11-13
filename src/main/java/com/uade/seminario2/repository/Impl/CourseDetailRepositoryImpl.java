@@ -12,7 +12,7 @@ import java.util.List;
  */
 @Repository
 public interface CourseDetailRepositoryImpl extends IEntityRepository<CourseDetail> {
-    public CourseDetail findOneByCourse_IdAndStudent_User_Login(Long courseId,String login);
+    public CourseDetail findOneByCourse_IdAndStudent_Login(Long courseId,String login);
 
     public List<CourseDetail> findAllByCourse_Id(Long courseId);
 }

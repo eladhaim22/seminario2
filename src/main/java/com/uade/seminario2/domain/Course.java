@@ -1,8 +1,12 @@
 package com.uade.seminario2.domain;
 
+import org.hibernate.annotations.Fetch;
+
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "courses")
@@ -11,11 +15,11 @@ public class Course extends EntityImpl{
     @Column(name="name")
     private String name;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "users_courses",
         joinColumns = {@JoinColumn(name = "course_id", referencedColumnName = "id")},
         inverseJoinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")})
-    private List<User> users;
+    private Set<User> users = new HashSet<>();
 
     public String getName() {
         return name;
@@ -25,11 +29,11 @@ public class Course extends EntityImpl{
         this.name = name;
     }
 
-    public List<User> getUsers() {
+    public Set<User> getUsers() {
         return users;
     }
 
-    public void setUsers(List<User> users) {
+    public void setUsers(Set<User> users) {
         this.users = users;
     }
 }

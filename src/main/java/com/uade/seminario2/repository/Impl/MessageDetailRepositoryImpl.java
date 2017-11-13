@@ -18,5 +18,9 @@ public interface MessageDetailRepositoryImpl extends IEntityRepository<MessageDe
     public List<MessageDetail> findAllByOwner_LoginAndCourse_Id(String login,Long courseId);
 
     public List<MessageDetail> findAllByTargetUser_LoginAndCourse_Id(String login,Long courseId);
+
+    public List<MessageDetail> findAllByOwner_Login(String login);
+
+    public List<MessageDetail> findAllByTargetUser_Login(String login);
 }
 

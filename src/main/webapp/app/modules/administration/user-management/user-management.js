@@ -46,20 +46,20 @@ export class UserManagement extends Component {
       <FlatButton
         label="No"
         primary={true}
-        onClick={this.handleClose}
+        onClick={this.handleClose.bind(this,false)}
       />,
       <FlatButton
         label="Si"
         primary={true}
         keyboardFocused={true}
-        onClick={this.handleClose}
+        onClick={this.handleClose.bind(this,true)}
       />,
     ];
     return (
         <div className="col-md-8 col-offset-md-2" >
           <div className="widget">
             <header className="widget-header">
-              <h4 className="widget-title">Alumnos</h4>
+              <h4 className="widget-title">Usuarios</h4>
             </header>
             <hr className="widget-separator"/>
             <div className="widget-body">
@@ -105,7 +105,7 @@ export class UserManagement extends Component {
                       </td>
                       <td>
                         <div className="btn-group flex-btn-group-container">
-                          <Link to={'admin/userManagement/' + user.id}><FlatButton label="Modificar"/></Link>
+                          <Link to={'admin/user/' + user.id}><FlatButton label="Modificar"/></Link>
                           <FlatButton label="Borrar" onClick={this.handleOpen.bind(this,user.login)} />     
                         </div>
                       </td>
@@ -121,10 +121,14 @@ export class UserManagement extends Component {
                 open={this.state.open}
                 onRequestClose={this.handleClose}
               >
-                The actions in this window were passed in as an array of React objects.
+                Estas seguro que queres borrar este usuario?
               </Dialog>
           </div>
-           <div style={{width:'100%'}}><FlatButton label="Guardar" style={{float:'right'}} primary={true} onClick={this.onSubmit}/></div>
+           <div style={{width:'100%'}}>
+              <Link to={'admin/user/'}>
+                <FlatButton label="Agregar" style={{float:'right'}} primary={true}/>
+              </Link>
+            </div>
         </div>  
     );
   }

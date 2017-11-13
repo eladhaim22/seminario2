@@ -4,6 +4,7 @@ import com.uade.seminario2.domain.Course;
 import com.uade.seminario2.domain.Message;
 import com.uade.seminario2.domain.User;
 import com.uade.seminario2.repository.Impl.CourseRepositoryImpl;
+import com.uade.seminario2.repository.UserRepository;
 import com.uade.seminario2.service.dto.CourseDTO;
 import com.uade.seminario2.service.mapper.IEntityMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,13 +19,13 @@ public class CourseMapper implements IEntityMapper<Course,CourseDTO>{
     private CourseRepositoryImpl coursesRepository;
 
     @Autowired
-    private UserMapper userMapper;
+    private UserRepository userRepository;
 
     public CourseDTO ToDTO(Course entity) {
         return new CourseDTO(){{
             setId(entity.getId());
             setName(entity.getName());
-            setUsers(userMapper.usersToUserDTOs(entity.getUsers()));
+            setUsers(entity.getUsers().stream().map(user -> user.getId()).collect(Collectors.toList()));
         }};
     }
 
@@ -38,7 +39,8 @@ public class CourseMapper implements IEntityMapper<Course,CourseDTO>{
         }
         course.setName(model.getName());
         course.getUsers().clear();
-        course.getUsers().addAll(userMapper.userDTOsToUsers(model.getUsers()));
+        course.getUsers().addAll(model.getUsers().stream().map(userId -> userRepository.findOne(userId))
+        .collect(Collectors.toList()));
         return course;
     }
 }

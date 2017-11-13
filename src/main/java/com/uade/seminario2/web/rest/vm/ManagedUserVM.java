@@ -1,9 +1,11 @@
 package com.uade.seminario2.web.rest.vm;
 
+import com.uade.seminario2.service.dto.CourseDTO;
 import com.uade.seminario2.service.dto.UserDTO;
 import javax.validation.constraints.Size;
 
 import java.time.Instant;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -22,16 +24,16 @@ public class ManagedUserVM extends UserDTO {
         // Empty constructor needed for Jackson.
     }
 
-    /*public ManagedUserVM(Long id, String login, String password, String firstName, String lastName,
+    public ManagedUserVM(Long id, String login, String password, String firstName, String lastName,
                          String email, boolean activated, String imageUrl, String langKey,
                          String createdBy, Instant createdDate, String lastModifiedBy, Instant lastModifiedDate,
-                        Set<String> authorities) {
+                        Set<String> authorities,List<CourseDTO> courses) {
 
         super(id, login, firstName, lastName, email, activated, imageUrl, langKey,
-            createdBy, createdDate, lastModifiedBy, lastModifiedDate,  authorities);
+            createdBy, createdDate, lastModifiedBy, lastModifiedDate,  authorities,courses);
 
         this.password = password;
-    }*/
+    }
 
     public String getPassword() {
         return password;

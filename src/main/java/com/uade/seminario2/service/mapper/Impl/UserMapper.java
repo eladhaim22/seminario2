@@ -23,7 +23,7 @@ public class UserMapper {
     private CourseMapper courseMapper;
 
     public UserDTO userToUserDTO(User user) {
-        UserDTO userDTO = new UserDTO(){{
+        return new UserDTO(){{
             setId(user.getId());
             setLogin(user.getLogin());
             setFirstName(user.getFirstName());
@@ -36,18 +36,16 @@ public class UserMapper {
             setCreatedDate(user.getCreatedDate());
             setLastModifiedBy(user.getLastModifiedBy());
             setLastModifiedDate(user.getLastModifiedDate());
-
+            setAuthorities(user.getAuthorities().stream().map(Authority::getName)
+                .collect(Collectors.toSet()));
+            setCourses(user.getCourses().stream().map(course -> courseMapper.ToDTO(course)).collect(Collectors.toList()));
         }};
-        userDTO.setCourses(user.getCourses().stream().map(course -> courseMapper.ToDTO(course)).collect(Collectors.toList()));
-        userDTO.setAuthorities(user.getAuthorities().stream().map(Authority::getName)
-            .collect(Collectors.toSet()));
-        return userDTO;
     }
 
     public List<UserDTO> usersToUserDTOs(List<User> users) {
         return users.stream()
             .filter(Objects::nonNull)
-            .map(this::userToUserDTO)
+            .map(user -> this.userToUserDTO(user))
             .collect(Collectors.toList());
     }
 

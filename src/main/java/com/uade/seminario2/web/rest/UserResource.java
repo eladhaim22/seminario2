@@ -184,6 +184,12 @@ public class UserResource {
                 .map(user -> userMapper.userToUserDTO(user)));
     }
 
+    @GetMapping("/users/getById/{id}")
+    @Timed
+    public ResponseEntity<UserDTO> getUserById(@PathVariable String id) {
+        return new ResponseEntity<UserDTO>(userService.getUserById(Long.parseLong(id)),HttpStatus.OK);
+    }
+
     /**
      * DELETE /users/:login : delete the "login" User.
      *

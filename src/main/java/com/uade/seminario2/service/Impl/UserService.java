@@ -1,12 +1,15 @@
 package com.uade.seminario2.service.Impl;
 
 import com.uade.seminario2.domain.Authority;
+import com.uade.seminario2.domain.Course;
 import com.uade.seminario2.domain.User;
 import com.uade.seminario2.repository.AuthorityRepository;
 import com.uade.seminario2.config.Constants;
 import com.uade.seminario2.repository.UserRepository;
 import com.uade.seminario2.security.AuthoritiesConstants;
 import com.uade.seminario2.security.SecurityUtils;
+import com.uade.seminario2.service.dto.CourseDTO;
+import com.uade.seminario2.service.mapper.Impl.CourseMapper;
 import com.uade.seminario2.service.mapper.Impl.UserMapper;
 import com.uade.seminario2.service.util.RandomUtil;
 import com.uade.seminario2.service.dto.UserDTO;
@@ -40,6 +43,9 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
 
     private final AuthorityRepository authorityRepository;
+
+    @Autowired
+    private CourseMapper courseMapper;
 
     @Autowired
     private UserMapper userMapper;
@@ -86,7 +92,7 @@ public class UserService {
     }
 
     public User createUser(String login, String password, String firstName, String lastName, String email,
-        String imageUrl, String langKey) {
+        String imageUrl, String langKey,boolean activeted,List<CourseDTO> courses) {
 
         User newUser = new User();
         Authority authority = authorityRepository.findOne(AuthoritiesConstants.USER);
@@ -101,9 +107,11 @@ public class UserService {
         newUser.setImageUrl(imageUrl);
         newUser.setLangKey(langKey);
         // new user is not active
-        newUser.setActivated(false);
+        newUser.setActivated(activeted);
+        newUser.setCourses(courses.stream().map(courseDTO -> courseMapper.ToModel(courseDTO))
+            .collect(Collectors.toSet()));
         // new user gets registration key
-        newUser.setActivationKey(RandomUtil.generateActivationKey());
+        //newUser.setActivationKey(RandomUtil.generateActivationKey());
         authorities.add(authority);
         newUser.setAuthorities(authorities);
         userRepository.save(newUser);
@@ -182,6 +190,11 @@ public class UserService {
                 userDTO.getAuthorities().stream()
                     .map(authorityRepository::findOne)
                     .forEach(managedAuthorities::add);
+                Set<Course> courses = user.getCourses();
+                courses.clear();
+                courses = userDTO.getCourses().stream().
+                    map(courseDTO -> courseMapper.ToModel(courseDTO)).collect(Collectors.toSet());
+                user.setCourses(courses);
                 log.debug("Changed Information for User: {}", user);
                 return user;
             })
@@ -243,5 +256,9 @@ public class UserService {
      */
     public List<String> getAuthorities() {
         return authorityRepository.findAll().stream().map(Authority::getName).collect(Collectors.toList());
+    }
+
+    public UserDTO getUserById(Long id){
+        return userMapper.userToUserDTO(userRepository.findOne(id));
     }
 }

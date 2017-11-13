@@ -145,6 +145,9 @@
             <column name="message" type="varchar(50)">
                 <constraints nullable="false"/>
             </column>
+            <column name="type" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
 
         <createTable tableName="message_details">
@@ -163,25 +166,15 @@
             <column name="message_id" type="bigint">
                 <constraints nullable="true"/>
             </column>
+            <column name="isNew" type="bit"/>
         </createTable>
 
-        <createTable tableName="students">
-            <column name="id" type="bigint" autoIncrement="${autoIncrement}">
-                <constraints primaryKey="true" nullable="false"/>
-            </column>
-            <column name="birthDate" type="datetime">
-                <constraints nullable="false"/>
-            </column>
-            <column name="user_id" type="bigint">
-                <constraints nullable="false"/>
-            </column>
-        </createTable>
 
         <createTable tableName="course_detail">
             <column name="id" type="bigint" autoIncrement="${autoIncrement}">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="student_id" type="bigint">
+            <column name="user_id" type="bigint">
                 <constraints nullable="false"/>
             </column>
             <column name="course_id" type="bigint">
@@ -194,11 +187,11 @@
 
 
 
-        <addForeignKeyConstraint baseColumnNames="student_id"
+        <addForeignKeyConstraint baseColumnNames="user_id"
                                  baseTableName="course_detail"
-                                 constraintName="fk_course_detail_students"
+                                 constraintName="fk_course_detail_users"
                                  referencedColumnNames="id"
-                                 referencedTableName="students"/>
+                                 referencedTableName="jhi_user"/>
 
         <addForeignKeyConstraint baseColumnNames="course_id"
                                  baseTableName="course_detail"
@@ -206,11 +199,6 @@
                                  referencedColumnNames="id"
                                  referencedTableName="courses"/>
 
-        <addForeignKeyConstraint baseColumnNames="user_id"
-                                 baseTableName="students"
-                                 constraintName="fk_childs_users"
-                                 referencedColumnNames="id"
-                                 referencedTableName="jhi_user"/>
 
         <createTable tableName="users_courses">
             <column name="id" type="bigint" autoIncrement="${autoIncrement}">
@@ -219,48 +207,11 @@
             <column name="course_id" type="bigint">
                 <constraints nullable="false"/>
             </column>
-            <column name="teacher_id" type="bigint">
-                <constraints nullable="true"/>
-            </column>
-            <column name="student_id" type="bigint">
-                <constraints nullable="true"/>
-            </column>
-        </createTable>
-
-
-        <createTable tableName="teachers">
-            <column name="id" type="bigint" autoIncrement="${autoIncrement}">
-                <constraints primaryKey="true" nullable="false"/>
-            </column>
-            <column name="name" type="varchar(50)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="lastname" type="varchar(50)">
-                <constraints nullable="false"/>
-            </column>
             <column name="user_id" type="bigint">
-                <constraints nullable="false"/>
+                <constraints nullable="true"/>
             </column>
         </createTable>
 
-        <addForeignKeyConstraint baseColumnNames="user_id"
-                                 baseTableName="teachers"
-                                 constraintName="fk_teachers_users"
-                                 referencedColumnNames="id"
-                                 referencedTableName="jhi_user"/>
-
-
-        <addForeignKeyConstraint baseColumnNames="teacher_id"
-                                 baseTableName="users_courses"
-                                 constraintName="fk_users_courses_teachers"
-                                 referencedColumnNames="id"
-                                 referencedTableName="teachers"/>
-
-        <addForeignKeyConstraint baseColumnNames="student_id"
-                                 baseTableName="users_courses"
-                                 constraintName="fk_users_courses_students"
-                                 referencedColumnNames="id"
-                                 referencedTableName="students"/>
 
         <loadData encoding="UTF-8"
                   file="config/liquibase/users.csv"
@@ -281,11 +232,6 @@
                   file="config/liquibase/users_authorities.csv"
                   separator=";"
                   tableName="jhi_user_authority"/>
-        <loadData encoding="UTF-8"
-                  file="config/liquibase/teachers.csv"
-                  separator=";"
-                  tableName="teachers">
-        </loadData>
 
         <loadData encoding="UTF-8"
                   file="config/liquibase/courses.csv"
@@ -293,11 +239,6 @@
                   tableName="courses">
         </loadData>
 
-        <loadData encoding="UTF-8"
-                  file="config/liquibase/student.csv"
-                  separator=";"
-                  tableName="students">
-        </loadData>
 
         <loadData encoding="UTF-8"
                   file="config/liquibase/users_courses.csv"
@@ -311,6 +252,17 @@
                   file="config/liquibase/course_detail.csv"
                   separator=";"
                   tableName="course_detail">
+        </loadData>
+        <loadData encoding="UTF-8"
+                  file="config/liquibase/messages.csv"
+                  separator=";"
+                  tableName="messages">
+        </loadData>
+        <loadData encoding="UTF-8"
+                  file="config/liquibase/messageDetail.csv"
+                  separator=";"
+                  tableName="message_details">
+            <column name="isNew" type="boolean"/>
         </loadData>
 
 

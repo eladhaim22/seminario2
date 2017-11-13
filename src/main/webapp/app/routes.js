@@ -164,26 +164,66 @@ export default (onLogout) => {
         }}
       />
       <Route
-        path="/course-detail/(:id)"
+        path="/admin/courses"
         getComponent={(nextState, cb) => {
           require.ensure([], (require) => {
-            cb(null, PrivateRoute(require('./modules/course-detail/index').default));
+            cb(null, PrivateRoute(require('./modules/administration/course/index').default));
           });
         }}
       />
       <Route
-        path="/course/(:id)"
+        path="/admin/course(/:id)"
         getComponent={(nextState, cb) => {
           require.ensure([], (require) => {
-            cb(null, PrivateRoute(require('./modules/course/index').default));
+            cb(null, PrivateRoute(require('./modules/administration/course/form').default));
           });
         }}
       />
       <Route
-        path="/course/(:id)/notes"
+        path="/admin/user(/:id)"
         getComponent={(nextState, cb) => {
           require.ensure([], (require) => {
-            cb(null, PrivateRoute(require('./modules/notes/load').default));
+            cb(null, PrivateRoute(require('./modules/administration/user-management/form').default));
+          });
+        }}
+      />
+      <Route
+        path="/teacher/dashboard"
+        getComponent={(nextState, cb) => {
+          require.ensure([], (require) => {
+            cb(null, PrivateRoute(require('./modules/teacher/dashboard/index').default));
+          });
+        }}
+      />
+      <Route
+        path="/teacher/course/(:id)"
+        getComponent={(nextState, cb) => {
+          require.ensure([], (require) => {
+            cb(null, PrivateRoute(require('./modules/teacher/course/index').default));
+          });
+        }}
+      />
+      <Route
+        path="/teacher/course/(:id)/notes"
+        getComponent={(nextState, cb) => {
+          require.ensure([], (require) => {
+            cb(null, PrivateRoute(require('./modules/teacher/notes/load').default));
+          });
+        }}
+      />
+      <Route
+        path="/teacher/course/(:id)/messages"
+        getComponent={(nextState, cb) => {
+          require.ensure([], (require) => {
+            cb(null, PrivateRoute(require('./modules/teacher/messages/index').default));
+          });
+        }}
+      />
+      <Route
+        path="/user/course/(:id)"
+        getComponent={(nextState, cb) => {
+          require.ensure([], (require) => {
+            cb(null, PrivateRoute(require('./modules/user/course/index').default));
           });
         }}
       />

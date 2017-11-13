@@ -36,4 +36,20 @@ public class MessageDetailService extends GenericService<MessageDetail,MessageDe
         return messageDetails.stream().map(md -> ((MessageDetailMapper)this.entityMapper).ToDTO(md))
             .collect(Collectors.toList());
     }
+
+    public List<MessageDetailDTO> getMessageByTargerUser() {
+        List<MessageDetail> messageDetails = ((MessageDetailRepositoryImpl) this.repository)
+            .findAllByTargetUser_Login(SecurityUtils.getCurrentUserLogin());
+
+        return messageDetails.stream().map(md -> ((MessageDetailMapper)this.entityMapper).ToDTO(md))
+            .collect(Collectors.toList());
+    }
+
+    public List<MessageDetailDTO> getMessageByOwnerUser(){
+        List<MessageDetail> messageDetails = ((MessageDetailRepositoryImpl) this.repository)
+            .findAllByOwner_Login(SecurityUtils.getCurrentUserLogin());
+
+        return messageDetails.stream().map(md -> ((MessageDetailMapper)this.entityMapper).ToDTO(md))
+            .collect(Collectors.toList());
+    }
 }

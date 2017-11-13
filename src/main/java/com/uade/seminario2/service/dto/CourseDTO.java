@@ -6,7 +6,7 @@ import java.util.List;
 public class CourseDTO extends EntityDTO{
     private String name;
 
-    private List<UserDTO> users;
+    private List<Long> usersIds = new ArrayList<>();
 
     public String getName() {
         return name;
@@ -16,11 +16,11 @@ public class CourseDTO extends EntityDTO{
         this.name = name;
     }
 
-    public List<UserDTO> getUsers() {
-        return users;
+    public List<Long> getUsers() {
+        return usersIds;
     }
 
-    public void setUsers(List<UserDTO> courses) {
-        this.users = courses;
+    public void setUsers(List<Long> courses) {
+        this.usersIds = courses;
     }
 }

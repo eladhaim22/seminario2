@@ -4,16 +4,16 @@ import { routerReducer as routing } from 'react-router-redux';
 import locale from './locale';
 import authentication from './authentication';
 import administration from './administration';
-import dashboard from './dashboard';
 import courseDetail from './courseDetail';
 import course from './course';
+import messages from './messages';
 
 export default combineReducers({
   authentication,
   locale,
   routing,
   administration,
-  dashboard,
   courseDetail,
-  course
+  course,
+  messages
 });

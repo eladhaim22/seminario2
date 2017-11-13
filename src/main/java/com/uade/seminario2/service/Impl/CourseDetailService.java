@@ -23,7 +23,7 @@ public class CourseDetailService extends GenericService<CourseDetail,CourseDetai
     }
 
     public CourseDetailDTO getByCourseIdAndUserLogin(Long courseId,String login){
-        CourseDetail courseDetail = ((CourseDetailRepositoryImpl)this.repository).findOneByCourse_IdAndStudent_User_Login(courseId,login);
+        CourseDetail courseDetail = ((CourseDetailRepositoryImpl)this.repository).findOneByCourse_IdAndStudent_Login(courseId,login);
         return ((CourseDetailMapper)entityMapper).ToDTO(courseDetail);
     }
 

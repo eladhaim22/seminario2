@@ -120,6 +120,27 @@ public class UserDTO {
 
     public UserDTO(){}
 
+    public UserDTO(Long id, String login, String firstName, String lastName,
+                   String email, boolean activated, String imageUrl, String langKey,
+                   String createdBy, Instant createdDate, String lastModifiedBy, Instant lastModifiedDate,
+                   Set<String> authorities,List<CourseDTO> courses) {
+
+        this.id = id;
+        this.login = login;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.activated = activated;
+        this.imageUrl = imageUrl;
+        this.langKey = langKey;
+        this.createdBy = createdBy;
+        this.createdDate = createdDate;
+        this.lastModifiedBy = lastModifiedBy;
+        this.lastModifiedDate = lastModifiedDate;
+        this.authorities = authorities;
+        this.courses = courses;
+    }
+
     public Set<String> getAuthorities() {
         return authorities;
     }

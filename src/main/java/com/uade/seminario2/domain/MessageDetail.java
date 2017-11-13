@@ -25,6 +25,9 @@ public class MessageDetail extends EntityImpl {
     @JoinColumn(name="message_id",referencedColumnName = "id")
     private Message message;
 
+    @Column(name = "isnew")
+    private boolean isNew;
+
     public User getOwner() {
         return owner;
     }
@@ -55,5 +58,13 @@ public class MessageDetail extends EntityImpl {
 
     public void setMessage(Message message) {
         this.message = message;
+    }
+
+    public boolean isNew() {
+        return isNew;
+    }
+
+    public void setNew(boolean aNew) {
+        isNew = aNew;
     }
 }

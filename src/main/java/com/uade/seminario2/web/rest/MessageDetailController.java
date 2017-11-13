@@ -17,6 +17,19 @@ public class MessageDetailController extends GenericController<MessageDetailDTO>
         super(entityService);
     }
 
+    @GetMapping("/inbox/")
+    public  ResponseEntity<List<MessageDetailDTO>> getInbox(){
+        return new ResponseEntity<List<MessageDetailDTO>>
+            (((MessageDetailService)this.entityService).getMessageByTargerUser(),HttpStatus.OK);
+    }
+
+
+    @GetMapping("/shipped/")
+    public ResponseEntity<List<MessageDetailDTO>> getShipped(){
+        return new ResponseEntity<List<MessageDetailDTO>>
+            (((MessageDetailService)entityService).getMessageByOwnerUser(), HttpStatus.OK);
+    }
+
     @GetMapping("/inbox/{courseId}")
     public  ResponseEntity<List<MessageDetailDTO>> getInboxByCourseId(@PathVariable Long  courseId){
         return new ResponseEntity<List<MessageDetailDTO>>

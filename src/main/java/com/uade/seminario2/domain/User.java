@@ -5,7 +5,10 @@ import com.uade.seminario2.config.Constants;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.annotations.BatchSize;
+import org.hibernate.annotations.Fetch;
 import org.hibernate.validator.constraints.Email;
+import org.springframework.context.annotation.Lazy;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -80,11 +83,11 @@ public class User extends AbstractAuditingEntity {
     @BatchSize(size = 20)
     private Set<Authority> authorities = new HashSet<>();
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "users_courses",
-        joinColumns = {@JoinColumn(name = "student_id", referencedColumnName = "id")},
+        joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
         inverseJoinColumns = {@JoinColumn(name = "course_id", referencedColumnName = "id")})
-    private List<Course> courses =new ArrayList<>();
+    private Set<Course> courses = new HashSet<>();
 
     public String getLogin() {
         return login;
@@ -182,11 +185,11 @@ public class User extends AbstractAuditingEntity {
         this.authorities = authorities;
     }
 
-    public List<Course> getCourses() {
+    public Set<Course> getCourses() {
         return courses;
     }
 
-    public void setCourses(List<Course> courses) {
+    public void setCourses(Set<Course> courses) {
         this.courses = courses;
     }
 

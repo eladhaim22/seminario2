@@ -11,7 +11,7 @@ import Header from './shared/components/header/header';
 import Footer from './shared/components/footer/footer';
 import PrivateRoute from './shared/components/private-route/private-route';
 
-
+import 'react-select/dist/react-select.css';
 import './assests/sass/core.scss';
 import './assests/sass/app.scss';
 import './assests/sass/bootstrap.scss';

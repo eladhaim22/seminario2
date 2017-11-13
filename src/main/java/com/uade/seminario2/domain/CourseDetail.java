@@ -9,7 +9,7 @@ import java.util.List;
 public class CourseDetail extends EntityImpl{
 
     @ManyToOne
-    @JoinColumn(name ="student_id")
+    @JoinColumn(name ="user_id")
     private User student;
 
     @ManyToOne
