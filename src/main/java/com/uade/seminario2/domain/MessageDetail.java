@@ -1,6 +1,8 @@
 package com.uade.seminario2.domain;
 
 
+import org.hibernate.engine.internal.Cascade;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.List;
@@ -21,7 +23,7 @@ public class MessageDetail extends EntityImpl {
     @JoinColumn(name="course_id",referencedColumnName = "id")
     private Course course;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="message_id",referencedColumnName = "id")
     private Message message;
 
@@ -45,11 +47,11 @@ public class MessageDetail extends EntityImpl {
     }
 
     public void setOwner(User owner) {
-        owner = owner;
+        this.owner = owner;
     }
 
     public void setTargetUser(User targetUser) {
-        targetUser = targetUser;
+        this.targetUser = targetUser;
     }
 
     public void setCourse(Course course) {

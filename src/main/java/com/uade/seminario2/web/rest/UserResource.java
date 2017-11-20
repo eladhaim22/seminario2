@@ -159,6 +159,14 @@ public class UserResource {
         return new ResponseEntity<List<UserDTO>>(users, HttpStatus.OK);
     }
 
+    @GetMapping("/users/byCourse/{courseId}")
+    @Timed
+    public ResponseEntity<List<UserDTO>> getAllUsersByCourse(@PathVariable String courseId) {
+        final List<UserDTO> users = userService.getAllUsersByCourse(Long.parseLong(courseId));
+        return new ResponseEntity<List<UserDTO>>(users, HttpStatus.OK);
+    }
+
+
     /**
      * @return a string list of the all of the roles
      */

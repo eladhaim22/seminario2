@@ -22,9 +22,12 @@ public class MessageMapper implements IEntityMapper<Message,MessageDTO> {
     }
 
     public Message ToModel(MessageDTO messageDTO){
-        Message message = messageRepository.findOne(messageDTO.getId());
+        Message message = null;
         if(message == null){
             message = new Message();
+        }
+        else{
+            message = messageRepository.findOne(messageDTO.getId());
         }
 
         message.setMessage(messageDTO.getMessage());

@@ -7,6 +7,7 @@ import administration from './administration';
 import courseDetail from './courseDetail';
 import course from './course';
 import messages from './messages';
+import events from './events';
 
 export default combineReducers({
   authentication,
@@ -15,5 +16,6 @@ export default combineReducers({
   administration,
   courseDetail,
   course,
-  messages
+  messages,
+  events
 });

@@ -5,6 +5,7 @@ import com.uade.seminario2.domain.Course;
 import com.uade.seminario2.domain.User;
 import com.uade.seminario2.repository.AuthorityRepository;
 import com.uade.seminario2.config.Constants;
+import com.uade.seminario2.repository.Impl.CourseRepositoryImpl;
 import com.uade.seminario2.repository.UserRepository;
 import com.uade.seminario2.security.AuthoritiesConstants;
 import com.uade.seminario2.security.SecurityUtils;
@@ -43,6 +44,9 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
 
     private final AuthorityRepository authorityRepository;
+
+    @Autowired
+    private CourseRepositoryImpl courseRepository;
 
     @Autowired
     private CourseMapper courseMapper;
@@ -92,7 +96,7 @@ public class UserService {
     }
 
     public User createUser(String login, String password, String firstName, String lastName, String email,
-        String imageUrl, String langKey,boolean activeted,List<CourseDTO> courses) {
+        String imageUrl, String langKey,boolean activeted,List<CourseDTO> courses,String grade) {
 
         User newUser = new User();
         Authority authority = authorityRepository.findOne(AuthoritiesConstants.USER);
@@ -114,6 +118,7 @@ public class UserService {
         //newUser.setActivationKey(RandomUtil.generateActivationKey());
         authorities.add(authority);
         newUser.setAuthorities(authorities);
+        newUser.setGrade(grade);
         userRepository.save(newUser);
         log.debug("Created Information for User: {}", newUser);
         return newUser;
@@ -143,6 +148,7 @@ public class UserService {
         user.setResetKey(RandomUtil.generateResetKey());
         user.setResetDate(Instant.now());
         user.setActivated(true);
+        user.setGrade(userDTO.getGrade());
         userRepository.save(user);
         log.debug("Created Information for User: {}", user);
         return user;
@@ -195,6 +201,7 @@ public class UserService {
                 courses = userDTO.getCourses().stream().
                     map(courseDTO -> courseMapper.ToModel(courseDTO)).collect(Collectors.toSet());
                 user.setCourses(courses);
+                user.setGrade(userDTO.getGrade());
                 log.debug("Changed Information for User: {}", user);
                 return user;
             })
@@ -260,5 +267,21 @@ public class UserService {
 
     public UserDTO getUserById(Long id){
         return userMapper.userToUserDTO(userRepository.findOne(id));
+    }
+
+    @Transactional(readOnly = true)
+    public List<UserDTO> getAllUsersByCourse(Long courseId){
+        Course course = courseRepository.getOne(courseId);
+        List<User> users =  userRepository.findAllByCoursesIsContaining(course);
+        List<UserDTO> userDTOS = new ArrayList<>();
+        for(User user : users){
+           userDTOS.add(userMapper.userToUserDTO(user));
+        }
+        return userDTOS;
+    }
+
+    public List<UserDTO> getAllByGrade(String grade){
+        return userRepository.findAllByGrade(grade).stream().map(user -> userMapper.userToUserDTO(user))
+            .collect(Collectors.toList());
     }
 }

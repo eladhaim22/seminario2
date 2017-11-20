@@ -48,6 +48,27 @@ export class TeacherDashboard extends Component {
     });
   }
 
+  getColor = () => {
+    if(this.props.inbox.filter(m => 
+    {
+      if(m.message.type == 'high'){
+        return m;
+      }
+    }).length > 0) {
+      return 'danger';
+    }
+    else if(this.props.inbox.filter(m => {
+      if(m.message.type == 'medium'){
+        return m;
+      }
+    }).length > 0) {
+      return 'warning';
+    }
+    else {
+      return 'primary';
+    }
+  }
+
   render() {
     const { currentUser } = this.state;
     const titleStyle = {textTransform: 'capitalize',top: '10px',position: 'absolute',margin: 'auto',left:'0px',right:'0px',textAlign: 'center'};
@@ -67,8 +88,8 @@ export class TeacherDashboard extends Component {
                     </div>
                     <span className="pull-right big-icon watermark"><i className="fa fa-file-text-o"></i></span>
                   </div>
-                  <footer className="widget-footer bg-primary">
-                    <small>{`${this.props.inbox.filter(message => message.course.id == course.id).length} Mensajes`}</small>
+                    <footer className={`widget-footer bg-${this.getColor()}`}>
+                    <small class="text-color">{`${this.props.inbox.filter(message => message.course.id == course.id).length} Mensajes`}</small>
                     <span className="small-chart pull-right" data-plugin="sparkline" data-options="[4,3,5,2,1], { type: 'bar', barColor: '#ffffff', barWidth: 5, barSpacing: 2 }"><canvas width="33" height="16" style={{display: 'inline-block', width: '33px', height: '16px', verticalAlign: 'top'}}></canvas></span>
                   </footer>
                 </div>

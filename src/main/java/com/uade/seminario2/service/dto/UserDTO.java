@@ -58,6 +58,10 @@ public class UserDTO {
 
     private List<CourseDTO> courses = new ArrayList<>();
 
+    private List<AssitenceDTO> assitenceDTOS = new ArrayList<>();
+
+    private String grade;
+
     public Long getId() {
         return id;
     }
@@ -118,12 +122,21 @@ public class UserDTO {
         this.lastModifiedDate = lastModifiedDate;
     }
 
+    public String getGrade() {
+        return grade;
+    }
+
+    public void setGrade(String grade) {
+        this.grade = grade;
+    }
+
     public UserDTO(){}
 
     public UserDTO(Long id, String login, String firstName, String lastName,
                    String email, boolean activated, String imageUrl, String langKey,
                    String createdBy, Instant createdDate, String lastModifiedBy, Instant lastModifiedDate,
-                   Set<String> authorities,List<CourseDTO> courses) {
+                   Set<String> authorities,List<CourseDTO> courses,List<AssitenceDTO> assitence,
+                   String grade) {
 
         this.id = id;
         this.login = login;
@@ -139,6 +152,8 @@ public class UserDTO {
         this.lastModifiedDate = lastModifiedDate;
         this.authorities = authorities;
         this.courses = courses;
+        this.assitenceDTOS = assitence;
+        this.grade = grade;
     }
 
     public Set<String> getAuthorities() {
@@ -147,6 +162,10 @@ public class UserDTO {
 
     public List<CourseDTO> getCourses() {
         return courses;
+    }
+
+    public List<AssitenceDTO> getAssitenceDTOS() {
+        return assitenceDTOS;
     }
 
     public void setCourses(List<CourseDTO> courses) {
@@ -191,6 +210,10 @@ public class UserDTO {
 
     public void setAuthorities(Set<String> authorities) {
         this.authorities = authorities;
+    }
+
+    public void setAssitenceDTOS(List<AssitenceDTO> assitenceDTOS) {
+        this.assitenceDTOS = assitenceDTOS;
     }
 
     @Override

@@ -64,9 +64,9 @@ export function getInbox() {
   };
 }
 
-export function getOutbox(id) {
+export function getOutbox() {
   return {
     types: [FETCH_OUTBOX, FETCH_OUTBOX_SUCCESS, FETCH_OUTBOX_FAIL],
-    promise: messages => messages.get('/api/course/outbox/')
+    promise: messages => messages.get('/api/messageDetail/outbox/')
   };
 }

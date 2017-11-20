@@ -75,7 +75,7 @@ export class Header extends Component {
     let menuItemAccountSignOut = null;
     let menuItemAdministration = null;
 
-    if (isAuthenticated) {
+    if (isAuthenticated && this.props.authentication.account.authorities) {
         if(this.props.authentication.account.authorities.includes('ROLE_ADMIN')){
           menuDashboard = (<Link to="admin/dashboard">
             <ListItem key={1.1}
@@ -85,7 +85,7 @@ export class Header extends Component {
           </Link>)
         }
         else if (this.props.authentication.account.authorities.includes('ROLE_PROFESSOR')){
-          menuDashboard = (<Link to="professor/dashboard">
+          menuDashboard = (<Link to="teacher/dashboard">
             <ListItem key={1.1}
               primaryText="Dashboard"
               leftIcon={<ActionList />}
@@ -204,9 +204,16 @@ export class Header extends Component {
           }
           onLeftIconButtonTouchTap={this.toggleSideBar}
           iconElementRight={
-            <DropDownMenu value={currentLocale} onChange={this.handleChange} underlineStyle={{ borderTop: 'none' }} labelStyle={{ color: HEADER_COLOR }}>
-              {locales.map(lang => <MenuItem key={lang} value={lang} primaryText={lang.toUpperCase()} />)}
-            </DropDownMenu>
+            <div>
+              <div>
+                {this.props.authentication.account.firstName ?
+                  this.props.authentication.account.firstName + ' ' + this.props.authentication.account.lastName 
+                  : ' '  }
+              </div>
+              <DropDownMenu value={currentLocale} onChange={this.handleChange} underlineStyle={{ borderTop: 'none' }} labelStyle={{ color: HEADER_COLOR }}>
+                {locales.map(lang => <MenuItem key={lang} value={lang} primaryText={lang.toUpperCase()} />)}
+              </DropDownMenu>
+            </div>  
           }
         />
         <Drawer open={this.state.sidebarOpen} docked={false} onRequestChange={sidebarOpen => this.setState({ sidebarOpen })}>
@@ -214,7 +221,7 @@ export class Header extends Component {
             <Subheader>Application Menu</Subheader>
             <Link to="/"><ListItem primaryText={<Translate content="global.menu.home" />} leftIcon={<ActionHome />} /></Link>
             {menuDashboard}
-            {menuItemAdministration}
+            {/*menuItemAdministration*/}
             <ListItem
               primaryText={<Translate content="global.menu.account.main" />}
               leftIcon={<ActionLock />}

@@ -1,7 +1,9 @@
 package com.uade.seminario2.service.mapper.Impl;
 
+import com.uade.seminario2.domain.Assitence;
 import com.uade.seminario2.domain.Authority;
 import com.uade.seminario2.domain.User;
+import com.uade.seminario2.service.dto.AssitenceDTO;
 import com.uade.seminario2.service.dto.UserDTO;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +41,12 @@ public class UserMapper {
             setAuthorities(user.getAuthorities().stream().map(Authority::getName)
                 .collect(Collectors.toSet()));
             setCourses(user.getCourses().stream().map(course -> courseMapper.ToDTO(course)).collect(Collectors.toList()));
+            setAssitenceDTOS(user.getAssitence().stream().map(a -> new AssitenceDTO(){{
+                setDate(a.getDate());
+                setPresent(a.isPresent());
+                setId(a.getId());
+            }}).collect(Collectors.toList()));
+            setGrade(user.getGrade());
         }};
     }
 
@@ -69,6 +77,13 @@ public class UserMapper {
             if(authorities != null) {
                 user.setAuthorities(authorities);
             }
+            user.getAssitence().clear();
+            user.getAssitence().addAll(userDTO.getAssitenceDTOS().stream().map(a -> new Assitence(){{
+                setDate(a.getDate());
+                setPresent(a.isPresent());
+                setId(a.getId());
+            }}).collect(Collectors.toList()));
+            user.setGrade(userDTO.getGrade());
             return user;
         }
     }

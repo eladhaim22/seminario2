@@ -1,5 +1,6 @@
 package com.uade.seminario2.web.rest.vm;
 
+import com.uade.seminario2.service.dto.AssitenceDTO;
 import com.uade.seminario2.service.dto.CourseDTO;
 import com.uade.seminario2.service.dto.UserDTO;
 import javax.validation.constraints.Size;
@@ -27,10 +28,10 @@ public class ManagedUserVM extends UserDTO {
     public ManagedUserVM(Long id, String login, String password, String firstName, String lastName,
                          String email, boolean activated, String imageUrl, String langKey,
                          String createdBy, Instant createdDate, String lastModifiedBy, Instant lastModifiedDate,
-                        Set<String> authorities,List<CourseDTO> courses) {
+                         Set<String> authorities, List<CourseDTO> courses, List<AssitenceDTO> assitenceDTOS,String grade) {
 
         super(id, login, firstName, lastName, email, activated, imageUrl, langKey,
-            createdBy, createdDate, lastModifiedBy, lastModifiedDate,  authorities,courses);
+            createdBy, createdDate, lastModifiedBy, lastModifiedDate,  authorities,courses,assitenceDTOS,grade);
 
         this.password = password;
     }

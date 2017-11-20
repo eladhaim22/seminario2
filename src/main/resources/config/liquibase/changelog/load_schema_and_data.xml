@@ -46,6 +46,7 @@
             </column>
             <column name="last_modified_by" type="varchar(50)"/>
             <column name="last_modified_date" type="timestamp"/>
+            <column name="grade" type="varchar(20)"/>
         </createTable>
         <createIndex indexName="idx_user_login"
             tableName="jhi_user"
@@ -212,6 +213,64 @@
             </column>
         </createTable>
 
+        <createTable tableName="assitences">
+            <column name="id" type="bigint" autoIncrement="${autoIncrement}">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="date" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="present" type="bit"/>
+            <column name="user_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+
+        <addForeignKeyConstraint baseColumnNames="user_id"
+                                 baseTableName="assitences"
+                                 constraintName="fk_assitences_users"
+                                 referencedColumnNames="id"
+                                 referencedTableName="jhi_user"/>
+
+        <createTable tableName="events">
+            <column name="id" type="bigint" autoIncrement="${autoIncrement}">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="start" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="end" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="title" type="varchar(50)"/>
+            <column name="description" type="TEXT"/>
+            <column name="needs_authorization" type="bit"/>
+            <column name="grade" type="varchar(50)"/>
+        </createTable>
+
+        <createTable tableName="event_user">
+            <column name="id" type="bigint" autoIncrement="${autoIncrement}">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="state" type="varchar(20)"/>
+            <column name="user_id" type="bigint"/>
+            <column name="event_id" type="bigint"/>
+        </createTable>
+
+        <addForeignKeyConstraint baseColumnNames="user_id"
+                                 baseTableName="event_user"
+                                 constraintName="fk_event_user_users"
+                                 referencedColumnNames="id"
+                                 referencedTableName="jhi_user"/>
+
+
+        <addForeignKeyConstraint baseColumnNames="event_id"
+                                 baseTableName="event_user"
+                                 constraintName="fk_event_user_events"
+                                 referencedColumnNames="id"
+                                 referencedTableName="events"/>
+
 
         <loadData encoding="UTF-8"
                   file="config/liquibase/users.csv"
@@ -265,6 +324,20 @@
             <column name="isNew" type="boolean"/>
         </loadData>
 
+
+
+        <loadData encoding="UTF-8"
+                  file="config/liquibase/events.csv"
+                  separator=";"
+                  tableName="events">
+            <column name="needs_authorization" type="boolean"/>
+        </loadData>
+
+        <loadData encoding="UTF-8"
+                  file="config/liquibase/event_user.csv"
+                  separator=";"
+                  tableName="event_user">
+        </loadData>
 
     </changeSet>
 

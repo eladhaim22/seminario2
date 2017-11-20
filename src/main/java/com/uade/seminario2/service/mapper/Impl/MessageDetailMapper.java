@@ -38,9 +38,12 @@ public class MessageDetailMapper implements IEntityMapper<MessageDetail,MessageD
     }
 
     public MessageDetail ToModel(MessageDetailDTO messageDetailDTO){
-        MessageDetail messageDetail = messageDetailRepository.findOne(messageDetailDTO.getId());
+        MessageDetail messageDetail = null;
         if(messageDetail == null){
             messageDetail = new MessageDetail();
+        }
+        else {
+            messageDetail = messageDetailRepository.findOne(messageDetailDTO.getId());
         }
 
         messageDetail.setNew(messageDetail.isNew());

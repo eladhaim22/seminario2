@@ -188,6 +188,22 @@ export default (onLogout) => {
         }}
       />
       <Route
+        path="/admin/events"
+        getComponent={(nextState, cb) => {
+          require.ensure([], (require) => {
+            cb(null, PrivateRoute(require('./modules/administration/events/index').default));
+          });
+        }}
+      />
+      <Route
+        path="/admin/event(/:id)"
+        getComponent={(nextState, cb) => {
+          require.ensure([], (require) => {
+            cb(null, PrivateRoute(require('./modules/administration/events/form').default));
+          });
+        }}
+      />
+      <Route
         path="/teacher/dashboard"
         getComponent={(nextState, cb) => {
           require.ensure([], (require) => {
@@ -215,7 +231,55 @@ export default (onLogout) => {
         path="/teacher/course/(:id)/messages"
         getComponent={(nextState, cb) => {
           require.ensure([], (require) => {
-            cb(null, PrivateRoute(require('./modules/teacher/messages/index').default));
+            cb(null, PrivateRoute(require('./shared/components/messages/index').default));
+          });
+        }}
+      />
+      <Route
+        path="/teacher/course/:courseId/message(/:id)"
+        getComponent={(nextState, cb) => {
+          require.ensure([], (require) => {
+            cb(null, PrivateRoute(require('./shared/components/messages/form').default));
+          });
+        }}
+      />
+      <Route
+        path="/teacher/course/:courseId/assitence"
+        getComponent={(nextState, cb) => {
+          require.ensure([], (require) => {
+            cb(null, PrivateRoute(require('./shared/components/messages/form').default));
+          });
+        }}
+      />
+      <Route
+        path="/user/dashboard"
+        getComponent={(nextState, cb) => {
+          require.ensure([], (require) => {
+            cb(null, PrivateRoute(require('./modules/user/dashboard/index').default));
+          });
+        }}
+      />
+      <Route
+        path="/user/event/:id"
+        getComponent={(nextState, cb) => {
+          require.ensure([], (require) => {
+            cb(null, PrivateRoute(require('./modules/user/event/form').default));
+          });
+        }}
+      />
+      <Route
+        path="/user/course/(:id)/messages"
+        getComponent={(nextState, cb) => {
+          require.ensure([], (require) => {
+            cb(null, PrivateRoute(require('./shared/components/messages/index').default));
+          });
+        }}
+      />
+      <Route
+        path="/user/course/:courseId/message(/:id)"
+        getComponent={(nextState, cb) => {
+          require.ensure([], (require) => {
+            cb(null, PrivateRoute(require('./shared/components/messages/form').default));
           });
         }}
       />

@@ -1,7 +1,14 @@
 package com.uade.seminario2.web.rest;
 
+import com.codahale.metrics.annotation.Timed;
+import com.uade.seminario2.security.SecurityUtils;
+import com.uade.seminario2.service.IGenericService;
 import com.uade.seminario2.service.Impl.MessageDetailService;
+import com.uade.seminario2.service.Impl.UserService;
 import com.uade.seminario2.service.dto.MessageDetailDTO;
+import com.uade.seminario2.service.dto.UserDTO;
+import com.uade.seminario2.service.mapper.Impl.UserMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -17,6 +24,12 @@ public class MessageDetailController extends GenericController<MessageDetailDTO>
         super(entityService);
     }
 
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private UserMapper userMapper;
+
     @GetMapping("/inbox/")
     public  ResponseEntity<List<MessageDetailDTO>> getInbox(){
         return new ResponseEntity<List<MessageDetailDTO>>
@@ -24,7 +37,7 @@ public class MessageDetailController extends GenericController<MessageDetailDTO>
     }
 
 
-    @GetMapping("/shipped/")
+    @GetMapping("/outbox/")
     public ResponseEntity<List<MessageDetailDTO>> getShipped(){
         return new ResponseEntity<List<MessageDetailDTO>>
             (((MessageDetailService)entityService).getMessageByOwnerUser(), HttpStatus.OK);
@@ -36,11 +49,19 @@ public class MessageDetailController extends GenericController<MessageDetailDTO>
             (((MessageDetailService)this.entityService).getMessageByTargerUserAndCourseId(courseId),HttpStatus.OK);
     }
 
-    @GetMapping("/shipped/{courseId}")
+    @GetMapping("/outbox/{courseId}")
     public ResponseEntity<List<MessageDetailDTO>> getShippedByCourseId(@PathVariable Long  courseId){
         return new ResponseEntity<List<MessageDetailDTO>>
             (((MessageDetailService)entityService).getMessageByOwnerUserAndCourseId(courseId), HttpStatus.OK);
     }
 
+    @PostMapping("/create")
+    protected ResponseEntity CreateOverride(@RequestBody MessageDetailDTO entityDTO){
+        UserDTO owner = userMapper.userToUserDTO(
+            userService.getUserWithAuthoritiesByLogin(SecurityUtils.getCurrentUserLogin()).get());
+        entityDTO.setOwner(owner);
+        this.Create(entityDTO);
+        return new ResponseEntity(entityDTO,HttpStatus.OK);
+    }
 }
 

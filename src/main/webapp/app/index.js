@@ -4,6 +4,7 @@ import { Provider } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { hashHistory, Router } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
+import { browserHistory } from 'react-router';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import './assests/sass/core.scss';
 import './assests/sass/app.scss';

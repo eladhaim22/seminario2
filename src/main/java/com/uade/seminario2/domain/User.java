@@ -89,6 +89,12 @@ public class User extends AbstractAuditingEntity {
         inverseJoinColumns = {@JoinColumn(name = "course_id", referencedColumnName = "id")})
     private Set<Course> courses = new HashSet<>();
 
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinColumn(name="user_id")
+    private List<Assitence> assitence = new ArrayList<>();
+
+    private String grade;
+
     public String getLogin() {
         return login;
     }
@@ -191,6 +197,22 @@ public class User extends AbstractAuditingEntity {
 
     public void setCourses(Set<Course> courses) {
         this.courses = courses;
+    }
+
+    public List<Assitence> getAssitence() {
+        return assitence;
+    }
+
+    public void setAssitence(List<Assitence> assitence) {
+        this.assitence = assitence;
+    }
+
+    public String getGrade() {
+        return grade;
+    }
+
+    public void setGrade(String grade) {
+        this.grade = grade;
     }
 
     @Override

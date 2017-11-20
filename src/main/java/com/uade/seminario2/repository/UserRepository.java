@@ -1,5 +1,6 @@
 package com.uade.seminario2.repository;
 
+import com.uade.seminario2.domain.Course;
 import com.uade.seminario2.domain.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -33,4 +34,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findOneWithAuthoritiesByLogin(String login);
 
     List<User> findAllByLoginNot(String login);
+
+    List<User> findAllByCoursesIsContaining(Course course);
+
+    List<User> findAllByGrade(String grade);
 }

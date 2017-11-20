@@ -9,6 +9,7 @@ import Select from 'react-select';
 import Dialog from 'material-ui/Dialog';
 import axios from 'axios';
 
+
 export default class UserManagementForm extends Component {
 
   constructor(props) {
@@ -24,11 +25,13 @@ export default class UserManagementForm extends Component {
         password:undefined,
         activated:true,
         authorities:[],
-        courses:[]
+        courses:[],
+        grade:undefined
       },
       courses:[],
       selectCourses:[],
       selectAuthorities:[],
+      selectGrade:undefined,
       select: { 
         removeSelected: true,
         disabled: false,
@@ -59,8 +62,11 @@ export default class UserManagementForm extends Component {
           data.value = authority;
           return data;
         }); 
+        let selectGrade = {};
+        selectGrade.label = response[2].data.grade;
+        selectGrade.value = response[2].data.grade;
         this.setState({authorities:response[0].data,courses:response[1].data,user:response[2].data,
-          selectCourses:selectCourses,selectAuthorities:selectAuthorities})
+          selectCourses:selectCourses,selectAuthorities:selectAuthorities,selectGrade:selectGrade})
       }
       else {
         this.setState({authorities:response[0].data,courses:response[1].data}) 
@@ -77,11 +83,12 @@ export default class UserManagementForm extends Component {
     this.setState({user:newUser});
   }
 
-  saveCourse = () => {
+  saveUser = () => {
     this.state.user.courses = this.state.selectCourses.map(course => {
       return this.state.courses.find(c => {return c.id == course.value});
     });
     this.state.user.authorities = this.state.selectAuthorities.map(authority => authority.value);
+    this.state.user.grade = this.state.selectGrade.value;
     if(!this.props.params.id){ 
       axios.post('/api/register/',this.state.user)
       .then(response => {
@@ -116,6 +123,15 @@ export default class UserManagementForm extends Component {
     }); 
   }
 
+  getGrades = () => {
+    return [
+      {label:'Primer Grado',value:'Primer Grado'},
+      {label:'Segundo Grado',value:'Segundo Grado'},
+      {label:'Tercer Grado',value:'Tercer Grado'},
+      {label:'Cuarto Grado',value:'Cuarto Grado'},
+      {label:'Quinto Grado',value:'Quinto Grado'}
+    ]
+  }
 
   handleChangeCoursos = (val) => {
     this.setState({selectCourses:val});
@@ -123,6 +139,10 @@ export default class UserManagementForm extends Component {
 
   handleChangeAuthorities = (val) => {
     this.setState({selectAuthorities:val});
+  }
+
+  handleChangeGrade = (val) => {
+    this.setState({selectGrade:val});
   }
   
   render() {
@@ -150,10 +170,29 @@ export default class UserManagementForm extends Component {
                     </div>
                     </div>
                 </div>
-                <div className="form-group">
-                  <label for="">Email</label>
-                  <input type="email" name="email" className="form-control" onChange={this.handleChange} 
-                    value={this.state.user.email} placeholder="Email"/>
+                <div className="row">
+                  <div className="col-md-6">   
+                    <div className="form-group">
+                      <label for="">Email</label>
+                      <input type="email" name="email" className="form-control" onChange={this.handleChange} 
+                        value={this.state.user.email} placeholder="Email"/>
+                    </div>
+                  </div>
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <label>Grado</label>
+                      <Select
+                            closeOnSelect={!stayOpen}
+                            disabled={disabled}
+                            multi={false}
+                            onChange={this.handleChangeGrade}
+                            options={this.getGrades()}
+                            removeSelected={this.state.select.removeSelected}
+                            rtl={this.state.select.rtl}
+                            value={this.state.selectGrade}
+                          /> 
+                    </div>
+                  </div>
                 </div>
                 {!this.props.params ?
                 <div className="form-group">
@@ -211,7 +250,7 @@ export default class UserManagementForm extends Component {
              </div> 
           </div>
           <div style={{width:'100%'}}>
-            <FlatButton label="Guardar" style={{float:'right'}} onClick={this.saveCourse} primary={true}/>
+            <FlatButton label="Guardar" style={{float:'right'}} onClick={this.saveUser} primary={true}/>
           </div>
         </div>  
     );
