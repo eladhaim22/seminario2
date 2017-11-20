@@ -9,10 +9,11 @@ import com.uade.seminario2.service.dto.CourseDTO;
 import com.uade.seminario2.service.mapper.IEntityMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.stream.Collectors;
 
-@Component
+@Service
 public class CourseMapper implements IEntityMapper<Course,CourseDTO>{
 
     @Autowired
@@ -25,7 +26,6 @@ public class CourseMapper implements IEntityMapper<Course,CourseDTO>{
         return new CourseDTO(){{
             setId(entity.getId());
             setName(entity.getName());
-            setUsers(entity.getUsers().stream().map(user -> user.getId()).collect(Collectors.toList()));
         }};
     }
 
@@ -38,9 +38,6 @@ public class CourseMapper implements IEntityMapper<Course,CourseDTO>{
             course = coursesRepository.findOne(model.getId());
         }
         course.setName(model.getName());
-        course.getUsers().clear();
-        course.getUsers().addAll(model.getUsers().stream().map(userId -> userRepository.findOne(userId))
-        .collect(Collectors.toList()));
         return course;
     }
 }

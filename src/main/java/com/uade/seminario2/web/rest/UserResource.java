@@ -159,10 +159,10 @@ public class UserResource {
         return new ResponseEntity<List<UserDTO>>(users, HttpStatus.OK);
     }
 
-    @GetMapping("/users/byCourse/{courseId}")
+    @GetMapping("/users/grade/{gradeId}")
     @Timed
-    public ResponseEntity<List<UserDTO>> getAllUsersByCourse(@PathVariable String courseId) {
-        final List<UserDTO> users = userService.getAllUsersByCourse(Long.parseLong(courseId));
+    public ResponseEntity<List<UserDTO>> getAllUsersByGrade(@PathVariable Long gradeId) {
+        final List<UserDTO> users = userService.getAllUsersByGrade(gradeId);
         return new ResponseEntity<List<UserDTO>>(users, HttpStatus.OK);
     }
 

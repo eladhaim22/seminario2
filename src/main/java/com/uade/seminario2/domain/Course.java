@@ -15,11 +15,9 @@ public class Course extends EntityImpl{
     @Column(name="name")
     private String name;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "users_courses",
-        joinColumns = {@JoinColumn(name = "course_id", referencedColumnName = "id")},
-        inverseJoinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")})
-    private Set<User> users = new HashSet<>();
+    @ManyToOne
+    @JoinColumn(name = "grade_id")
+    private Grade grade;
 
     public String getName() {
         return name;
@@ -29,11 +27,11 @@ public class Course extends EntityImpl{
         this.name = name;
     }
 
-    public Set<User> getUsers() {
-        return users;
+    public Grade getGrade() {
+        return grade;
     }
 
-    public void setUsers(Set<User> users) {
-        this.users = users;
+    public void setGrade(Grade grade) {
+        this.grade = grade;
     }
 }

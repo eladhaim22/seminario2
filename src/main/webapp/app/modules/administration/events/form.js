@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
 import Translate from 'react-translate-component';
 import FlatButton from 'material-ui/FlatButton';
+import {connect} from 'react-redux';
+import { getGrades } from '../../../reducers/grade';
 import Dialog from 'material-ui/Dialog';
 import axios from 'axios';
 import Select from 'react-select';
 import moment from 'moment';
 import DatePicker from 'react-bootstrap-date-picker';
 
-export default class AdminEventForm extends Component {
+export class AdminEventForm extends Component {
 
   constructor(props) {
     super(props);
@@ -24,27 +26,22 @@ export default class AdminEventForm extends Component {
     }
   }
 
+  componentWillMount(){
+    this.props.getGrades();
+  }
+
   componentWillReceiveProps() {
     if(this.props.params.id){
       axios.get('/api/event/' + this.props.params.id).then(response => {
-        let selectGrade = this.getGrades().find(grade => {return grade.value == response.data.grade});
+        let selectGrade = {};
+        selectGrade.label = response.data.grade.name;
+        selectGrade.value = response.data.grade.id;
         response.data.startIso = new Date(response.data.start);
         response.data.endIso = new Date(response.data.end);
         this.setState({event:response.data,selectGrade:selectGrade})
       }
       ).catch();  
     }
-  }
-
-  getGrades = () => {
-    return [
-      {label:'Primer Grado',value:'primer grado'},
-      {label:'Segundo Grado',value:'segundo grado'},
-      {label:'Tercer Grado',value:'tercer grado'},
-      {label:'Cuarto Grado',value:'cuarto grado'},
-      {label:'Quinto Grado',value:'quinto grado'},
-      {label:'Sexto Grado',value:'sexto grado'}
-    ]
   }
 
   handleChangeStart(date) {
@@ -57,6 +54,10 @@ export default class AdminEventForm extends Component {
     let event = Object.assign({},this.state.event);
     event.end = date;
     this.setState({event: event});
+  }
+
+  getGrades = () => {
+    return this.props.grades.map(grade => {return {'label':grade.name,'value':grade.id}});  
   }
 
   handleChange = (event) => {
@@ -74,7 +75,7 @@ export default class AdminEventForm extends Component {
   
 
   saveEvent = () => {
-    this.state.event.grade = this.state.selectGrade;
+    this.state.event.grade = this.props.grades.find(grade => grade.id == this.state.selectGrade.value);
     axios.post('/api/event/saveWithUsers/',this.state.event).then(response =>
       console.log('guardo')
     ).catch();    
@@ -153,3 +154,8 @@ export default class AdminEventForm extends Component {
     );
   }
 }
+
+export default connect(
+  (state => ({ grades: state.grade.grades ,isFetching: state.grade.loading})),
+  { getGrades }
+)(AdminEventForm);

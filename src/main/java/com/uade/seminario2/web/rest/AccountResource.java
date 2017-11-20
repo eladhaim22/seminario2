@@ -80,7 +80,7 @@ public class AccountResource {
                         .createUser(managedUserVM.getLogin(), managedUserVM.getPassword(),
                             managedUserVM.getFirstName(), managedUserVM.getLastName(),
                             managedUserVM.getEmail().toLowerCase(), managedUserVM.getImageUrl(),
-                            managedUserVM.getLangKey(),managedUserVM.isActivated(),managedUserVM.getCourses(),managedUserVM.getGrade());
+                            managedUserVM.getLangKey(),managedUserVM.isActivated(),managedUserVM.getGrade());
 
                     mailService.sendActivationEmail(user);
                     return new ResponseEntity<>(HttpStatus.CREATED);
@@ -123,8 +123,7 @@ public class AccountResource {
     @GetMapping("/account")
     @Timed
     public ResponseEntity<UserDTO> getAccount() {
-        return Optional.ofNullable(userService.getUserWithAuthorities())
-            .map(user -> new ResponseEntity<>(userMapper.userToUserDTO(user), HttpStatus.OK))
+        return Optional.ofNullable(new ResponseEntity<>(userService.getUserWithAuthorities(),HttpStatus.OK))
             .orElse(new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR));
     }
 

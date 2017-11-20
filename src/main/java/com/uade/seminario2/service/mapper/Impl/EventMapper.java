@@ -10,17 +10,18 @@ import com.uade.seminario2.service.dto.EventDTO;
 import com.uade.seminario2.service.mapper.IEntityMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.stream.Collectors;
 
-@Component
+@Service
 public class EventMapper implements IEntityMapper<Event,EventDTO>{
 
     @Autowired
     private EventRepositoryImpl eventRepository;
 
     @Autowired
-    private UserRepository userRepository;
+    private GradeMapper gradeMapper;
 
     public EventDTO ToDTO(Event entity) {
         return new EventDTO(){{
@@ -30,7 +31,7 @@ public class EventMapper implements IEntityMapper<Event,EventDTO>{
             setNeedsAuthorization(entity.getNeedsAuthorization());
             setStart(entity.getStart());
             setTitle(entity.getTitle());
-            setGrade(entity.getGrade());
+            setGrade(gradeMapper.ToDTO(entity.getGrade()));
         }};
     }
 
@@ -46,7 +47,7 @@ public class EventMapper implements IEntityMapper<Event,EventDTO>{
         event.setNeedsAuthorization(model.getNeedsAuthorization());
         event.setStart(model.getStart());
         event.setTitle(model.getTitle());
-        event.setGrade(model.getGrade());
+        event.setGrade(gradeMapper.ToModel(model.getGrade()));
         return event;
     }
 }

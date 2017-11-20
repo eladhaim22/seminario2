@@ -35,7 +35,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     List<User> findAllByLoginNot(String login);
 
-    List<User> findAllByCoursesIsContaining(Course course);
+    List<User> findAllByGrade_Id(Long gradeId);
 
-    List<User> findAllByGrade(String grade);
+    List<User> findAllByIdIn(List<Long> ids);
 }

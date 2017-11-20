@@ -8,7 +8,7 @@ public class EventDTO extends EntityDTO {
     private String title;
     private String description;
     private boolean needsAuthorization;
-    private String grade;
+    private GradeDTO grade;
 
     public Date getStart() {
         return start;
@@ -50,11 +50,11 @@ public class EventDTO extends EntityDTO {
         this.description = description;
     }
 
-    public String getGrade() {
+    public GradeDTO getGrade() {
         return grade;
     }
 
-    public void setGrade(String grade) {
+    public void setGrade(GradeDTO grade) {
         this.grade = grade;
     }
 }

@@ -7,12 +7,13 @@ import com.uade.seminario2.service.mapper.IEntityMapper;
 import com.uade.seminario2.service.IGenericQueryService;
 import com.uade.seminario2.service.IGenericService;
 import com.uade.seminario2.service.dto.EntityDTO;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-
+@Transactional
 public class GenericService<TEntity extends EntityImpl,TDTO extends EntityDTO> implements
     IGenericQueryService<TEntity,TDTO>,IGenericService<TEntity,TDTO> {
 

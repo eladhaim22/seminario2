@@ -28,12 +28,18 @@ public class EventController extends GenericController<EventDTO> {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/byUser/")
+    @GetMapping("/detail/")
     public ResponseEntity<List<EventUserDTO>> getEventsByUserId(){
         User user = userService.getUserWithAuthoritiesByLogin(SecurityUtils.getCurrentUserLogin()).get();
         return new ResponseEntity<List<EventUserDTO>>(((EventService)entityService).getEventsByUserId(user.getId()),HttpStatus.OK);
     }
 
+
+    @GetMapping("/eventByGrade/")
+    public ResponseEntity<List<EventDTO>> getEventByGrade(){
+        User user = userService.getUserWithAuthoritiesByLogin(SecurityUtils.getCurrentUserLogin()).get();
+        return new ResponseEntity<List<EventDTO>>(((EventService)entityService).getEventByGrade(user.getGrade().getId()),HttpStatus.OK);
+    }
 
     @GetMapping("/eventUser/{id}")
     public ResponseEntity<EventUserDTO> getEventUserById(@PathVariable Long id){
@@ -41,22 +47,25 @@ public class EventController extends GenericController<EventDTO> {
     }
 
     @PostMapping("/authorize/")
-    public ResponseEntity<EventUserDTO> setAuthorize(@RequestBody EventUserDTO eventUserDTO){
-        return new ResponseEntity<EventUserDTO>(((EventService)entityService).authorize(eventUserDTO),HttpStatus.OK);
+    public ResponseEntity setAuthorize(@RequestBody EventUserDTO eventUserDTO){
+        User user = userService.getUserWithAuthoritiesByLogin(SecurityUtils.getCurrentUserLogin()).get();
+        eventUserDTO.setUser(user.getId());
+        ((EventService)entityService).saveEventUser(eventUserDTO);
+        return new ResponseEntity<EventUserDTO>(HttpStatus.OK);
     }
 
 
     @PostMapping("/saveWithUsers/")
     public ResponseEntity saveWithUsers(@RequestBody  EventDTO eventDTOParam){
         EventDTO eventDTO = ((EventService)entityService).saveEvent(eventDTOParam);
-        List<UserDTO> users = userService.getAllByGrade(eventDTOParam.getGrade());
+        /*List<UserDTO> users = userService.getAllByGrade(eventDTOParam.getGrade().getId());
         for(UserDTO user : users){
             EventUserDTO eventUserDTO = new EventUserDTO();
             eventUserDTO.setEvent(eventDTO);
             eventUserDTO.setUser(user.getId());
             eventUserDTO.setState(eventDTO.getNeedsAuthorization() ? "pending" : "accepted");
             ((EventService)entityService).saveEventUser(eventUserDTO);
-        }
+        }*/
         return new ResponseEntity(HttpStatus.OK);
     }
 }

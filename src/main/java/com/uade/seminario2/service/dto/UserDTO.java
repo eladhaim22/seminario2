@@ -4,6 +4,7 @@ import com.uade.seminario2.config.Constants;
 
 import com.uade.seminario2.domain.Authority;
 import com.uade.seminario2.domain.Course;
+import com.uade.seminario2.domain.Grade;
 import com.uade.seminario2.domain.User;
 
 import org.hibernate.validator.constraints.Email;
@@ -56,11 +57,9 @@ public class UserDTO {
 
     private Set<String> authorities;
 
-    private List<CourseDTO> courses = new ArrayList<>();
-
     private List<AssitenceDTO> assitenceDTOS = new ArrayList<>();
 
-    private String grade;
+    private GradeDTO grade;
 
     public Long getId() {
         return id;
@@ -122,11 +121,11 @@ public class UserDTO {
         this.lastModifiedDate = lastModifiedDate;
     }
 
-    public String getGrade() {
+    public GradeDTO getGrade() {
         return grade;
     }
 
-    public void setGrade(String grade) {
+    public void setGrade(GradeDTO grade) {
         this.grade = grade;
     }
 
@@ -135,8 +134,8 @@ public class UserDTO {
     public UserDTO(Long id, String login, String firstName, String lastName,
                    String email, boolean activated, String imageUrl, String langKey,
                    String createdBy, Instant createdDate, String lastModifiedBy, Instant lastModifiedDate,
-                   Set<String> authorities,List<CourseDTO> courses,List<AssitenceDTO> assitence,
-                   String grade) {
+                   Set<String> authorities,List<AssitenceDTO> assitence,
+                   GradeDTO grade) {
 
         this.id = id;
         this.login = login;
@@ -151,7 +150,6 @@ public class UserDTO {
         this.lastModifiedBy = lastModifiedBy;
         this.lastModifiedDate = lastModifiedDate;
         this.authorities = authorities;
-        this.courses = courses;
         this.assitenceDTOS = assitence;
         this.grade = grade;
     }
@@ -160,16 +158,8 @@ public class UserDTO {
         return authorities;
     }
 
-    public List<CourseDTO> getCourses() {
-        return courses;
-    }
-
     public List<AssitenceDTO> getAssitenceDTOS() {
         return assitenceDTOS;
-    }
-
-    public void setCourses(List<CourseDTO> courses) {
-        this.courses = courses;
     }
 
     public void setFirstName(String firstName) {

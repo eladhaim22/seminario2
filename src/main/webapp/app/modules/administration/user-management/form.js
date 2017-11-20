@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import Translate from 'react-translate-component';
-import { getCourses } from '../../../reducers/course';
 import FlatButton from 'material-ui/FlatButton';
 import { Link } from 'react-router';
 import Select from 'react-select';
@@ -25,11 +24,8 @@ export default class UserManagementForm extends Component {
         password:undefined,
         activated:true,
         authorities:[],
-        courses:[],
         grade:undefined
       },
-      courses:[],
-      selectCourses:[],
       selectAuthorities:[],
       selectGrade:undefined,
       select: { 
@@ -43,19 +39,13 @@ export default class UserManagementForm extends Component {
   }
 
   componentWillReceiveProps() {
-    let promise = [axios.get('/api/users/authorities'),axios.get('/api/course/')];
+    let promise = [axios.get('/api/users/authorities')];
     if(this.props.params.id){
       promise.push(axios.get('/api/users/getById/' + this.props.params.id));
     }
     axios.all(promise)
     .then(response => {
       if(this.props.params.id){
-        let selectCourses = response[2].data.courses.map(course => {
-          let data = {};
-          data.label = course.name;
-          data.value = course.id;
-          return data;
-        });
         let selectAuthorities = response[2].data.authorities.map(authority => {
           let data = {};
           data.label = authority;
@@ -63,10 +53,10 @@ export default class UserManagementForm extends Component {
           return data;
         }); 
         let selectGrade = {};
-        selectGrade.label = response[2].data.grade;
-        selectGrade.value = response[2].data.grade;
-        this.setState({authorities:response[0].data,courses:response[1].data,user:response[2].data,
-          selectCourses:selectCourses,selectAuthorities:selectAuthorities,selectGrade:selectGrade})
+        selectGrade.label = response[1].data.grade.name;
+        selectGrade.value = response[1].data.grade.id;
+        this.setState({authorities:response[0].data,user:response[1].data,
+        selectAuthorities:selectAuthorities,selectGrade:selectGrade})
       }
       else {
         this.setState({authorities:response[0].data,courses:response[1].data}) 
@@ -131,10 +121,6 @@ export default class UserManagementForm extends Component {
       {label:'Cuarto Grado',value:'Cuarto Grado'},
       {label:'Quinto Grado',value:'Quinto Grado'}
     ]
-  }
-
-  handleChangeCoursos = (val) => {
-    this.setState({selectCourses:val});
   }
 
   handleChangeAuthorities = (val) => {
@@ -223,21 +209,6 @@ export default class UserManagementForm extends Component {
                         rtl={this.state.select.rtl}
                         value={this.state.selectAuthorities}
                       /> 
-                </div>
-                <div className="form-group">
-                      <label>Cursos</label>
-                      <div>
-                      <Select
-                        closeOnSelect={!stayOpen}
-                        disabled={disabled}
-                        multi
-                        onChange={this.handleChangeCoursos}
-                        options={this.getCourses()}
-                        removeSelected={this.state.select.removeSelected}
-                        rtl={this.state.select.rtl}
-                        value={this.state.selectCourses}
-                      />
-                      </div>
                 </div>
                 <div className="form-group">
                   <div className="checkbox checkbox-primary">

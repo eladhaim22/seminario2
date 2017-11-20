@@ -6,8 +6,9 @@ import com.uade.seminario2.service.mapper.IEntityMapper;
 import com.uade.seminario2.service.dto.MessageDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-@Component
+@Service
 public class MessageMapper implements IEntityMapper<Message,MessageDTO> {
 
     @Autowired

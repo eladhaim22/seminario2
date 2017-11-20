@@ -11,7 +11,10 @@ public class Event extends EntityImpl{
     private String title;
     private String description;
     private boolean needsAuthorization;
-    private String grade;
+
+    @OneToOne
+    @JoinColumn(name="grade_id")
+    private Grade grade;
 
     public Date getStart() {
         return start;
@@ -53,11 +56,11 @@ public class Event extends EntityImpl{
         this.needsAuthorization = needsAuthorization;
     }
 
-    public String getGrade() {
+    public Grade getGrade() {
         return grade;
     }
 
-    public void setGrade(String grade) {
+    public void setGrade(Grade grade) {
         this.grade = grade;
     }
 }

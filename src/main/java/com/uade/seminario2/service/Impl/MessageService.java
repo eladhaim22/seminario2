@@ -8,8 +8,10 @@ import com.uade.seminario2.service.dto.MessageDTO;
 import com.uade.seminario2.service.mapper.Impl.MessageMapper;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 public class MessageService  extends GenericService<Message,MessageDTO> implements IGenericService<Message,MessageDTO> {
     public MessageService(MessageMapper messageMapper, MessageRepositoryImpl messageRepository) {
         super(messageMapper, messageRepository);

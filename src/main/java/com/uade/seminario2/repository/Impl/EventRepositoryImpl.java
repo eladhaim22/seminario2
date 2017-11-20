@@ -12,5 +12,6 @@ import java.util.List;
  */
 @Repository
 public interface EventRepositoryImpl extends IEntityRepository<Event> {
+    List<Event> findAllByGrade_Id(Long id);
 }
 

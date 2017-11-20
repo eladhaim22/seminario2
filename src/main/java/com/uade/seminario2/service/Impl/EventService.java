@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class EventService extends GenericService<Event,EventDTO> implements IGenericService<Event,EventDTO> {
     public EventService(EventMapper eventMapper, EventRepositoryImpl eventRepository) {
         super(eventMapper, eventRepository);
@@ -39,13 +40,6 @@ public class EventService extends GenericService<Event,EventDTO> implements IGen
     public List<EventUserDTO> getEventsByUserId(Long id){
         return eventUserRepository.findAllByUser_Id(id).stream().map(
             eventUser -> eventUserMapper.ToDTO(eventUser)).collect(Collectors.toList());
-    }
-
-    public EventUserDTO authorize(EventUserDTO eventUserDTO){
-        EventUser eventUserToChange = eventUserRepository.findOne(eventUserDTO.getId());
-        eventUserToChange.setState(eventUserDTO.getState());
-        eventUserRepository.save(eventUserToChange);
-        return eventUserMapper.ToDTO(eventUserToChange);
     }
 
     public EventDTO saveEvent(EventDTO eventDTO){
@@ -64,5 +58,10 @@ public class EventService extends GenericService<Event,EventDTO> implements IGen
         EventUser eventUser = eventUserRepository.getOne(id);
         EventUserDTO eventUserDTO = eventUserMapper.ToDTO(eventUser);
         return eventUserDTO;
+    }
+
+    public List<EventDTO> getEventByGrade(Long gradeId){
+        return ((EventRepositoryImpl)repository).findAllByGrade_Id(gradeId).stream()
+            .map(event -> ((EventMapper)entityMapper).ToDTO(event)).collect(Collectors.toList());
     }
 }

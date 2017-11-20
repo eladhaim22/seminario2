@@ -6,7 +6,7 @@ import Paper from 'material-ui/Paper';
 import { getSession } from '../../../reducers/authentication';
 import { getCourses } from '../../../reducers/course';
 import { getInbox } from '../../../reducers/messages';
-import { getEvents } from '../../../reducers/events';
+import { getEvents ,getAllEventsByGrade } from '../../../reducers/events';
 import _ from 'lodash';
 import {SocialSchool} from 'material-ui/svg-icons';
 import {GridList, GridTile} from 'material-ui/GridList';
@@ -53,7 +53,8 @@ export class UserDashboard extends Component {
     this.props.getInbox();
     this.props.getCourses();
     this.props.getSession();
-    this.props.getEvents(this.state.currentUser.id);
+    this.props.getAllEventsByGrade()
+    this.props.getEvents();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -110,17 +111,22 @@ export class UserDashboard extends Component {
 
   eventStyleGetter = (event, start, end, isSelected) => {
     let color;
-    let eventDetail = this.props.events.find(e => {return event.eventDetailId == e.id} )
-    switch(eventDetail.state){
-      case 'pending':
-        color = '#f9c851';
-        break;
-      case 'accepted':
-        color = '#3174ad';
-        break;
-      case 'rejected':
-        color = '#ff5b5b';
-        break;  
+    let eventDetail = this.props.eventsDetails.find(e => {return event.id == e.event.id})
+    if(eventDetail){
+      switch(eventDetail.state){
+        case 'pending':
+          color = '#f9c851';
+          break;
+        case 'accepted':
+          color = '#3174ad';
+          break;
+        case 'rejected':
+          color = '#ff5b5b';
+          break;  
+      }
+    }
+    else {
+      color = event.needsAuthorization ? '#f9c851' : '#3174ad';
     }
     
     var style = {
@@ -132,7 +138,13 @@ export class UserDashboard extends Component {
   }
 
   onSelectEvent = (id) => {
-    this.props.router.push('/user/event/' + id)
+    let eventDetail = this.props.eventsDetails.find(e => {return id == e.event.id});
+    if(eventDetail){
+      this.props.router.push('/user/event/' + id + '/eventDetail/' + eventDetail.id);
+    }
+    else {
+      this.props.router.push('/user/event/' + id + '/eventDetail');
+    }
   }
 
   render() {
@@ -184,10 +196,10 @@ export class UserDashboard extends Component {
                 views={['month']}
                 selectable
                 eventPropGetter={(this.eventStyleGetter)}
-                events={this.props.events.map(event => {event.event.eventDetailId = event.id; return event.event})}
+                events={this.props.eventsByGrade}
                 scrollToTime={new Date(1970, 1, 1, 6)}
                 defaultDate={new Date()}
-                onSelectEvent={(event) => this.onSelectEvent(event.eventDetailId)}
+                onSelectEvent={(event) => this.onSelectEvent(event.id)}
               />
               </div>
             </div>  
@@ -204,7 +216,8 @@ export default connect(
     isAuthenticated: store.authentication.isAuthenticated,
     courses: store.course.courses,
     inbox: store.messages.inbox,
-    events: store.events.events
+    eventsDetails: store.events.events,
+    eventsByGrade: store.events.eventsByGrade
   }),
-  { getSession, getCourses , getInbox, getEvents}
+  { getSession, getCourses , getInbox, getEvents , getAllEventsByGrade}
 )(UserDashboard);

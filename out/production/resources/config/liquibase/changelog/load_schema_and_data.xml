@@ -46,7 +46,9 @@
             </column>
             <column name="last_modified_by" type="varchar(50)"/>
             <column name="last_modified_date" type="timestamp"/>
-            <column name="grade" type="varchar(20)"/>
+            <column name="grade_id" type="bigint">
+                <constraints nullable="true"/>
+            </column>
         </createTable>
         <createIndex indexName="idx_user_login"
             tableName="jhi_user"
@@ -137,6 +139,16 @@
             <column name="name" type="varchar(100)">
                 <constraints nullable="false"/>
             </column>
+            <column name="grade_id" type="bigint"/>
+        </createTable>
+
+        <createTable tableName="grades">
+            <column name="id" type="bigint" autoIncrement="${autoIncrement}">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
 
         <createTable tableName="messages">
@@ -201,18 +213,6 @@
                                  referencedTableName="courses"/>
 
 
-        <createTable tableName="users_courses">
-            <column name="id" type="bigint" autoIncrement="${autoIncrement}">
-                <constraints primaryKey="true" nullable="false"/>
-            </column>
-            <column name="course_id" type="bigint">
-                <constraints nullable="false"/>
-            </column>
-            <column name="user_id" type="bigint">
-                <constraints nullable="true"/>
-            </column>
-        </createTable>
-
         <createTable tableName="assitences">
             <column name="id" type="bigint" autoIncrement="${autoIncrement}">
                 <constraints primaryKey="true" nullable="false"/>
@@ -246,7 +246,9 @@
             <column name="title" type="varchar(50)"/>
             <column name="description" type="TEXT"/>
             <column name="needs_authorization" type="bit"/>
-            <column name="grade" type="varchar(50)"/>
+            <column name="grade_id" type="bigint">
+                <constraints nullable="true"/>
+            </column>
         </createTable>
 
         <createTable tableName="event_user">
@@ -272,6 +274,27 @@
                                  referencedTableName="events"/>
 
 
+        <addForeignKeyConstraint baseColumnNames="grade_id"
+                                 baseTableName="jhi_user"
+                                 constraintName="fk_user_grades"
+                                 referencedColumnNames="id"
+                                 referencedTableName="grades"/>
+
+
+        <addForeignKeyConstraint baseColumnNames="grade_id"
+                                 baseTableName="events"
+                                 constraintName="fk_events_grades"
+                                 referencedColumnNames="id"
+                                 referencedTableName="grades"/>
+
+
+        <loadData encoding="UTF-8"
+                  file="config/liquibase/grades.csv"
+                  separator=";"
+                  tableName="grades">
+        </loadData>
+
+
         <loadData encoding="UTF-8"
                   file="config/liquibase/users.csv"
                   separator=";"
@@ -292,19 +315,12 @@
                   separator=";"
                   tableName="jhi_user_authority"/>
 
+
         <loadData encoding="UTF-8"
                   file="config/liquibase/courses.csv"
                   separator=";"
                   tableName="courses">
         </loadData>
-
-
-        <loadData encoding="UTF-8"
-                  file="config/liquibase/users_courses.csv"
-                  separator=";"
-                  tableName="users_courses">
-        </loadData>
-
 
 
         <loadData encoding="UTF-8"
@@ -332,13 +348,7 @@
                   tableName="events">
             <column name="needs_authorization" type="boolean"/>
         </loadData>
-
-        <loadData encoding="UTF-8"
-                  file="config/liquibase/event_user.csv"
-                  separator=";"
-                  tableName="event_user">
-        </loadData>
-
+        
     </changeSet>
 
 </databaseChangeLog>

@@ -83,17 +83,13 @@ public class User extends AbstractAuditingEntity {
     @BatchSize(size = 20)
     private Set<Authority> authorities = new HashSet<>();
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "users_courses",
-        joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
-        inverseJoinColumns = {@JoinColumn(name = "course_id", referencedColumnName = "id")})
-    private Set<Course> courses = new HashSet<>();
-
     @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name="user_id")
     private List<Assitence> assitence = new ArrayList<>();
 
-    private String grade;
+    @OneToOne
+    @JoinColumn(name = "grade_id")
+    private Grade grade;
 
     public String getLogin() {
         return login;
@@ -191,14 +187,6 @@ public class User extends AbstractAuditingEntity {
         this.authorities = authorities;
     }
 
-    public Set<Course> getCourses() {
-        return courses;
-    }
-
-    public void setCourses(Set<Course> courses) {
-        this.courses = courses;
-    }
-
     public List<Assitence> getAssitence() {
         return assitence;
     }
@@ -207,11 +195,11 @@ public class User extends AbstractAuditingEntity {
         this.assitence = assitence;
     }
 
-    public String getGrade() {
+    public Grade getGrade() {
         return grade;
     }
 
-    public void setGrade(String grade) {
+    public void setGrade(Grade grade) {
         this.grade = grade;
     }
 

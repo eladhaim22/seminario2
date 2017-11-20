@@ -16,12 +16,24 @@ export default class UserEventForm extends Component {
   }
 
   componentWillReceiveProps() {
-    axios.get('/api/event/eventUser/' + this.props.params.id).then(response => {
-      response.data.event.start = moment(response.data.event.start);
-      response.data.event.end = moment(response.data.event.end);
-      this.setState({event:response.data})
+    if(this.props.params.id){
+      axios.get('/api/event/eventUser/' + this.props.params.id).then(response => {
+        response.data.event.start = moment(response.data.event.start);
+        response.data.event.end = moment(response.data.event.end);
+        this.setState({event:response.data})
+      }).catch();
     }
-    ).catch();  
+    else{
+      axios.get('/api/event/' + this.props.params.eventId).then(response=> {
+        response.data.start = moment(response.data.start);
+        response.data.end = moment(response.data.end);
+        let event = {};
+        event.event = response.data;
+        event.state = response.data.needsAuthorization ? 'pending' : 'accepted';
+        this.setState({event:event})
+      }).catch();
+    }
+      
   }
 
   getState = () => {
@@ -46,7 +58,7 @@ export default class UserEventForm extends Component {
     if(this.state.radioValue){
       this.state.event.state = this.state.radioValue;
       axios.post('/api/event/authorize/',this.state.event).then(response =>
-        history.push('/user/dashboard/')
+        this.props.router.push('/user/dashboard/')
       ).catch();
     }
   }

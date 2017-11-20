@@ -47,7 +47,7 @@ export class MessageForm extends Component {
       }
       ).catch();
     }
-    axios.get('/api/users/byCourse/' + this.props.params.courseId).then(response => {
+    axios.get('/api/users/grade/' + this.props.account.grade.id).then(response => {
       this.setState({users:response.data});
     }).catch();
     axios.get('/api/course/' + this.props.params.courseId).then(response => {

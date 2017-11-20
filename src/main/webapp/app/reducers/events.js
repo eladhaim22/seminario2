@@ -3,10 +3,13 @@ const FETCH_EVENTS_SUCCESS = 'events/fetch_events_success';
 const FETCH_EVENTS_FAIL = 'events/fetch_events_fail';
 const FETCH_ALL_EVENTS_SUCCESS = 'events/fetch_all_events_fail';
 const FETCH_ALL_EVENTS_FAIL = 'events/fetch_all_events_fail';
+const FETCH_EVENTS_BY_GRADE_SUCCESS = 'events/fetch_events_by_grade_success';
+const FETCH_EVENTS_BY_GRADE_FAIL = 'events/fetch_events_by_grade_fail';
 const initialState = {
   loading: false,
   events:[],
-  allEvents:[]
+  allEvents:[],
+  eventsByGrade:[]
 };
 
 // Reducer
@@ -43,6 +46,18 @@ export default function reducer(state = initialState, action) {
         loading: false,
         errorMessage: action.error.data
       };
+    case FETCH_EVENTS_BY_GRADE_SUCCESS:
+      return {
+        ...state,
+        eventsByGrade: action.result.data,
+        loading: false
+      };
+    case FETCH_EVENTS_BY_GRADE_FAIL:
+      return {
+        ...state,
+        loading: false,
+        errorMessage: action.error.data
+      };
     default:
       return state;
   }
@@ -59,7 +74,13 @@ export function getAllEvents(){
 export function getEvents() {
   return {
     types: [FETCH, FETCH_EVENTS_SUCCESS, FETCH_EVENTS_FAIL],
-    promise: events => events.get('/api/event/byUser/')
+    promise: events => events.get('/api/event/detail/')
   };
 }
 
+export function getAllEventsByGrade(){
+ return {
+    types: [FETCH, FETCH_EVENTS_BY_GRADE_SUCCESS, FETCH_EVENTS_BY_GRADE_FAIL],
+    promise: events => events.get('/api/event/eventByGrade/')
+  }; 
+}

@@ -2,6 +2,7 @@ package com.uade.seminario2.service.mapper.Impl;
 
 import com.uade.seminario2.domain.Assitence;
 import com.uade.seminario2.domain.Authority;
+import com.uade.seminario2.domain.Grade;
 import com.uade.seminario2.domain.User;
 import com.uade.seminario2.service.dto.AssitenceDTO;
 import com.uade.seminario2.service.dto.UserDTO;
@@ -22,7 +23,9 @@ import java.util.stream.Collectors;
 public class UserMapper {
 
     @Autowired
-    private CourseMapper courseMapper;
+    private GradeMapper gradeMapper;
+
+
 
     public UserDTO userToUserDTO(User user) {
         return new UserDTO(){{
@@ -40,13 +43,14 @@ public class UserMapper {
             setLastModifiedDate(user.getLastModifiedDate());
             setAuthorities(user.getAuthorities().stream().map(Authority::getName)
                 .collect(Collectors.toSet()));
-            setCourses(user.getCourses().stream().map(course -> courseMapper.ToDTO(course)).collect(Collectors.toList()));
             setAssitenceDTOS(user.getAssitence().stream().map(a -> new AssitenceDTO(){{
                 setDate(a.getDate());
                 setPresent(a.isPresent());
                 setId(a.getId());
             }}).collect(Collectors.toList()));
-            setGrade(user.getGrade());
+            if(user.getGrade()!= null) {
+                setGrade(gradeMapper.ToDTO(user.getGrade()));
+            }
         }};
     }
 
@@ -70,9 +74,6 @@ public class UserMapper {
             user.setImageUrl(userDTO.getImageUrl());
             user.setActivated(userDTO.isActivated());
             user.setLangKey(userDTO.getLangKey());
-            user.getCourses().clear();
-            user.getCourses().addAll(userDTO.getCourses().stream().map(course -> courseMapper.ToModel(course))
-                .collect(Collectors.toList()));
             Set<Authority> authorities = this.authoritiesFromStrings(userDTO.getAuthorities());
             if(authorities != null) {
                 user.setAuthorities(authorities);
@@ -83,7 +84,7 @@ public class UserMapper {
                 setPresent(a.isPresent());
                 setId(a.getId());
             }}).collect(Collectors.toList()));
-            user.setGrade(userDTO.getGrade());
+            user.setGrade(gradeMapper.ToModel(userDTO.getGrade()));
             return user;
         }
     }

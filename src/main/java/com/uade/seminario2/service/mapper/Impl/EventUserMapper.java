@@ -10,8 +10,9 @@ import com.uade.seminario2.service.dto.EventUserDTO;
 import com.uade.seminario2.service.mapper.IEntityMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-@Component
+@Service
 public class EventUserMapper implements IEntityMapper<EventUser,EventUserDTO>{
 
     @Autowired

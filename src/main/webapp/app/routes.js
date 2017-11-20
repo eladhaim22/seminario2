@@ -204,6 +204,22 @@ export default (onLogout) => {
         }}
       />
       <Route
+        path="/admin/grades"
+        getComponent={(nextState, cb) => {
+          require.ensure([], (require) => {
+            cb(null, PrivateRoute(require('./modules/administration/grade/index').default));
+          });
+        }}
+      />
+      <Route
+        path="/admin/grade(/:id)"
+        getComponent={(nextState, cb) => {
+          require.ensure([], (require) => {
+            cb(null, PrivateRoute(require('./modules/administration/grade/form').default));
+          });
+        }}
+      />
+      <Route
         path="/teacher/dashboard"
         getComponent={(nextState, cb) => {
           require.ensure([], (require) => {
@@ -260,7 +276,7 @@ export default (onLogout) => {
         }}
       />
       <Route
-        path="/user/event/:id"
+        path="/user/event/:eventId/eventDetail(/:id)"
         getComponent={(nextState, cb) => {
           require.ensure([], (require) => {
             cb(null, PrivateRoute(require('./modules/user/event/form').default));

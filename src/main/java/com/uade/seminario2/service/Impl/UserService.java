@@ -1,5 +1,6 @@
 package com.uade.seminario2.service.Impl;
 
+import com.netflix.discovery.converters.Auto;
 import com.uade.seminario2.domain.Authority;
 import com.uade.seminario2.domain.Course;
 import com.uade.seminario2.domain.User;
@@ -10,7 +11,9 @@ import com.uade.seminario2.repository.UserRepository;
 import com.uade.seminario2.security.AuthoritiesConstants;
 import com.uade.seminario2.security.SecurityUtils;
 import com.uade.seminario2.service.dto.CourseDTO;
+import com.uade.seminario2.service.dto.GradeDTO;
 import com.uade.seminario2.service.mapper.Impl.CourseMapper;
+import com.uade.seminario2.service.mapper.Impl.GradeMapper;
 import com.uade.seminario2.service.mapper.Impl.UserMapper;
 import com.uade.seminario2.service.util.RandomUtil;
 import com.uade.seminario2.service.dto.UserDTO;
@@ -54,6 +57,9 @@ public class UserService {
     @Autowired
     private UserMapper userMapper;
 
+    @Autowired
+    private GradeMapper gradeMapper;
+
     public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, AuthorityRepository authorityRepository) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
@@ -96,7 +102,7 @@ public class UserService {
     }
 
     public User createUser(String login, String password, String firstName, String lastName, String email,
-        String imageUrl, String langKey,boolean activeted,List<CourseDTO> courses,String grade) {
+        String imageUrl, String langKey,boolean activeted,GradeDTO grade) {
 
         User newUser = new User();
         Authority authority = authorityRepository.findOne(AuthoritiesConstants.USER);
@@ -112,13 +118,11 @@ public class UserService {
         newUser.setLangKey(langKey);
         // new user is not active
         newUser.setActivated(activeted);
-        newUser.setCourses(courses.stream().map(courseDTO -> courseMapper.ToModel(courseDTO))
-            .collect(Collectors.toSet()));
         // new user gets registration key
         //newUser.setActivationKey(RandomUtil.generateActivationKey());
         authorities.add(authority);
         newUser.setAuthorities(authorities);
-        newUser.setGrade(grade);
+        newUser.setGrade(gradeMapper.ToModel(grade));
         userRepository.save(newUser);
         log.debug("Created Information for User: {}", newUser);
         return newUser;
@@ -148,7 +152,7 @@ public class UserService {
         user.setResetKey(RandomUtil.generateResetKey());
         user.setResetDate(Instant.now());
         user.setActivated(true);
-        user.setGrade(userDTO.getGrade());
+        user.setGrade(gradeMapper.ToModel(userDTO.getGrade()));
         userRepository.save(user);
         log.debug("Created Information for User: {}", user);
         return user;
@@ -196,12 +200,7 @@ public class UserService {
                 userDTO.getAuthorities().stream()
                     .map(authorityRepository::findOne)
                     .forEach(managedAuthorities::add);
-                Set<Course> courses = user.getCourses();
-                courses.clear();
-                courses = userDTO.getCourses().stream().
-                    map(courseDTO -> courseMapper.ToModel(courseDTO)).collect(Collectors.toSet());
-                user.setCourses(courses);
-                user.setGrade(userDTO.getGrade());
+                user.setGrade(gradeMapper.ToModel(userDTO.getGrade()));
                 log.debug("Changed Information for User: {}", user);
                 return user;
             })
@@ -225,8 +224,8 @@ public class UserService {
 
     @Transactional(readOnly = true)
     public List<UserDTO> getAllManagedUsers() {
-        return userRepository.findAllByLoginNot(Constants.ANONYMOUS_USER).stream()
-            .map(user -> userMapper.userToUserDTO(user)).collect(Collectors.toList());
+        List<User> users = userRepository.findAllByLoginNot(Constants.ANONYMOUS_USER);
+        return users.stream().map(user -> userMapper.userToUserDTO(user)).collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
@@ -240,8 +239,13 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
-    public User getUserWithAuthorities() {
-        return userRepository.findOneWithAuthoritiesByLogin(SecurityUtils.getCurrentUserLogin()).orElse(null);
+    public UserDTO getUserWithAuthorities() {
+        User user = userRepository.findOneWithAuthoritiesByLogin(SecurityUtils.getCurrentUserLogin()).get();
+        UserDTO userDTO = null;
+        if(user != null){
+            userDTO = userMapper.userToUserDTO(user);
+        }
+        return userDTO;
     }
 
     /**
@@ -269,19 +273,13 @@ public class UserService {
         return userMapper.userToUserDTO(userRepository.findOne(id));
     }
 
-    @Transactional(readOnly = true)
-    public List<UserDTO> getAllUsersByCourse(Long courseId){
-        Course course = courseRepository.getOne(courseId);
-        List<User> users =  userRepository.findAllByCoursesIsContaining(course);
-        List<UserDTO> userDTOS = new ArrayList<>();
-        for(User user : users){
-           userDTOS.add(userMapper.userToUserDTO(user));
-        }
-        return userDTOS;
+    public List<UserDTO> getAllUsersByGrade(Long gradeId){
+        List<User> users = userRepository.findAllByGrade_Id(gradeId);
+        return userMapper.usersToUserDTOs(users);
     }
 
-    public List<UserDTO> getAllByGrade(String grade){
-        return userRepository.findAllByGrade(grade).stream().map(user -> userMapper.userToUserDTO(user))
+    public List<UserDTO> getAllByGrade(Long gradeId){
+        return userRepository.findAllByGrade_Id(gradeId).stream().map(user -> userMapper.userToUserDTO(user))
             .collect(Collectors.toList());
     }
 }

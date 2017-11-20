@@ -10,11 +10,14 @@ import com.uade.seminario2.service.dto.CourseDTO;
 import com.uade.seminario2.service.mapper.Impl.CourseMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class CourseService extends GenericService<Course,CourseDTO> implements IGenericService<Course,CourseDTO> {
     public CourseService(CourseMapper courseMapper, CourseRepositoryImpl courseRepository) {
         super(courseMapper, courseRepository);
@@ -25,12 +28,7 @@ public class CourseService extends GenericService<Course,CourseDTO> implements I
 
     public List<CourseDTO> getCoursesByUserLogin(String login){
         User user = userRepository.findOneByLogin(login).get();
-        List<Course> courses = ((CourseRepositoryImpl)this.repository).findAllByUsersContains(user);
-        List<CourseDTO> courseDTOS = new ArrayList<>();
-        for(Course course:courses){
-            courseDTOS.add(((CourseMapper)entityMapper).ToDTO(course));
-        }
-
-        return courseDTOS;
+        List<Course> courses = ((CourseRepositoryImpl)this.repository).findAllByGrade_Id(user.getGrade().getId());
+        return courses.stream().map(course -> ((CourseMapper)this.entityMapper).ToDTO(course)).collect(Collectors.toList());
     }
 }
