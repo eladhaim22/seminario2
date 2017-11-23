@@ -36,6 +36,7 @@
     "react-select2-wrapper": "^1.0.4-beta5",
     "react-tap-event-plugin": "^2.0.1",
     "react-translate-component": "^0.13.2",
+    "react-youtube": "^7.5.0",
     "redux": "^3.5.2",
     "select2": "^4.0.6-rc.0",
     "swagger-ui": "2.2.10"

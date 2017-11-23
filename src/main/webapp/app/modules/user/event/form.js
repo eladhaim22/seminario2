@@ -58,13 +58,14 @@ export default class UserEventForm extends Component {
     if(this.state.radioValue){
       this.state.event.state = this.state.radioValue;
       axios.post('/api/event/authorize/',this.state.event).then(response =>
-        this.props.router.push('/user/dashboard/')
+        this.props.router.push('/user/events/')
       ).catch();
     }
   }
 
   render() {
     return (
+        this.state.event.event ? 
         <div className="col-md-8 col-offset-md-2" >
           <div className="widget">
             <header className="widget-header">
@@ -119,10 +120,11 @@ export default class UserEventForm extends Component {
              </div> 
           </div>
           <div style={{width:'100%'}}>
-            <FlatButton label="Volver" style={{float:'left'}} onClick={() => this.props.router.push('/user/dashboard')} primary={true}/>
+            <FlatButton label="Volver" style={{float:'left'}} onClick={() => this.props.router.push('/user/events/')} primary={true}/>
             {this.state.event.state == 'pending' ? <FlatButton label="Guardar" style={{float:'right'}} onClick={this.saveEvent} primary={true}/> : null}
           </div>
         </div>  
+        : null
     );
   }
 }

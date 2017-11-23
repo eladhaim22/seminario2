@@ -155,12 +155,26 @@
             <column name="id" type="bigint" autoIncrement="${autoIncrement}">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="message" type="varchar(50)">
+            <column name="title" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="message" type="TEXT">
                 <constraints nullable="false"/>
             </column>
             <column name="type" type="varchar(50)">
                 <constraints nullable="false"/>
             </column>
+            <column name="created_by" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_date" type="timestamp" defaultValueDate="${now}">
+                <constraints nullable="false"/>
+            </column>
+            <column name="reset_date" type="timestamp">
+                <constraints nullable="true"/>
+            </column>
+            <column name="last_modified_by" type="varchar(50)"/>
+            <column name="last_modified_date" type="timestamp"/>
         </createTable>
 
         <createTable tableName="message_details">
@@ -180,6 +194,7 @@
                 <constraints nullable="true"/>
             </column>
             <column name="isNew" type="bit"/>
+            <column name="active" type="bit"/>
         </createTable>
 
 
@@ -194,6 +209,9 @@
                 <constraints nullable="false"/>
             </column>
             <column name="note" type="bigint">
+                <constraints nullable="true"/>
+            </column>
+            <column name="final_note" type="bigint">
                 <constraints nullable="true"/>
             </column>
         </createTable>
@@ -287,6 +305,20 @@
                                  referencedColumnNames="id"
                                  referencedTableName="grades"/>
 
+        <createTable tableName="materials">
+            <column name="id" type="bigint" autoIncrement="${autoIncrement}">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="title" type="varchar(20)"/>
+            <column name="course_id" type="bigint"/>
+            <column name="video_id" type="varchar(20)"/>
+        </createTable>
+
+        <addForeignKeyConstraint baseColumnNames="course_id"
+                                 baseTableName="materials"
+                                 constraintName="fk_materials_courses"
+                                 referencedColumnNames="id"
+                                 referencedTableName="courses"/>
 
         <loadData encoding="UTF-8"
                   file="config/liquibase/grades.csv"
@@ -332,12 +364,18 @@
                   file="config/liquibase/messages.csv"
                   separator=";"
                   tableName="messages">
+
+            <column name="created_date" type="timestamp"/>
         </loadData>
+
+        <dropDefaultValue tableName="messages" columnName="created_date" columnDataType="datetime"/>
+
         <loadData encoding="UTF-8"
                   file="config/liquibase/messageDetail.csv"
                   separator=";"
                   tableName="message_details">
             <column name="isNew" type="boolean"/>
+            <column name="active" type="boolean"/>
         </loadData>
 
 
@@ -348,7 +386,14 @@
                   tableName="events">
             <column name="needs_authorization" type="boolean"/>
         </loadData>
-        
+
+
+        <loadData encoding="UTF-8"
+                  file="config/liquibase/materials.csv"
+                  separator=";"
+                  tableName="materials">
+        </loadData>
+
     </changeSet>
 
 </databaseChangeLog>

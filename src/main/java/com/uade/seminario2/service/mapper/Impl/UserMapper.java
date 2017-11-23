@@ -48,7 +48,7 @@ public class UserMapper {
                 setPresent(a.isPresent());
                 setId(a.getId());
             }}).collect(Collectors.toList()));
-            if(user.getGrade()!= null) {
+            if(user.getGrade() != null) {
                 setGrade(gradeMapper.ToDTO(user.getGrade()));
             }
         }};
@@ -84,7 +84,9 @@ public class UserMapper {
                 setPresent(a.isPresent());
                 setId(a.getId());
             }}).collect(Collectors.toList()));
-            user.setGrade(gradeMapper.ToModel(userDTO.getGrade()));
+            if(user.getGrade() != null) {
+                user.setGrade(gradeMapper.ToModel(userDTO.getGrade()));
+            }
             return user;
         }
     }

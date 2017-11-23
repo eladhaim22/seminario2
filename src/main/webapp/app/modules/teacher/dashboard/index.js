@@ -48,25 +48,15 @@ export class TeacherDashboard extends Component {
     });
   }
 
-  getColor = () => {
-    if(this.props.inbox.filter(m => 
-    {
-      if(m.message.type == 'high'){
-        return m;
-      }
-    }).length > 0) {
+  getColor = (id) => {
+    let messages = this.props.inbox.filter(
+      message => message.course.id == id && message.new && message.active).map(message => message.message.type);
+    if(messages.includes('high')) 
       return 'danger';
-    }
-    else if(this.props.inbox.filter(m => {
-      if(m.message.type == 'medium'){
-        return m;
-      }
-    }).length > 0) {
+    else if(messages.includes('medium'))
       return 'warning';
-    }
-    else {
+    else 
       return 'primary';
-    }
   }
 
   render() {
@@ -78,7 +68,7 @@ export class TeacherDashboard extends Component {
         <div className="row">
         {this.props.courses.map((course,index) => {
           return(
-            <div className="col-md-3 col-sm-6">
+            <div className="col-md-4 col-sm-6">
               <Link to={'/teacher/course/' + course.id} key={course.id}>
                 <div className="widget stats-widget">
                   <div className="widget-body clearfix">
@@ -88,8 +78,8 @@ export class TeacherDashboard extends Component {
                     </div>
                     <span className="pull-right big-icon watermark"><i className="fa fa-file-text-o"></i></span>
                   </div>
-                    <footer className={`widget-footer bg-${this.getColor()}`}>
-                    <small class="text-color">{`${this.props.inbox.filter(message => message.course.id == course.id).length} Mensajes`}</small>
+                  <footer className={`widget-footer bg-${this.getColor(course.id)}`}>
+                    <small class="text-color">{`${this.props.inbox.filter(message => message.course.id == course.id && message.new && message.active).length} Mensajes nuevos`}</small>
                     <span className="small-chart pull-right" data-plugin="sparkline" data-options="[4,3,5,2,1], { type: 'bar', barColor: '#ffffff', barWidth: 5, barSpacing: 2 }"><canvas width="33" height="16" style={{display: 'inline-block', width: '33px', height: '16px', verticalAlign: 'top'}}></canvas></span>
                   </footer>
                 </div>

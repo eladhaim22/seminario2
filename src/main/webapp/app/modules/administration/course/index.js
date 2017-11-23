@@ -5,6 +5,7 @@ import Translate from 'react-translate-component';
 import { getCourses } from '../../../reducers/course';
 import FlatButton from 'material-ui/FlatButton';
 import axios from 'axios';
+import { Link } from 'react-router';
 
 export class AdminCourses extends Component {
 
@@ -38,9 +39,14 @@ export class AdminCourses extends Component {
     return (
       <div className="col-md-12" >
         <Table title="Cursos" rows={this.props.courses} config={this.tableconfig()} 
-          handleClose={this.handleClose.bind(this)} modifyLink='/admin/course/' deleteTitle="Borrar curso"
-          deleteText="Estas seguro que queres borrar el curso?" deleteField="id">
+          handleClose={this.handleClose.bind(this)} modifyLink='/admin/course/' deleteTitle="Borrar materia"
+          deleteText="Estas seguro que queres borrar la materia?" deleteField="id">
         </Table>
+         <div style={{width:'100%'}}>
+          <Link to="/admin/course/new">
+            <FlatButton label="Agregar" style={{float:'right'}} primary={true}/>
+          </Link>
+        </div>
       </div> 
     );
   }

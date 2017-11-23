@@ -44,44 +44,31 @@ export class UserDashboard extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentUser: props.account
+      currentUser: props.account,
+      events: [],
+      inbox: []
     };
-    this.onSelectEvent = this.onSelectEvent.bind(this);
   }
 
   componentWillMount() {
     this.props.getInbox();
-    this.props.getCourses();
     this.props.getSession();
-    this.props.getAllEventsByGrade()
+    this.props.getAllEventsByGrade();
     this.props.getEvents();
   }
 
   componentWillReceiveProps(nextProps) {
     this.setState({
-      currentUser: nextProps.account
+      currentUser: nextProps.account,
+      events: nextProps.eventsByGrade.sort((a,b) => {return a.start - b.start}).slice(0,2),
+      inbox: nextProps.inbox.sort((a,b) => {return a.createdDate - b.createdDate}).slice(0,2)
     });
   }
 
-  getColor = () => {
-    if(this.props.inbox.filter(m => 
-    {
-      if(m.message.type == 'high'){
-        return m;
-      }
-    }).length > 0) {
-      return 'danger';
-    }
-    else if(this.props.inbox.filter(m => {
-      if(m.message.type == 'medium'){
-        return m;
-      }
-    }).length > 0) {
-      return 'warning';
-    }
-    else {
-      return 'primary';
-    }
+  getMoment =() => {
+    let m = moment();
+    m.locale('es');
+    return m;
   }
 
   getData = () => {
@@ -109,41 +96,60 @@ export class UserDashboard extends Component {
         ]
   }
 
-  eventStyleGetter = (event, start, end, isSelected) => {
-    let color;
-    let eventDetail = this.props.eventsDetails.find(e => {return event.id == e.event.id})
+
+  getColor = (type) => {
+    switch (type){
+      case 'high':
+        return 'danger';
+      case 'medium':
+        return  'warning';
+      default:
+        return 'success';
+    }
+  }
+
+  getText = (type) => {
+    switch (type){
+      case 'high':
+        return 'Urgente';
+      case 'medium':
+        return 'Alerta';
+      default:
+        return 'Common';
+    }
+  }
+
+
+  getState = (event,eventDetail) => {
+    let label;
     if(eventDetail){
       switch(eventDetail.state){
         case 'pending':
-          color = '#f9c851';
+          label = <span className="label label-warning">Pendiente a authorizacion</span>
           break;
         case 'accepted':
-          color = '#3174ad';
+          label = <span className="label label-success">Acceptado</span>
           break;
         case 'rejected':
-          color = '#ff5b5b';
-          break;  
+          label = <span className="label label-danger">Rechazado</span>
+          break;
       }
     }
     else {
-      color = event.needsAuthorization ? '#f9c851' : '#3174ad';
+      if(event.needsAuthorization)
+        label = <span className="label label-warning">Pendiente a authorizacion</span>    
+      else
+         label = <span className="label label-success">No Requiere authorizacion</span>    
     }
-    
-    var style = {
-        backgroundColor: color
-    };
-    return {
-        style: style
-    };
+    return label;
   }
 
-  onSelectEvent = (id) => {
-    let eventDetail = this.props.eventsDetails.find(e => {return id == e.event.id});
+  onSelectEvent = (event,eventDetail) => {
     if(eventDetail){
-      this.props.router.push('/user/event/' + id + '/eventDetail/' + eventDetail.id);
+      this.props.router.push('/user/event/' + event.id + '/eventDetail/' + eventDetail.id);
     }
     else {
-      this.props.router.push('/user/event/' + id + '/eventDetail');
+      this.props.router.push('/user/event/' + event.id + '/eventDetail');
     }
   }
 
@@ -151,60 +157,77 @@ export class UserDashboard extends Component {
     const { currentUser } = this.state;
     const titleStyle = {textTransform: 'capitalize',top: '10px',position: 'absolute',margin: 'auto',left:'0px',right:'0px',textAlign: 'center'};
     return (
-      this.props.courses.length > 0 ?
-      <div style={{marginTop:'10px'}}>
-        <div className="row">
-        {this.props.courses.map((course,index) => {
-          return(
-            <div className="col-md-3 col-sm-6">
-              <Link to={'/user/course/' + course.id} key={course.id}>
-                <div className="widget stats-widget">
-                  <div className="widget-body clearfix">
-                    <div className="pull-left">
-                      <h3 className="widget-title text-primary"><span className="counter" data-plugin="counterUp">{course.name}</span></h3>
-                      <small className="text-color">{course.name}</small>
-                    </div>
-                    <span className="pull-right big-icon watermark"><i className="fa fa-file-text-o"></i></span>
+      <div>
+            <div className="col-md-8 col-sm-8">
+              <div className="table-responsive">
+              <table className="table mail-list">
+              <tbody>
+              {this.state.inbox.map(message =>
+              <tr>
+                <td style={{borderTop:'none',padding:'0px'}}>
+                  <div className="mail-item">
+                    <table className="mail-container">
+                      <tbody><tr>
+                        <td className="mail-left">
+                          <div className="avatar avatar-lg avatar-circle">
+                            <img src={message.owner.imageUrl} alt="sender photo"/>
+                          </div>
+                        </td>
+                        <td className="mail-center">
+                          <div className="mail-item-header">
+                            <h4 className="mail-item-title"><a className="title-color">{message.message.title}</a></h4>
+                            <a><span className={`label label-${this.getColor(message.message.type)}`}>{this.getText(message.message.type)}</span></a>
+                          </div>
+                          <p className="mail-item-excerpt">{message.message.message}</p>
+                        </td>
+                        <td className="mail-right">
+                          <p className="mail-item-date">{this.getMoment(message.message.createdDate).fromNow()}</p>
+                          <p className="mail-item-star starred">
+                            <a href="#"><i className="zmdi zmdi-star"></i></a>
+                          </p>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
                   </div>
-                  <footer className={`widget-footer bg-${this.getColor()}`}>
-                    <small class="text-color">{`${this.props.inbox.filter(message => message.course.id == course.id).length} Mensajes`}</small>
-                    <span className="small-chart pull-right" data-plugin="sparkline" data-options="[4,3,5,2,1], { type: 'bar', barColor: '#ffffff', barWidth: 5, barSpacing: 2 }"><canvas width="33" height="16" style={{display: 'inline-block', width: '33px', height: '16px', verticalAlign: 'top'}}></canvas></span>
-                  </footer>
-                </div>
-              </Link>
+                </td>
+              </tr>)}
+              </tbody>
+            </table>
             </div>
-          )
-        })}
-        </div>
-        <div className="row">
-          <div className="col-md-4">
-            <div className="widget">
-              <header className="widget-header">
-                <h4 className="widget-title">Asistencia</h4>
-              </header>
-              <hr className="widget-separator"/>
-              <div className="widget-body">
-                 <PieChart data={this.getData()}/>
-              </div>
+     </div>
+        <div className="col-md-4">
+          <div className="widget">
+            <header className="widget-header">
+              <h4 className="widget-title">Asistencia</h4>
+            </header>
+            <hr className="widget-separator"/>
+            {this.props.account.assitenceDTOS ?
+            <div className="widget-body">             
+                <PieChart data={this.getData()} width="224" height="112"/>
+                <ul className="doughnut-legend" style={{position: 'absolute',top: '100px',right: '50px'}}>
+                  <li><span style={{backgroundColor:'#46BFBD',display: 'inline-block',width: '12px', height: '12px',marginRight: '5px'}}></span>Presente</li>
+                  <li><span style={{backgroundColor:'#F7464A',display: 'inline-block',width: '12px', height: '12px',marginRight: '5px'}}></span>Ausente</li>
+                </ul>
             </div>
+            : null}
           </div>
         </div>
-        <div className="row">
-          <div className="col-md-10">
-            <div className="widget" style={{height:'300px'}}>
-              <Calendar
-                views={['month']}
-                selectable
-                eventPropGetter={(this.eventStyleGetter)}
-                events={this.props.eventsByGrade}
-                scrollToTime={new Date(1970, 1, 1, 6)}
-                defaultDate={new Date()}
-                onSelectEvent={(event) => this.onSelectEvent(event.id)}
-              />
-              </div>
-            </div>  
-        </div>
-    </div> 
+           
+        {this.state.events.map(event => {
+        let eventDetail = this.props.eventsDetails.find(e => {return e.event.id == event.id});
+        return(<div onClick={this.onSelectEvent.bind(this,event,eventDetail)} className="col-md-12 col-sm-12">
+          <div className="widget p-md clearfix">
+            <div className="pull-left">
+            <h3 className="widget-title">{event.title}</h3>
+              <small className="text-color">{this.getState(event,eventDetail)}</small>
+            </div>
+            <span className="pull-right fw-500 counter" data-plugin="counterUp">{moment(event.start).format('DD/MM/YYYY') + ' - ' + moment(event.end).format('DD/MM/YYYY')}</span>
+          </div>
+        </div>)
+        }
+        )}
+      </div>
     : null
     );
   }

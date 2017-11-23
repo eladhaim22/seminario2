@@ -19,6 +19,8 @@ public class MessageMapper implements IEntityMapper<Message,MessageDTO> {
             setId(message.getId());
             setMessage(message.getMessage());
             setType(message.getType());
+            setTitle(message.getTitle());
+            setCreatedDate(message.getCreatedDate());
         }};
     }
 
@@ -33,6 +35,7 @@ public class MessageMapper implements IEntityMapper<Message,MessageDTO> {
 
         message.setMessage(messageDTO.getMessage());
         message.setType(messageDTO.getType());
+        message.setTitle(messageDTO.getTitle());
         return message;
     }
 }

@@ -4,11 +4,14 @@ const FETCH_INBOX_FAIL = 'messages/FETCH_INBOX_FAIL';
 const FETCH_OUTBOX = 'messages/FETCH_OUTBOX';
 const FETCH_OUTBOX_SUCCESS = 'messages/FETCH_OUTBOX_SUCCESS';
 const FETCH_OUTBOX_FAIL = 'messages/FETCH_OUTBOX_FAIL';
+const SET_DROPDOWN_VALUE = 'messages/SET_DROPDOWN_VALUE';
+const GET_DROPDOWN_VALUE = 'messages/GET_DROPDOWN_VALUE';
 
 const initialState = {
   loading: false,
   inbox: [],
-  outbox:[]
+  outbox:[],
+  dropdownValue:undefined
 };
 
 // Reducer
@@ -50,6 +53,18 @@ export default function reducer(state = initialState, action) {
         loading: false,
         errorMessage: action.error.data
       };
+    case SET_DROPDOWN_VALUE:
+     return {
+        ...state,
+        dropdownValue: action.data,
+        loading: false
+      };
+    case GET_DROPDOWN_VALUE:
+     return {
+        ...state,
+        dropdownValue: state.dropdownValue,
+        loading: false
+      };
     default:
       return state;
   }
@@ -70,3 +85,15 @@ export function getOutbox() {
     promise: messages => messages.get('/api/messageDetail/outbox/')
   };
 }
+
+export function setDropDownValue(value){
+  return function (dispatch){
+    dispatch({type: SET_DROPDOWN_VALUE,data:value});
+  }
+}
+
+export function getDropDownValue(){
+  return function (dispatch,state){
+    dispatch({type: GET_DROPDOWN_VALUE});
+  }
+}1

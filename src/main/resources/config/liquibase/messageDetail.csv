@@ -1,5 +1,9 @@
-id;owner_id;target_id;course_id;message_id;isNew
-1;4;5;1;1;true
-2;4;5;2;1;true
-3;4;5;3;1;true
-4;4;5;4;1;true
+id;owner_id;target_id;course_id;message_id;isNew;active
+1;4;5;1;1;true;true
+2;4;5;2;1;true;false
+3;4;5;3;1;false;true
+4;4;5;4;1;true;false
+5;5;4;1;1;true;true
+6;5;4;2;1;true;false
+7;5;4;3;1;false;true
+8;5;4;4;1;true;false

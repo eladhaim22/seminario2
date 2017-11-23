@@ -35,23 +35,25 @@ public class MessageDetailMapper implements IEntityMapper<MessageDetail,MessageD
             setCourse(courseMapper.ToDTO(messageDetail.getCourse()));
             setTargetUser(userMapper.userToUserDTO(messageDetail.getTargetUser()));
             setNew(messageDetail.isNew());
+            setActive(messageDetail.isActive());
         }};
     }
 
     public MessageDetail ToModel(MessageDetailDTO messageDetailDTO){
         MessageDetail messageDetail = null;
-        if(messageDetail == null){
+        if(messageDetailDTO.getId() == null){
             messageDetail = new MessageDetail();
         }
         else {
             messageDetail = messageDetailRepository.findOne(messageDetailDTO.getId());
         }
 
-        messageDetail.setNew(messageDetail.isNew());
+        messageDetail.setNew(messageDetailDTO.isNew());
         messageDetail.setMessage(messageMapper.ToModel(messageDetailDTO.getMessage()));
         messageDetail.setCourse(courseMapper.ToModel(messageDetailDTO.getCourse()));
         messageDetail.setOwner(userMapper.userDTOToUser(messageDetailDTO.getOwner()));
         messageDetail.setTargetUser(userMapper.userDTOToUser(messageDetailDTO.getTargetUser()));
+        messageDetail.setActive(messageDetailDTO.isActive());
         return messageDetail;
     }
 }

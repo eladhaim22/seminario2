@@ -23,6 +23,8 @@ public class MessageDetailDTO extends EntityDTO {
 
     private boolean isNew;
 
+    private boolean active;
+
     public UserDTO getOwner() {
         return Owner;
     }
@@ -61,5 +63,13 @@ public class MessageDetailDTO extends EntityDTO {
 
     public void setNew(boolean aNew) {
         isNew = aNew;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 }

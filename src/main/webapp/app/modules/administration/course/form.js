@@ -64,15 +64,15 @@ export default class AdminCourse extends Component {
         <div className="col-md-8 col-offset-md-2" >
           <div className="widget">
             <header className="widget-header">
-              <h4 className="widget-title">{!this.props.params.id ? 'Nuevo Curso' : 'Editar Curso' }</h4>
+              <h4 className="widget-title">{!this.props.params.id ? 'Nueva materia' : 'Editar materia' }</h4>
             </header>
             <hr className="widget-separator"/>
             <div className="widget-body">
               <form>
                 <div className="form-group">
-                  <label for="">Nombre de curso</label>
+                  <label for="">Nombre de materia</label>
                   <input type="text" name="name" className="form-control" onChange={this.handleChange} 
-                    value={this.state.course.name} placeholder="Nombre de curso"/>
+                    value={this.state.course.name} placeholder="Nombre de materia"/>
                 </div>
               </form>
              </div> 

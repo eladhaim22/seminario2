@@ -244,14 +244,6 @@ export default (onLogout) => {
         }}
       />
       <Route
-        path="/teacher/course/(:id)/messages"
-        getComponent={(nextState, cb) => {
-          require.ensure([], (require) => {
-            cb(null, PrivateRoute(require('./shared/components/messages/index').default));
-          });
-        }}
-      />
-      <Route
         path="/teacher/course/:courseId/message(/:id)"
         getComponent={(nextState, cb) => {
           require.ensure([], (require) => {
@@ -276,18 +268,34 @@ export default (onLogout) => {
         }}
       />
       <Route
-        path="/user/event/:eventId/eventDetail(/:id)"
+        path="/user/events"
         getComponent={(nextState, cb) => {
           require.ensure([], (require) => {
-            cb(null, PrivateRoute(require('./modules/user/event/form').default));
+            cb(null, PrivateRoute(require('./modules/user/event/index').default));
           });
         }}
       />
       <Route
-        path="/user/course/(:id)/messages"
+        path="/user/mail"
         getComponent={(nextState, cb) => {
           require.ensure([], (require) => {
-            cb(null, PrivateRoute(require('./shared/components/messages/index').default));
+            cb(null, PrivateRoute(require('./shared/components/messages/index2').default));
+          });
+        }}
+      />
+       <Route
+        path="/teacher/mail"
+        getComponent={(nextState, cb) => {
+          require.ensure([], (require) => {
+            cb(null, PrivateRoute(require('./shared/components/messages/index2').default));
+          });
+        }}
+      />
+      <Route
+        path="/user/event/:eventId/eventDetail(/:id)"
+        getComponent={(nextState, cb) => {
+          require.ensure([], (require) => {
+            cb(null, PrivateRoute(require('./modules/user/event/form').default));
           });
         }}
       />
@@ -307,6 +315,46 @@ export default (onLogout) => {
           });
         }}
       />
+      <Route
+        path="/user/courses/"
+        getComponent={(nextState, cb) => {
+          require.ensure([], (require) => {
+            cb(null, PrivateRoute(require('./modules/user/courses/index').default));
+          });
+        }}
+      />
+      <Route
+        path="/teacher/assitence/"
+        getComponent={(nextState, cb) => {
+          require.ensure([], (require) => {
+            cb(null, PrivateRoute(require('./modules/teacher/assitence/index').default));
+          });
+        }}
+      />
+      <Route
+        path="/teacher/course/:courseId/materials"
+        getComponent={(nextState, cb) => {
+          require.ensure([], (require) => {
+            cb(null, PrivateRoute(require('./modules/teacher/material/index').default));
+          });
+        }}
+      />
+    <Route
+        path="/teacher/course/:courseId/material(/:materialId)"
+        getComponent={(nextState, cb) => {
+          require.ensure([], (require) => {
+            cb(null, PrivateRoute(require('./modules/teacher/material/form').default));
+          });
+        }}
+      />
+    <Route
+      path="/teacher/course/:courseId/material"
+      getComponent={(nextState, cb) => {
+        require.ensure([], (require) => {
+          cb(null, PrivateRoute(require('./modules/user/videos/index').default));
+        });
+      }}
+    />
     </Route>
   );
 };

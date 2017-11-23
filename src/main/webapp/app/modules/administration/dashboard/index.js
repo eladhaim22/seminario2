@@ -28,69 +28,75 @@ export default class Dashboard extends Component {
     return (
       <div style={{marginTop:'10px'}}>
         <div className="row">
-            <div className="col-md-3 col-sm-6">
+            <div className="col-md-4">
               <Link to='/admin/user-management'>
-                <div className="widget stats-widget">
-                  <div className="widget-body clearfix">
-                    <div className="pull-left">
-                      <h3 className="widget-title text-primary"><span className="counter" data-plugin="counterUp">Usuarios</span></h3>
-                      <small className="text-color">Manejo de usuarios</small>
+                  <div className="widget" style={{height:'150px'}}>
+                    <header className="widget-header">
+                      <h4 className="widget-title pull-left">Usuarios</h4>
+                    </header>
+                    <hr className="widget-separator"/>
+                    <div className="widget-body clearfix">
+                      <div className="pull-left">
+                        <sapn>Administracion de usuarios</sapn>
+                      </div>
+                      <div className="pull-right">
+                        <div className="m-t-md" data-plugin="sparkline" data-options="[8,12,4,12,10,13,16], { type: 'bar', chartRangeMin:0, height: 45, barColor: '#188ae2', barWidth: 8, barSpacing: 5 }"><canvas width="86" height="45" style={{display: 'inline-block', width: '86px', height: '45px', verticalAlign: 'top'}}></canvas></div>
+                      </div>
                     </div>
-                    <span className="pull-right big-icon watermark"><i className="fa fa-file-text-o"></i></span>
                   </div>
-                  <footer className="widget-footer bg-primary">
-                    <span className="small-chart pull-right" data-plugin="sparkline" data-options="[4,3,5,2,1], { type: 'bar', barColor: '#ffffff', barWidth: 5, barSpacing: 2 }"><canvas width="33" height="16" style={{display: 'inline-block', width: '33px', height: '16px', verticalAlign: 'top'}}></canvas></span>
-                  </footer>
-                </div>
               </Link>
             </div>
-            <div className="col-md-3 col-sm-6">
+            <div className="col-md-4">
               <Link to="/admin/courses">
-                <div className="widget stats-widget">
-                  <div className="widget-body clearfix">
-                    <div className="pull-left">
-                      <h3 className="widget-title text-primary"><span className="counter" data-plugin="counterUp">Cursos</span></h3>
-                      <small className="text-color">Manejo de cursos</small>
+                <div className="widget" style={{height:'150px'}}>
+                    <header className="widget-header">
+                      <h4 className="widget-title pull-left">Materias</h4>
+                    </header>
+                    <hr className="widget-separator"/>
+                    <div className="widget-body clearfix">
+                      <div className="pull-left">
+                        <sapn>Administracion de materias</sapn>
+                      </div>
+                      <div className="pull-right">
+                        <div className="m-t-md" data-plugin="sparkline" data-options="[8,12,4,12,10,13,16], { type: 'bar', chartRangeMin:0, height: 45, barColor: '#188ae2', barWidth: 8, barSpacing: 5 }"><canvas width="86" height="45" style={{display: 'inline-block', width: '86px', height: '45px', verticalAlign: 'top'}}></canvas></div>
+                      </div>
                     </div>
-                    <span className="pull-right big-icon watermark"><i className="fa fa-file-text-o"></i></span>
                   </div>
-                  <footer className="widget-footer bg-primary">
-                    <span className="small-chart pull-right" data-plugin="sparkline" data-options="[4,3,5,2,1], { type: 'bar', barColor: '#ffffff', barWidth: 5, barSpacing: 2 }"><canvas width="33" height="16" style={{display: 'inline-block', width: '33px', height: '16px', verticalAlign: 'top'}}></canvas></span>
-                  </footer>
-                </div>
               </Link>
             </div>
-            <div className="col-md-3 col-sm-6">
+            <div className="col-md-4">
               <Link to={'/admin/events/'}>
-                <div className="widget stats-widget">
-                  <div className="widget-body clearfix">
-                    <div className="pull-left">
-                      <h3 className="widget-title text-primary"><span className="counter" data-plugin="counterUp">Eventos</span></h3>
-                      <small className="text-color">Agregar Eventos</small>
+                <div className="widget" style={{height:'150px'}}>
+                    <header className="widget-header">
+                      <h4 className="widget-title pull-left">Actividades</h4>
+                    </header>
+                    <hr className="widget-separator"/>
+                    <div className="widget-body clearfix">
+                      <div className="pull-left">
+                        <sapn>Administracion de actividades</sapn>
+                      </div>
+                      <div className="pull-right">
+                        <div className="m-t-md" data-plugin="sparkline" data-options="[8,12,4,12,10,13,16], { type: 'bar', chartRangeMin:0, height: 45, barColor: '#188ae2', barWidth: 8, barSpacing: 5 }"><canvas width="86" height="45" style={{display: 'inline-block', width: '86px', height: '45px', verticalAlign: 'top'}}></canvas></div>
+                      </div>
                     </div>
-                    <span className="pull-right big-icon watermark"><i className="fa fa-file-text-o"></i></span>
                   </div>
-                    <footer className="widget-footer bg-primary">
-                    <small class="text-color"></small>
-                    <span className="small-chart pull-right" data-plugin="sparkline" data-options="[4,3,5,2,1], { type: 'bar', barColor: '#ffffff', barWidth: 5, barSpacing: 2 }"><canvas width="33" height="16" style={{display: 'inline-block', width: '33px', height: '16px', verticalAlign: 'top'}}></canvas></span>
-                  </footer>
-                </div>
               </Link>
             </div>
-            <div className="col-md-3 col-sm-6">
+            <div className="col-md-4">
               <Link to={'/admin/grades/'}>
-                <div className="widget stats-widget">
+                <div className="widget" style={{height:'150px'}}>
+                  <header className="widget-header">
+                    <h4 className="widget-title pull-left">Grados</h4>
+                  </header>
+                  <hr className="widget-separator"/>
                   <div className="widget-body clearfix">
                     <div className="pull-left">
-                      <h3 className="widget-title text-primary"><span className="counter" data-plugin="counterUp">Grados</span></h3>
-                      <small className="text-color">Agregar grados</small>
+                      <sapn>Administracion de grados</sapn>
                     </div>
-                    <span className="pull-right big-icon watermark"><i className="fa fa-file-text-o"></i></span>
+                    <div className="pull-right">
+                      <div className="m-t-md" data-plugin="sparkline" data-options="[8,12,4,12,10,13,16], { type: 'bar', chartRangeMin:0, height: 45, barColor: '#188ae2', barWidth: 8, barSpacing: 5 }"><canvas width="86" height="45" style={{display: 'inline-block', width: '86px', height: '45px', verticalAlign: 'top'}}></canvas></div>
+                    </div>
                   </div>
-                    <footer className="widget-footer bg-primary">
-                    <small class="text-color"></small>
-                    <span className="small-chart pull-right" data-plugin="sparkline" data-options="[4,3,5,2,1], { type: 'bar', barColor: '#ffffff', barWidth: 5, barSpacing: 2 }"><canvas width="33" height="16" style={{display: 'inline-block', width: '33px', height: '16px', verticalAlign: 'top'}}></canvas></span>
-                  </footer>
                 </div>
               </Link>
             </div>

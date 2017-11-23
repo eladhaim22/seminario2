@@ -88,7 +88,7 @@ export class AdminEventForm extends Component {
         <div className="col-md-8 col-offset-md-2" >
           <div className="widget">
             <header className="widget-header">
-              <h4 className="widget-title">Evento</h4>
+              <h4 className="widget-title">Actividad</h4>
             </header>
             <hr className="widget-separator"/>
             <div className="widget-body">
@@ -131,7 +131,7 @@ export class AdminEventForm extends Component {
                   </div>
                   <div className="col-md-6">
                     <div className="form-group">
-                      <label>Fecha de fin</label>
+                      <label>Fecha de finalizacion</label>
                       <DatePicker dateFormat="DD-MM-YYYY" value={this.state.event.end} onChange={this.handleChangeFin.bind(this)}/>  
                     </div>
                   </div>
@@ -140,7 +140,7 @@ export class AdminEventForm extends Component {
                   <div className="checkbox checkbox-primary" style={{marginTop:'30px'}}>
                     <input type="checkbox" name="needsAuthorization" checked={this.state.event.needsAuthorization}
                     onChange={this.handleChange}/>
-                    <label for="checkbox-demo-1">Requiere Authorizacion?</label>
+                    <label for="checkbox-demo-1">Requiere autorizacion?</label>
                   </div>
                 </div>
             </form>

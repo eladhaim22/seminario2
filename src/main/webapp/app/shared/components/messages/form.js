@@ -15,13 +15,11 @@ export class MessageForm extends Component {
     super(props);
     this.state = {
       messageDetail:{
-        priority:undefined,
         message:{
           message:undefined,
           type:undefined
         }  
       },
-      course:{},
       users:[],
       select: { 
         removeSelected: true,
@@ -31,30 +29,29 @@ export class MessageForm extends Component {
         rtl: false
       },
       selectUsers:undefined,
-      selectType:undefined
+      selectType:undefined,
+      selectCourse:undefined,
+      open:false
     };
   }
 
-  componentWillReceiveProps() {
-    if(this.props.params.id){
-      axios.get('/api/messageDetail/' + this.props.params.id).then(response => {
-        let user = {};
-        user.label = response.data.messageDetail.targetUser.firstName + ' ' + response.data.messageDetail.targetUser.lastName;
-        user.value = response.data.messageDetail.targetUser.id;
-        let type = {};
-        type.value = response.data.messageDetail.message.type;
-        this.setState({messageDetail:response.data,selectUsers:user,selectType:getTypes})
-      }
-      ).catch();
+  componentWillMount(){
+    this.props.getSession();
+  }
+
+
+  componentWillReceiveProps(nextProps) {
+    if(nextProps.account.grade){
+      axios.get('/api/users/grade/' + nextProps.account.grade.id).then(response => {
+        let users = response.data.filter(user => {return user.id != this.props.account.id});
+        this.setState({users:users});
+      }).catch();
     }
-    axios.get('/api/users/grade/' + this.props.account.grade.id).then(response => {
-      this.setState({users:response.data});
-    }).catch();
-    axios.get('/api/course/' + this.props.params.courseId).then(response => {
-      let md = Object.assign({},this.state.messageDetail);
-      md.course = response.data;
-      this.setState({messageDetail:md});
-    }).catch();
+
+   
+    if(nextProps.open != this.props.open){
+      this.setState({open:nextProps.open});
+    }
   }
 
   handleMessageChange = (event) => {
@@ -76,6 +73,10 @@ export class MessageForm extends Component {
     this.setState({selectType:val});
   }
 
+  handleChangeCourse = (val) => {
+    this.setState({selectCourse:val});
+  }
+
   getTypes = () => {
     return [
       {label:'Alta',value:'high'},
@@ -84,30 +85,59 @@ export class MessageForm extends Component {
     ]
   }
 
+  getCourses = () => {
+    return this.props.account.grade.courses.map(course => {return {label:course.name,value:course.id}});
+  }
+  
+
   saveCourse = () => {    
-    this.state.messageDetail.isNew = true;
+    let wrapper = {};
+    wrapper.users = [];
     this.state.messageDetail.message.type = this.state.selectType.value;
-    this.state.messageDetail.targetUser = this.state.users.find(user => {return user.id == this.state.selectUsers.value});
-    if(!this.props.params.id){
-      axios.post('/api/messageDetail/create',this.state.messageDetail)
-      .then(response => {
-        this.props.router.push('/teacher/course/' + this.props.params.courseId + '/messages')
-      }
-      ).catch(error => {
-                console.log('error');
-        console.log(error);
-      });
+    let usersIds = this.state.selectUsers.map(user => user.value);
+    wrapper.users = this.state.users.filter(user => {if(usersIds.includes(user.id))return user});
+    let course = {};
+    course.id = this.state.selectCourse.value;
+    course.name = this.state.selectCourse.label;
+    this.state.messageDetail.course = course;
+    wrapper.messageDetail = this.state.messageDetail;
+    axios.post('/api/messageDetail/create',wrapper)
+    .then(response => {
+      this.props.router.push('/user/mail/')
     }
-    else{
-      axios.put('/api/messageDetail/',this.state.messageDetail)
-      .then(response => {
-        this.props.router.push('/teacher/course/' + this.props.params.courseId + '/messages')
-      }).catch(error => {
-        console.log('error');
-        console.log(error);
-      });
-    }
-   
+    ).catch(error => {
+              console.log('error');
+      console.log(error);
+    });
+    this.resetState();
+    this.props.closed();
+  }
+
+  resetState= () => {
+    this.setState({
+      messageDetail:{
+        message:{
+          message:undefined,
+          type:undefined
+        }  
+      },
+      users:[],
+      select: { 
+        removeSelected: true,
+        disabled: false,
+        crazy: false,
+        stayOpen: false,   
+        rtl: false
+      },
+      selectUsers:undefined,
+      selectType:undefined,
+      selectCourse:undefined,
+    });
+  }
+
+  cancel = () => {
+    this.resetState();
+    this.props.closed();
   }
 
   getUsers = () => {
@@ -118,24 +148,37 @@ export class MessageForm extends Component {
       return u;
     });
     return users;
-    //return users.filter(user => {return user.id !=  this.props.account.id});
   }
-  
+
   render() {
     const { crazy, disabled, stayOpen} = this.state.select;
+    const actions = [
+      <FlatButton
+        label="Canceler"
+        primary={true}
+        onClick={this.cancel}
+      />,
+      <FlatButton
+        label="Mandar"
+        primary={true}
+        keyboardFocused={true}
+        onClick={this.saveCourse}
+      />,
+    ];
     return (
-        <div className="col-md-8 col-offset-md-2" >
-          <div className="widget">
-            <header className="widget-header">
-              <h4 className="widget-title">{!this.props.params.id ? 'Mensaje nuevo' : 'Editar Mensaje' }</h4>
-            </header>
-            <hr className="widget-separator"/>
-            <div className="widget-body">
+        this.props.account.id ?
+        <Dialog
+          title="Mandar mensaje"
+          actions={actions}
+          open={this.state.open}
+        >
+          <div class="modal-body">
               <form>
                 <div className="form-group">
-                    <label>Usuarios</label>
+                    <label>Destinatarios</label>
                       <div>
                       <Select
+                        multi={true}
                         closeOnSelect={!stayOpen}
                         disabled={disabled}
                         onChange={this.handleChangeUsers}
@@ -146,6 +189,48 @@ export class MessageForm extends Component {
                       />
                       </div>
                 </div>
+                <div className="row">
+                  <div className="col-md-6">
+                  <div className="form-group">
+                      <label>Prioridad</label>
+                        <div>
+                          <Select
+                          closeOnSelect={!stayOpen}
+                          disabled={disabled}
+                          onChange={this.handleChangeType}
+                          options={this.getTypes()}
+                          removeSelected={this.state.select.removeSelected}
+                          rtl={this.state.select.rtl}
+                          value={this.state.selectType}
+                          style={{zIndex:'10'}}/>
+                        </div>
+                  </div>
+                  </div>
+                  <div className="col-md-6">
+                  <div className="form-group">
+                      <label>Materia</label>
+                        <div>
+                          <Select
+                          closeOnSelect={!stayOpen}
+                          disabled={disabled}
+                          onChange={this.handleChangeCourse}
+                          options={this.getCourses()}
+                          removeSelected={this.state.select.removeSelected}
+                          rtl={this.state.select.rtl}
+                          value={this.state.selectCourse}
+                          style={{zIndex:'100'}}
+                          />
+                        </div>
+                  </div>
+                </div>
+                </div>
+                <div className="form-group">
+                    <label>Titulo</label>
+                      <div>
+                        <input className="form-control"  name="title" 
+                        onChange={this.handleMessageChange} value={this.state.messageDetail.message.title}/>
+                      </div>
+                </div>
                 <div className="form-group">
                     <label>Mensaje</label>
                       <div>
@@ -153,27 +238,9 @@ export class MessageForm extends Component {
                         onChange={this.handleMessageChange} value={this.state.messageDetail.message.message}/>
                       </div>
                 </div>
-                <div className="form-group">
-                    <label>Tipo</label>
-                      <div>
-                        <Select
-                        closeOnSelect={!stayOpen}
-                        disabled={disabled}
-                        onChange={this.handleChangeType}
-                        options={this.getTypes()}
-                        removeSelected={this.state.select.removeSelected}
-                        rtl={this.state.select.rtl}
-                        value={this.state.selectType}
-                        />
-                      </div>
-                </div>
               </form>
-             </div> 
           </div>
-          <div style={{width:'100%'}}>
-            <FlatButton label="Guardar" style={{float:'right'}} onClick={this.saveCourse} primary={true}/>
-          </div>
-        </div>  
+        </Dialog> : null
     );
   }
 }

@@ -5,6 +5,8 @@ import Translate from 'react-translate-component';
 import { getGrades } from '../../../reducers/grade';
 import FlatButton from 'material-ui/FlatButton';
 import axios from 'axios';
+import { Link } from 'react-router';
+
 
 export class AdminGrades extends Component {
 
@@ -41,7 +43,10 @@ export class AdminGrades extends Component {
           handleClose={this.handleClose.bind(this)} modifyLink='/admin/grade/' deleteTitle="Borrar grado"
           deleteText="Estas seguro que queres borrar el grado?" deleteField="id">
         </Table>
-      </div> 
+        <Link to="/admin/grade/new">
+          <FlatButton label="Agregar" style={{float:'right'}} primary={true}/>
+        </Link>
+      </div>
     );
   }
 }

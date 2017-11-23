@@ -7,7 +7,8 @@ public class CourseDetailDTO extends EntityDTO{
     private UserDTO student;
     private CourseDTO course;
     private Integer note;
-    private List<MessageDTO> messages = new ArrayList<>();
+
+    private Integer finalNote;
 
     public UserDTO getStudent() {
         return student;
@@ -33,11 +34,11 @@ public class CourseDetailDTO extends EntityDTO{
         this.note = note;
     }
 
-    public List<MessageDTO> getMessages() {
-        return messages;
+    public Integer getFinalNote() {
+        return finalNote;
     }
 
-    public void setMessages(List<MessageDTO> messages) {
-        this.messages = messages;
+    public void setFinalNote(Integer finalNote) {
+        this.finalNote = finalNote;
     }
 }

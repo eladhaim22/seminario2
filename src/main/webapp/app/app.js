@@ -55,7 +55,7 @@ export class App extends Component {
             handleLogout={this.handleLogout}
             toggleSideBar={this.toggleSideBar}
           />
-          <main className="app-main in">
+          <main className="app-main in" style={{marginTop:'70px',marginLeft:'100px',marginRight:'100px'}}>
             <div className="wrap">
               <section className="app-content">
                 {this.props.children}

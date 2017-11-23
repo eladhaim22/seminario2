@@ -19,6 +19,8 @@ import { connect } from 'react-redux';
 import { locales } from '../../../config/translation';
 import appConfig from '../../../config/constants';
 import { HEADER_COLOR } from '../../util/global-style';
+import Avatar from 'material-ui/Avatar';
+import IconMenu from 'material-ui/IconMenu';
 
 import './header.scss';
 
@@ -77,28 +79,61 @@ export class Header extends Component {
 
     if (isAuthenticated && this.props.authentication.account.authorities) {
         if(this.props.authentication.account.authorities.includes('ROLE_ADMIN')){
-          menuDashboard = (<Link to="admin/dashboard">
+          menuDashboard = ([<Link to="admin/dashboard">
             <ListItem key={1.1}
               primaryText="Dashboard"
               leftIcon={<ActionList />}
             />
-          </Link>)
+          </Link>])
         }
         else if (this.props.authentication.account.authorities.includes('ROLE_PROFESSOR')){
-          menuDashboard = (<Link to="teacher/dashboard">
+          menuDashboard = ([<Link to="teacher/dashboard">
             <ListItem key={1.1}
               primaryText="Dashboard"
               leftIcon={<ActionList />}
             />
-          </Link>)
+          </Link>,
+          <Link to="/teacher/mail/">
+            <ListItem key={1.3}
+              primaryText="Mensajeria"
+              leftIcon={<ActionList />}
+            />
+          </Link>,
+          <Link to="/teacher/assitence/">
+            <ListItem key={1.4}
+              primaryText="Asistencia"
+              leftIcon={<ActionList />}
+            />
+          </Link>])
         }
         else {
-          menuDashboard = (<Link to="user/dashboard">
+          menuDashboard = (
+           [<Link to="/user/dashboard/">
             <ListItem key={1.1}
               primaryText="Dashboard"
               leftIcon={<ActionList />}
             />
-          </Link>) 
+            </Link>,
+           <Link to="/user/courses/">
+            <ListItem key={1.1}
+              primaryText="Materias"
+              leftIcon={<ActionList />}
+            />
+            </Link>,
+            <Link to="/user/events/">
+            <ListItem key={1.2}
+              primaryText="Eventos"
+              leftIcon={<ActionList />}
+            />
+            </Link>,
+            <Link to="/user/mail/">
+            <ListItem key={1.3}
+              primaryText="Mensajeria"
+              leftIcon={<ActionList />}
+            />
+            </Link>
+            ]
+            ) 
         }
 
       menuItemAccountLogin = null;
@@ -191,37 +226,44 @@ export class Header extends Component {
     }
 
     return (
-      <div>
-        <div className="ribbon dev"><a href=""><Translate content="global.ribbon.dev" /></a></div>
+
+      <div className="navbar navbar-inverse navbar-fixed-top primary in">
         <AppBar
+          className="navbar-header"
+          iconClassNameRight="muidocs-icon-navigation-expand-more"
+          style={{maxHeight:'340px',backgroundColor:'#1576c2'}}
           title={
             <div>
               <Link to="/" className="brand-logo">
-                <span className="brand-title"><Translate content="global.title">Seminario2</Translate></span>
-                <span className="navbar-version">{appConfig.version}</span>
+                <span className="brand-title"><Translate content="global.title">Boletin Offical</Translate></span>
               </Link>
             </div>
           }
           onLeftIconButtonTouchTap={this.toggleSideBar}
-          iconElementRight={
-            <div>
-              <div>
-                {this.props.authentication.account.firstName ?
+          iconStyleRight={{marginRight:'16px'}}
+          iconElementRight=
+          {this.props.authentication.isAuthenticated ? 
+            <div>  
+            <IconMenu iconButtonElement={<Avatar src={this.props.authentication.account.imageUrl} style={{height:'60px',width:'60px'}} />} underlineStyle={{ borderTop: 'none' }} labelStyle={{ color: HEADER_COLOR }}>
+              <MenuItem primaryText="Perfil"></MenuItem>
+            </IconMenu>
+            </div>
+          : null}
+        />
+        <Drawer open={this.state.sidebarOpen} containerStyle={{width:'220px'}} docked={false} onRequestChange={sidebarOpen => this.setState({ sidebarOpen })}>
+          <List>
+            <Subheader><span className="brand-icon"><i className="fa fa-gg"></i></span><span className="brand-name">Boletin Digital</span></Subheader>
+            {this.props.authentication.isAuthenticated ? <ListItem
+                disabled={true}
+                leftAvatar={
+                <Avatar src={this.props.authentication.account.imageUrl} />
+            }
+            >
+            {this.props.authentication.account.firstName ?
                   this.props.authentication.account.firstName + ' ' + this.props.authentication.account.lastName 
                   : ' '  }
-              </div>
-              <DropDownMenu value={currentLocale} onChange={this.handleChange} underlineStyle={{ borderTop: 'none' }} labelStyle={{ color: HEADER_COLOR }}>
-                {locales.map(lang => <MenuItem key={lang} value={lang} primaryText={lang.toUpperCase()} />)}
-              </DropDownMenu>
-            </div>  
-          }
-        />
-        <Drawer open={this.state.sidebarOpen} docked={false} onRequestChange={sidebarOpen => this.setState({ sidebarOpen })}>
-          <List>
-            <Subheader>Application Menu</Subheader>
-            <Link to="/"><ListItem primaryText={<Translate content="global.menu.home" />} leftIcon={<ActionHome />} /></Link>
-            {menuDashboard}
-            {/*menuItemAdministration*/}
+            </ListItem> : null}
+            {menuDashboard ? menuDashboard.map(e => e) : null}
             <ListItem
               primaryText={<Translate content="global.menu.account.main" />}
               leftIcon={<ActionLock />}
@@ -230,7 +272,7 @@ export class Header extends Component {
               nestedItems={[
                 menuItemAccountLogin,
                 menuItemAccountRegister,
-                menuItemAccountSettings,
+                menuItemAccountSettings, 
                 menuItemAccountPassword,
                 menuItemAccountSignOut
               ]}
@@ -247,4 +289,3 @@ export default connect(
     authentication: store.authentication
   }),null
 )(Header);
-

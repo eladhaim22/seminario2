@@ -1,2 +1,2 @@
-id;message;type
-1;mensaje nuevo;high
+id;title;message;type;created_by
+1;titulo;mensaje nuevo;high;system

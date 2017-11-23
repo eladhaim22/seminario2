@@ -89,15 +89,8 @@ class LoginModal extends Component {
               floatingLabelText={<Translate content="login.form.password" />}
               floatingLabelFixed
               onChange={this.handlePasswordChange}
-            /><br />
-            <p />
-            <div className="alert alert-warning">
-              <a className="alert-link" onClick={() => this.props.handleForgottenPass}><Translate content="login.password.forgot" /></a>
-            </div>
-            <div className="alert alert-warning">
-              You do not have an account yet?
-              <a className="alert-link" onClick={() => this.props.handleRegister}><Translate content="global.messages.info.register.link" /></a>
-            </div>
+            /><br/>
+            <p /> 
           </div>
         </div>
       </Dialog>

@@ -30,12 +30,12 @@ export class EventManagement extends Component {
         Cell:(props) => moment(props.value.start).format('DD-MM-YYYY')
       },
       {
-        header:'Fecha de fin',
+        header:'Fecha de finalizacion',
         accessor:'end',
         Cell:(props) => moment(props.value.end).format('DD-MM-YYYY')
       },
       {
-        header:'Requiere Authorizacion',
+        header:'Requiere autorizacion',
         accessor:'needsAuthorization',
         Cell:(props) => props.value.needsAuthorization ? 'SI' : 'NO'
       }];
@@ -50,10 +50,13 @@ export class EventManagement extends Component {
   render() {
     return (
         <div className="col-md-12" >
-          <Table title="Eventos" rows={this.props.events} config={this.tableconfig()} 
+          <Table title="Actividades" rows={this.props.events} config={this.tableconfig()} 
           handleClose={this.handleClose.bind(this)} modifyLink='/admin/event/' deleteTitle="Borrar evento"
-          deleteText="Estas seguro que queres borrar el evento?" deleteField="id">
+          deleteText="Estas seguro que queres borrar la actividad?" deleteField="id">
           </Table>
+          <Link to="/admin/event">
+            <FlatButton label="Agregar" style={{float:'right'}} primary={true}/>
+          </Link>
         </div>
     );
   }

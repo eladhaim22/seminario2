@@ -26,6 +26,7 @@ public class CourseDetailMapper implements IEntityMapper<CourseDetail,CourseDeta
             setCourse(courseMapper.ToDTO(entity.getCourse()));
             setStudent(userMapper.userToUserDTO(entity.getStudent()));
             setNote(entity.getNote());
+            setFinalNote(entity.getFinalNote());
         }};
     }
 
@@ -41,6 +42,7 @@ public class CourseDetailMapper implements IEntityMapper<CourseDetail,CourseDeta
         courseDetail.setNote(model.getNote());
         courseDetail.setCourse(courseMapper.ToModel(model.getCourse()));
         courseDetail.setStudent(userMapper.userDTOToUser(model.getStudent()));
+        courseDetail.setFinalNote(model.getFinalNote());
         return courseDetail;
     }
 }

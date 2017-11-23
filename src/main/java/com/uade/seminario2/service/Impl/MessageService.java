@@ -16,4 +16,9 @@ public class MessageService  extends GenericService<Message,MessageDTO> implemen
     public MessageService(MessageMapper messageMapper, MessageRepositoryImpl messageRepository) {
         super(messageMapper, messageRepository);
     }
+
+    public MessageDTO createMessage(MessageDTO messageDTO){
+        Message message = ((MessageRepositoryImpl)repository).save(((MessageMapper)entityMapper).ToModel(messageDTO));
+        return ((MessageMapper)entityMapper).ToDTO(message);
+    }
 }

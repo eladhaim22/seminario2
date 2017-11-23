@@ -30,6 +30,8 @@ public class MessageDetail extends EntityImpl {
     @Column(name = "isnew")
     private boolean isNew;
 
+    private boolean active;
+
     public User getOwner() {
         return owner;
     }
@@ -68,5 +70,13 @@ public class MessageDetail extends EntityImpl {
 
     public void setNew(boolean aNew) {
         isNew = aNew;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 }

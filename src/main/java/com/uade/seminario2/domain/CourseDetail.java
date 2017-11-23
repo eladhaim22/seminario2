@@ -19,6 +19,8 @@ public class CourseDetail extends EntityImpl{
     @Column(name="note")
     private Integer note;
 
+    private Integer finalNote;
+
     public User getStudent() {
         return student;
     }
@@ -43,4 +45,11 @@ public class CourseDetail extends EntityImpl{
         this.note = note;
     }
 
+    public Integer getFinalNote() {
+        return finalNote;
+    }
+
+    public void setFinalNote(Integer finalNote) {
+        this.finalNote = finalNote;
+    }
 }

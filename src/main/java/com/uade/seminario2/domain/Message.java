@@ -7,7 +7,9 @@ import java.util.List;
 
 @Entity
 @Table(name = "messages")
-public class Message extends EntityImpl {
+public class Message extends AbstractAuditingEntity {
+
+    private String title;
 
     private String message;
 
@@ -27,5 +29,13 @@ public class Message extends EntityImpl {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 }

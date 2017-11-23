@@ -108,9 +108,18 @@ export function login(username, password, rememberMe = false) {
           sessionStorage.setItem('jhi-authenticationToken', jwt);
         }
       }
-      const routingState = getState().routing.locationBeforeTransitions.state || {};
-      hashHistory.push(routingState.nextPathname || '/dashboard');
-      dispatch(getSession());
+      dispatch(getSession()).then(() => {
+        let redirectTo;
+        if(getState().authentication.account.authorities.includes('ROLE_ADMIN')){
+          redirectTo = '/admin/dashboard';
+        }
+        else 
+          if(getState().authentication.account.authorities.includes('ROLE_PROFESSOR'))
+            redirectTo = '/teacher/dashboard';
+          else
+             redirectTo = '/user/dashboard';
+        hashHistory.push(redirectTo);
+      });
     }
   };
 }
