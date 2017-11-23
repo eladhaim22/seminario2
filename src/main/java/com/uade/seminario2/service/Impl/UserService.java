@@ -1,6 +1,7 @@
 package com.uade.seminario2.service.Impl;
 
 import com.netflix.discovery.converters.Auto;
+import com.uade.seminario2.domain.Assitence;
 import com.uade.seminario2.domain.Authority;
 import com.uade.seminario2.domain.Course;
 import com.uade.seminario2.domain.User;
@@ -12,6 +13,7 @@ import com.uade.seminario2.security.AuthoritiesConstants;
 import com.uade.seminario2.security.SecurityUtils;
 import com.uade.seminario2.service.dto.CourseDTO;
 import com.uade.seminario2.service.dto.GradeDTO;
+import com.uade.seminario2.service.mapper.Impl.AssistenceMapper;
 import com.uade.seminario2.service.mapper.Impl.CourseMapper;
 import com.uade.seminario2.service.mapper.Impl.GradeMapper;
 import com.uade.seminario2.service.mapper.Impl.UserMapper;
@@ -47,6 +49,9 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
 
     private final AuthorityRepository authorityRepository;
+
+    @Autowired
+    private AssistenceMapper assistenceMapper;
 
     @Autowired
     private CourseRepositoryImpl courseRepository;
@@ -185,26 +190,27 @@ public class UserService {
      * @return updated user
      */
     public Optional<UserDTO> updateUser(UserDTO userDTO) {
-        return Optional.of(userRepository
-            .findOne(userDTO.getId()))
-            .map(user -> {
-                user.setLogin(userDTO.getLogin());
-                user.setFirstName(userDTO.getFirstName());
-                user.setLastName(userDTO.getLastName());
-                user.setEmail(userDTO.getEmail());
-                user.setImageUrl(userDTO.getImageUrl());
-                user.setActivated(userDTO.isActivated());
-                user.setLangKey(userDTO.getLangKey());
-                Set<Authority> managedAuthorities = user.getAuthorities();
-                managedAuthorities.clear();
-                userDTO.getAuthorities().stream()
-                    .map(authorityRepository::findOne)
-                    .forEach(managedAuthorities::add);
-                user.setGrade(gradeMapper.ToModel(userDTO.getGrade()));
-                log.debug("Changed Information for User: {}", user);
-                return user;
-            })
-            .map(user -> userMapper.userToUserDTO(user));
+        User user = userRepository.findOne(userDTO.getId());
+        user.setLogin(userDTO.getLogin());
+        user.setFirstName(userDTO.getFirstName());
+        user.setLastName(userDTO.getLastName());
+        user.setEmail(userDTO.getEmail());
+        user.setImageUrl(userDTO.getImageUrl());
+        user.setActivated(userDTO.isActivated());
+        user.setLangKey(userDTO.getLangKey());
+        Set<Authority> managedAuthorities = user.getAuthorities();
+        managedAuthorities.clear();
+        userDTO.getAuthorities().stream()
+            .map(authorityRepository::findOne)
+            .forEach(managedAuthorities::add);
+        user.setGrade(gradeMapper.ToModel(userDTO.getGrade()));
+        Set<Assitence> assitences = user.getAssitence();
+        assitences.clear();
+        userDTO.getAssitenceDTOS().stream()
+            .map(u -> assistenceMapper.ToModel(u))
+            .forEach(assitences::add);
+        userRepository.save(user);
+        return Optional.of(userMapper.userToUserDTO(user));
     }
 
     public void deleteUser(String login) {
@@ -281,5 +287,10 @@ public class UserService {
     public List<UserDTO> getAllByGrade(Long gradeId){
         return userRepository.findAllByGrade_Id(gradeId).stream().map(user -> userMapper.userToUserDTO(user))
             .collect(Collectors.toList());
+    }
+
+    public void saveAll(List<UserDTO> usersDtos){
+        List<User> users = userMapper.userDTOsToUsers(usersDtos);
+        userRepository.save(users);
     }
 }

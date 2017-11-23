@@ -25,6 +25,8 @@ public class UserMapper {
     @Autowired
     private GradeMapper gradeMapper;
 
+    @Autowired
+    private AssistenceMapper assistenceMapper;
 
 
     public UserDTO userToUserDTO(User user) {
@@ -43,11 +45,8 @@ public class UserMapper {
             setLastModifiedDate(user.getLastModifiedDate());
             setAuthorities(user.getAuthorities().stream().map(Authority::getName)
                 .collect(Collectors.toSet()));
-            setAssitenceDTOS(user.getAssitence().stream().map(a -> new AssitenceDTO(){{
-                setDate(a.getDate());
-                setPresent(a.isPresent());
-                setId(a.getId());
-            }}).collect(Collectors.toList()));
+            setAssitenceDTOS(user.getAssitence().stream().map(assitence ->
+            assistenceMapper.ToDTO(assitence)).collect(Collectors.toList()));
             if(user.getGrade() != null) {
                 setGrade(gradeMapper.ToDTO(user.getGrade()));
             }
@@ -79,11 +78,9 @@ public class UserMapper {
                 user.setAuthorities(authorities);
             }
             user.getAssitence().clear();
-            user.getAssitence().addAll(userDTO.getAssitenceDTOS().stream().map(a -> new Assitence(){{
-                setDate(a.getDate());
-                setPresent(a.isPresent());
-                setId(a.getId());
-            }}).collect(Collectors.toList()));
+            user.getAssitence().addAll(userDTO.getAssitenceDTOS().stream().map(
+                assitenceDTO -> assistenceMapper.ToModel(assitenceDTO))
+                .collect(Collectors.toList()));
             if(user.getGrade() != null) {
                 user.setGrade(gradeMapper.ToModel(userDTO.getGrade()));
             }

@@ -64,7 +64,7 @@ export class UserManagement extends Component {
           handleClose={this.handleClose.bind(this)} modifyLink='/admin/user/' deleteTitle="Borrar usuario"
           deleteText="Estas seguro que queres borrar el usuario?" deleteField="login">
           </Table>
-           <Link to="/admin/user/new">
+           <Link to="/admin/user">
             <FlatButton label="Agregar" style={{float:'right'}} primary={true}/>
           </Link>
         </div>

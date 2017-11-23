@@ -348,10 +348,18 @@ export default (onLogout) => {
         }}
       />
     <Route
-      path="/teacher/course/:courseId/material"
+      path="/user/course/:courseId/material"
       getComponent={(nextState, cb) => {
         require.ensure([], (require) => {
           cb(null, PrivateRoute(require('./modules/user/videos/index').default));
+        });
+      }}
+    />
+    <Route
+      path="/teacher/assitence/load"
+      getComponent={(nextState, cb) => {
+        require.ensure([], (require) => {
+          cb(null, PrivateRoute(require('./modules/teacher/assitence/load').default));
         });
       }}
     />

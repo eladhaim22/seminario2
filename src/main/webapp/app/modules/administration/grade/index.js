@@ -43,7 +43,7 @@ export class AdminGrades extends Component {
           handleClose={this.handleClose.bind(this)} modifyLink='/admin/grade/' deleteTitle="Borrar grado"
           deleteText="Estas seguro que queres borrar el grado?" deleteField="id">
         </Table>
-        <Link to="/admin/grade/new">
+        <Link to="/admin/grade">
           <FlatButton label="Agregar" style={{float:'right'}} primary={true}/>
         </Link>
       </div>

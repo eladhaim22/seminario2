@@ -213,4 +213,13 @@ public class UserResource {
         userService.deleteUser(login);
         return ResponseEntity.ok().headers(HeaderUtil.createAlert( "userManagement.deleted", login)).build();
     }
+
+    @PostMapping("/users/saveAll")
+    @Timed
+    public ResponseEntity saveAll(@RequestBody List<ManagedUserVM> users) {
+        for(ManagedUserVM m : users){
+            updateUser(m);
+        }
+        return new ResponseEntity(HttpStatus.OK);
+    }
 }

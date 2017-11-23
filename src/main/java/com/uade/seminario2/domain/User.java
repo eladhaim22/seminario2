@@ -5,6 +5,7 @@ import com.uade.seminario2.config.Constants;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.annotations.BatchSize;
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.validator.constraints.Email;
 import org.springframework.context.annotation.Lazy;
@@ -83,9 +84,9 @@ public class User extends AbstractAuditingEntity {
     @BatchSize(size = 20)
     private Set<Authority> authorities = new HashSet<>();
 
-    @OneToMany(fetch = FetchType.EAGER)
-    @JoinColumn(name="user_id")
-    private List<Assitence> assitence = new ArrayList<>();
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name="userId")
+    private Set<Assitence> assitence = new HashSet<>();
 
     @OneToOne
     @JoinColumn(name = "grade_id")
@@ -187,11 +188,11 @@ public class User extends AbstractAuditingEntity {
         this.authorities = authorities;
     }
 
-    public List<Assitence> getAssitence() {
+    public Set<Assitence> getAssitence() {
         return assitence;
     }
 
-    public void setAssitence(List<Assitence> assitence) {
+    public void setAssitence(Set<Assitence> assitence) {
         this.assitence = assitence;
     }
 

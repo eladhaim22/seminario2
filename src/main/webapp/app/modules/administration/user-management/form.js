@@ -134,7 +134,7 @@ export default class UserManagementForm extends Component {
   render() {
     const { crazy, disabled, stayOpen} = this.state.select;
     return (
-        <div className="col-md-8 col-offset-md-2" >
+        <div className="col-md-8 col-md-offset-2" >
           <div className="widget">
             <header className="widget-header">
               <h4 className="widget-title">{!this.props.params.id ? 'Nuevo Usuario' : 'Editar Usuario' }</h4>

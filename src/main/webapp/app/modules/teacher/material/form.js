@@ -13,7 +13,9 @@ export default class TeacherMaterialForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      material:{}
+      material:{
+        course: props.params.courseId
+      }
     };
   }
 

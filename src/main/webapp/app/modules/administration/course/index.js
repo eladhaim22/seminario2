@@ -37,13 +37,13 @@ export class AdminCourses extends Component {
 
   render() {
     return (
-      <div className="col-md-12" >
+      <div className="col-md-10 col-md-offset-1" >
         <Table title="Cursos" rows={this.props.courses} config={this.tableconfig()} 
           handleClose={this.handleClose.bind(this)} modifyLink='/admin/course/' deleteTitle="Borrar materia"
           deleteText="Estas seguro que queres borrar la materia?" deleteField="id">
         </Table>
          <div style={{width:'100%'}}>
-          <Link to="/admin/course/new">
+          <Link to="/admin/course">
             <FlatButton label="Agregar" style={{float:'right'}} primary={true}/>
           </Link>
         </div>

@@ -47,7 +47,7 @@ export class TeacherAssitence extends Component {
     this.state = {
       currentUser: props.account
     };
-    this.onSelectEvent = this.onSelectEvent.bind(this);
+    this.onSelectDay = this.onSelectDay.bind(this);
   }
 
   componentWillMount() {
@@ -60,14 +60,8 @@ export class TeacherAssitence extends Component {
     });
   }
 
-  onSelectEvent = (id) => {
-    let eventDetail = this.props.eventsDetails.find(e => {return id == e.event.id});
-    if(eventDetail){
-      this.props.router.push('/user/event/' + id + '/eventDetail/' + eventDetail.id);
-    }
-    else {
-      this.props.router.push('/user/event/' + id + '/eventDetail');
-    }
+  onSelectDay = (day) => {
+    this.props.router.push('/teacher/assitence/load?date=' + moment(day.start).format("YYYY-MM-DD"));
   }
 
   render() {
@@ -82,11 +76,10 @@ export class TeacherAssitence extends Component {
               <Calendar
                 views={['month']}
                 selectable
-                eventPropGetter={(this.eventStyleGetter)}
-                events={this.props.eventsByGrade}
+                events={[]}
                 scrollToTime={new Date(1970, 1, 1, 6)}
                 defaultDate={new Date()}
-                dayClick={this.onSelectEvent}
+                onSelectSlot={this.onSelectDay}
               />
               </div>
             </div>  

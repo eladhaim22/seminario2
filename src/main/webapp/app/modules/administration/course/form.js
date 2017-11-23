@@ -61,7 +61,7 @@ export default class AdminCourse extends Component {
   
   render() {
     return (
-        <div className="col-md-8 col-offset-md-2" >
+        <div className="col-md-6 col-md-offset-3" >
           <div className="widget">
             <header className="widget-header">
               <h4 className="widget-title">{!this.props.params.id ? 'Nueva materia' : 'Editar materia' }</h4>

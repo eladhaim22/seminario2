@@ -235,13 +235,11 @@
             <column name="id" type="bigint" autoIncrement="${autoIncrement}">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="date" type="timestamp">
+            <column name="date" type="datetime">
                 <constraints nullable="false"/>
             </column>
             <column name="present" type="bit"/>
-            <column name="user_id" type="bigint">
-                <constraints nullable="false"/>
-            </column>
+            <column name="user_id" type="bigint"/>
         </createTable>
 
 
@@ -348,51 +346,7 @@
                   tableName="jhi_user_authority"/>
 
 
-        <loadData encoding="UTF-8"
-                  file="config/liquibase/courses.csv"
-                  separator=";"
-                  tableName="courses">
-        </loadData>
 
-
-        <loadData encoding="UTF-8"
-                  file="config/liquibase/course_detail.csv"
-                  separator=";"
-                  tableName="course_detail">
-        </loadData>
-        <loadData encoding="UTF-8"
-                  file="config/liquibase/messages.csv"
-                  separator=";"
-                  tableName="messages">
-
-            <column name="created_date" type="timestamp"/>
-        </loadData>
-
-        <dropDefaultValue tableName="messages" columnName="created_date" columnDataType="datetime"/>
-
-        <loadData encoding="UTF-8"
-                  file="config/liquibase/messageDetail.csv"
-                  separator=";"
-                  tableName="message_details">
-            <column name="isNew" type="boolean"/>
-            <column name="active" type="boolean"/>
-        </loadData>
-
-
-
-        <loadData encoding="UTF-8"
-                  file="config/liquibase/events.csv"
-                  separator=";"
-                  tableName="events">
-            <column name="needs_authorization" type="boolean"/>
-        </loadData>
-
-
-        <loadData encoding="UTF-8"
-                  file="config/liquibase/materials.csv"
-                  separator=";"
-                  tableName="materials">
-        </loadData>
 
     </changeSet>
 
