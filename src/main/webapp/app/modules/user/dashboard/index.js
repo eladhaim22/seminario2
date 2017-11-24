@@ -181,7 +181,7 @@ export class UserDashboard extends Component {
                           <p className="mail-item-excerpt">{message.message.message}</p>
                         </td>
                         <td className="mail-right">
-                          <p className="mail-item-date">{this.getMoment(message.message.createdDate).fromNow()}</p>
+                          <p className="mail-item-date"></p>
                           <p className="mail-item-star starred">
                             <a href="#"><i className="zmdi zmdi-star"></i></a>
                           </p>

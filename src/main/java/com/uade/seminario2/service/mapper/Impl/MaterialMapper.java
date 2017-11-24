@@ -39,7 +39,7 @@ public class MaterialMapper implements IEntityMapper<Material,MaterialDTO>{
         }
         material.setCourse(courseRepository.getOne(model.getCourse()));
         material.setTitle(model.getTitle());
-        material.setVideoId(model.getVideoId());
+        material.setVideoId(model.getVideoId()) ;
         return material;
     }
 }
